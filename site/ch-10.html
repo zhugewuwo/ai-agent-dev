@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>第八章：LangGraph 单 Agent 图实战——路由、循环与质量闭环 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li class="active"><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>第八章：LangGraph 单 Agent 图实战——路由、循环与质量闭环</h1>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e05d3463304746768f7979695001a1d5~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1830194&amp;e=png&amp;b=031540" alt="image.png" /></p>
+<p>本章分支<a href="https://github.com/Cookieboty/autix-demo/tree/feat/LangGraph">feat/LangGraph</a></p>
+<p>第七章将 Agent 推理拆分为路由层、执行层与优化层；第六章则给出了一个可运行的需求分析系统：<code>extract → clarify → analysis → risk → summary</code> 的五段式流程，以及与之配套的 <code>steps</code>、<code>ThinkingIndicator</code>、<code>confirmation</code> 等 UI 协议。</p>
+<p>把两章放在一起看，演进方向就很明确了：第六章给了一个能跑的业务骨架，第七章给了从固定流程升级到图结构的思路。本章要做的事情，就是用 LangGraph 把第六章的实现一步步改造成一张支持路由、循环、优化闭环、持久化和人工介入的图。</p>
+<p>为便于表述，下文中的 <strong>Ch6</strong> 与 <strong>Ch7</strong> 分别指代 <strong>Chapter 6</strong> 与 <strong>Chapter 7</strong>。</p>
+<aside>
+<p>🎯 <strong>本章演进路线</strong></p>
+<ul>
+<li><strong>8.3 基线迁移</strong>：Ch6 五段式 Promise 链迁移为基础 StateGraph，对应执行层的固定流程。</li>
+<li><strong>8.4 加入路由层</strong>：增加 classifier，在“分析 / 查询 / 闲聊”之间分流。</li>
+<li><strong>8.5 升级分析节点</strong>：将回边原语与 ReAct 子图放在一起展开，把单体 <code>analysis</code> 节点升级为可循环的分析子图。</li>
+<li><strong>8.6 升级汇总节点</strong>：将单体 <code>summary</code> 节点升级为 Critic-Refine 子图。</li>
+<li><strong>8.7 工程化落地</strong>：把持久化、HITL、流式输出、NestJS 接入与调试统一收进同一节。</li>
+</ul>
+</aside>
+<aside>
+<p>📌 <strong>阅读建议</strong></p>
+<blockquote>
+<p>建议始终打开 <code>services/chat/src/llm/graph/requirement-analysis-graph.ts</code>，边读边改。每一节都以上一节为基础，只做一次针对性的增量升级。</p>
+</blockquote>
+</aside>
+<hr />
+<h2 id="8-1-从-langchain-到-langgraph-先讲清楚两者的定位">8.1 从 LangChain 到 LangGraph：先讲清楚两者的定位</h2>
+<p>在动手改代码之前，先解决一个很多人开始学 LangGraph 时最容易卡住的问题：</p>
+<blockquote>
+<p><strong>LangChain 和 LangGraph 到底是什么关系？什么时候该用哪个？</strong></p>
+</blockquote>
+<p>搞清楚这个问题，后面动手改代码时才不会迷路。</p>
+<h3 id="8-1-1-langchain-擅长什么">8.1.1 LangChain 擅长什么</h3>
+<p>LangChain 的定位更像一套 <strong>“LLM 应用的组件库 + 流水线胶水”</strong>：</p>
+<ul>
+<li>统一抽象了 Chat Model、Prompt、Tool、Parser、Retriever、VectorStore、Memory 等核心组件。</li>
+<li>通过 LCEL（<code>Runnable</code> / <code>.pipe()</code>）把组件串成链，输入输出类型在编译期就能对齐。</li>
+<li>对于<strong>线性、可预测、一次性跑完</strong>的任务——RAG 问答、结构化抽取、一次性工具调用等——足够简洁优雅。</li>
+</ul>
+<p>第六章的 <code>runRequirementAnalysis</code> 就是典型的 LangChain 风格：</p>
+<pre><code class="language-tsx">const extracted = await extractAgent.invoke({ input });
+const clarified = await clarifyAgent.invoke({ extracted });
+// ...
+</code></pre>
+<p>这种写法的优点是直观；缺点是<strong>所有路径、所有控制流都硬编码在业务代码里</strong>。</p>
+<h3 id="8-1-2-langchain-做不了-或很难优雅做-的事">8.1.2 LangChain 做不了（或很难优雅做）的事</h3>
+<p>一旦碰到下面任何一个场景，LangChain 原生链就不够用了：</p>
+<ol>
+<li><strong>运行时路径决策</strong>：分析 / 查询 / 闲聊要走不同链路。</li>
+<li><strong>局部循环</strong>：Agent 需要反复“思考 → 调工具 → 观察”直到任务完成。</li>
+<li><strong>质量闭环</strong>：结果不合格要自动返工修订。</li>
+<li><strong>长任务持久化</strong>：多轮对话共享中间状态、支持断点恢复。</li>
+<li><strong>人工介入</strong>：在危险操作前暂停、等待用户确认。</li>
+<li><strong>节点级流式反馈</strong>：前端要精确展示“现在走到哪一步了”。</li>
+</ol>
+<p>你可以用 <code>if / else</code>、递归函数、手写状态机硬塞进 LangChain，但代码复杂度很快就会失控。</p>
+<h3 id="8-1-3-langgraph-补足了什么">8.1.3 LangGraph 补足了什么</h3>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e34555b08f6a4f108c253d134bd29aca~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1536&amp;h=1024&amp;s=1269137&amp;e=png&amp;b=fefefe" alt="image 1.png" /></p>
+<p>LangGraph 在 LangChain 之上加了一层<strong>状态机 + 图的运行时</strong>。直接看对比表：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>LangChain（LCEL）</th>
+<th>LangGraph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线性流水线</td>
+<td>✅ 核心能力</td>
+<td>✅ 完全兼容</td>
+</tr>
+<tr>
+<td>运行时条件路由</td>
+<td>⚠️ 手写 if / else</td>
+<td>✅ 条件边原生支持</td>
+</tr>
+<tr>
+<td>循环 / 回边</td>
+<td>❌ 不支持</td>
+<td>✅ 原生支持</td>
+</tr>
+<tr>
+<td>子图组合</td>
+<td>⚠️ 靠嵌套链手工实现</td>
+<td>✅ “子图即节点”</td>
+</tr>
+<tr>
+<td>共享状态</td>
+<td>⚠️ 靠参数透传</td>
+<td>✅ 集中式 State + reducer</td>
+</tr>
+<tr>
+<td>断点恢复 / 多轮状态</td>
+<td>❌ 无</td>
+<td>✅ Checkpointer</td>
+</tr>
+<tr>
+<td>人工介入</td>
+<td>❌ 无</td>
+<td>✅ <code>interrupt()</code>  • <code>Command</code></td>
+</tr>
+<tr>
+<td>节点级流事件</td>
+<td>⚠️ 粗粒度</td>
+<td>✅ <code>streamMode: &quot;updates&quot;</code></td>
+</tr>
+<tr>
+<td>多 Agent 协作</td>
+<td>⚠️ 手工调度</td>
+<td>✅ Supervisor / Swarm 模式</td>
+</tr>
+</tbody>
+</table>
+<aside>
+<p>💡 <strong>一句话选型</strong></p>
+<ul>
+<li>流程是<strong>固定的直线或简单分支</strong>：LangChain（LCEL）足够。</li>
+<li>流程包含<strong>运行时路径决策、循环、状态共享、人工介入、断点恢复、节点级进度</strong>中的任意一项：上 LangGraph。</li>
+<li>LangGraph <strong>不是替代品，而是运行时升级</strong>：节点内部仍然大量使用 LangChain 的 Chat Model、Tool、Prompt、Parser，只是“节点之间怎么走”这件事由 LangGraph 接管。</li>
+</ul>
+</aside>
+<h3 id="8-1-4-回到我们的系统-为什么-ch6-的链需要换成图">8.1.4 回到我们的系统：为什么 Ch6 的链需要换成图</h3>
+<p>回头看第六章，升级动机就很清楚了：</p>
+<ul>
+<li><code>analysis</code> 阶段不再是一次调用，它往往需要按情况决定工具调用次数 → <strong>需要循环</strong>。</li>
+<li>用户请求并非总是“完整分析”，有时只是查询状态、有时只是打招呼 → <strong>需要运行时路由</strong>。</li>
+<li>报告质量存在波动，需要末端质检与修订机制 → <strong>需要闭环优化</strong>。</li>
+<li>长任务需要断点恢复、人工审批与前端进度反馈 → <strong>需要 Checkpointer / HITL / 流式输出</strong>。</li>
+</ul>
+<p>这些需求刚好对应上面表格里 LangGraph 才有的能力，也是本章所有改造的出发点。</p>
+<hr />
+<h2 id="8-2-langgraph-核心概念">8.2 LangGraph 核心概念</h2>
+<p>LangGraph 的能力建立在几个核心原语上。这一节不写业务代码，先把概念理清楚，后面读起来会顺畅很多。</p>
+<h3 id="8-2-1-state-图的共享上下文">8.2.1 State：图的共享上下文</h3>
+<p>State 是整张图的<strong>共享数据层</strong>。每个节点从 State 读数据、往 State 写结果，节点之间不用再一层层传参。v1 起推荐直接复用官方的 <code>MessagesAnnotation</code> 作为消息通道：</p>
+<pre><code class="language-tsx">import { Annotation, MessagesAnnotation } from '@langchain/langgraph';
+
+export const DemoState = Annotation.Root({
+  ...MessagesAnnotation.spec,						  // 复用官方消息通道（追加型 reducer）
+  intent: Annotation&lt;'analyze' | 'query' | 'chat' | ''&gt;({
+    default: () =&gt; '',
+  }),
+  draft: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+  reviseCount: Annotation&lt;number&gt;({ default: () =&gt; 0 }),
+});
+</code></pre>
+<p>State 的两个关键设计：</p>
+<ul>
+<li><strong>reducer</strong>：决定字段如何合并。<code>messages</code> 用追加型 reducer（<code>MessagesAnnotation</code> 已内置），业务字段一般用覆盖型（默认行为）。</li>
+<li><strong>default</strong>：字段缺省时的初始值，避免 <code>undefined</code> 到处做判空。</li>
+</ul>
+<aside>
+<p>⚠️ <strong>reducer 用错是最常见的翻车点</strong></p>
+<p>把 <code>draft</code> / <code>summary</code> 这类 draft 字段设成追加型 reducer，会导致每次修订都把旧内容叠进来——看起来“越改越长”，其实全是历史垃圾。只有天然累积的字段（消息、日志、工具调用轨迹）才适合追加。</p>
+</aside>
+<h3 id="8-2-2-node-一步任务">8.2.2 Node：一步任务</h3>
+<p>节点就是一个普通的 async 函数：读 <code>state</code>，返回<strong>要更新的字段</strong>（<code>Partial&lt;State&gt;</code>）。</p>
+<pre><code class="language-tsx">async function classifierNode(state: typeof DemoState.State) {
+  // ...调用模型，得到 intent
+  return { intent: 'analyze' as const };
+}
+</code></pre>
+<p>返回的对象只包含“本节点想写入的字段”，其他字段由 reducer 自动合并。<strong>不要返回整个 state</strong>，那不是预期用法。</p>
+<h3 id="8-2-3-edge-节点之间怎么走">8.2.3 Edge：节点之间怎么走</h3>
+<p>边分两种：</p>
+<ul>
+<li><strong>普通边</strong> <code>addEdge(A, B)</code>：A 完成后一定去 B。</li>
+<li><strong>条件边</strong> <code>addConditionalEdges(A, routerFn)</code>：A 完成后由 <code>routerFn(state)</code> 返回目标节点名。</li>
+</ul>
+<p><code>START</code> 和 <code>END</code> 是 LangGraph 内置的入口 / 出口锚点。v1 起推荐使用 <strong>常量</strong> 替代字符串 <code>&quot;__start__&quot;</code> / <code>&quot;__end__&quot;</code>：</p>
+<pre><code class="language-tsx">import { START, END, StateGraph } from '@langchain/langgraph';
+
+const graph = new StateGraph(DemoState)
+  .addNode('classifier', classifierNode)
+  .addNode('analyze', analyzeNode)
+  .addNode('chat', chatNode)
+  .addEdge(START, 'classifier')
+  .addConditionalEdges('classifier', (s) =&gt;
+    s.intent === 'analyze' ? 'analyze' : 'chat',
+  )
+  .addEdge('analyze', END)
+  .addEdge('chat', END)
+  .compile();
+</code></pre>
+<p>这张图已经具备了 LangChain 做不到的能力：<strong>路径在运行时决定</strong>。</p>
+<h3 id="8-2-4-循环与子图">8.2.4 循环与子图</h3>
+<ul>
+<li><strong>循环</strong>：条件边可以指回前序节点，只要有明确的退出条件即可（例如 <code>reviseCount &gt;= 2</code> 或 <code>!critique</code>），再配合一个硬上限就能构成可靠的循环。</li>
+<li><strong>子图</strong>：一张 <code>compile()</code> 后的图可以直接作为另一张图的<strong>节点</strong>使用。这是 LangGraph 最重要的组合原语——外层看它仍是一个节点，内部却可以有自己的循环、工具调用和终止逻辑。</li>
+</ul>
+<h3 id="8-2-5-工程能力三件套">8.2.5 工程能力三件套</h3>
+<p>这三项不是“概念”，而是 LangGraph 运行时自带的工程能力，后面 8.7 会统一展开：</p>
+<ul>
+<li><strong>Checkpointer</strong>：在每个节点边界自动保存 State 快照，支持断点恢复与多轮共享。</li>
+<li><strong><code>interrupt()</code></strong> + <strong><code>Command</code></strong>：在任意节点中暂停图的执行，把控制权交还给调用方，等用户确认后再 <code>new Command({ resume })</code> 恢复，并可双向传值。</li>
+<li><strong><code>graph.stream(..., { streamMode: &quot;updates&quot; })</code></strong>：按节点粒度推送状态增量，天然驱动前端进度条。</li>
+</ul>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eaa676623a714a1b98a196fc735ead4c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1329&amp;h=1183&amp;s=1314302&amp;e=png&amp;b=fefefe" alt="image 2.png" /></p>
+<h3 id="8-2-6-一个-50-行的最小示例">8.2.6 一个 50 行的最小示例</h3>
+<p>先跳出需求分析系统，看一张最朴素的图能做什么：</p>
+<pre><code class="language-tsx">import { StateGraph, Annotation, START, END } from '@langchain/langgraph';
+
+const State = Annotation.Root({
+  input: Annotation&lt;string&gt;(),
+  intent: Annotation&lt;'greet' | 'calc' | ''&gt;({ default: () =&gt; '' }),
+  output: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+});
+
+const classify = (s: typeof State.State) =&gt; ({
+  intent: /\d+\s*[+\-*/]\s*\d+/.test(s.input) ? 'calc' as const : 'greet' as const,
+});
+
+const greet = (s: typeof State.State) =&gt; ({
+  output: `你好，你说的是：${s.input}`,
+});
+
+const calc = (s: typeof State.State) =&gt; ({
+  // eslint-disable-next-line no-eval
+  output: `结果是 ${eval(s.input)}`,
+});
+
+const graph = new StateGraph(State)
+  .addNode('classify', classify)
+  .addNode('greet', greet)
+  .addNode('calc', calc)
+  .addEdge(START, 'classify')
+  .addConditionalEdges('classify', (s) =&gt; s.intent)
+  .addEdge('greet', END)
+  .addEdge('calc', END)
+  .compile();
+
+await graph.invoke({ input: '1 + 2' });
+// =&gt; { input: '1 + 2', intent: 'calc', output: '结果是 3' }
+</code></pre>
+<p>例子虽简单，但 State / Node / Edge / 条件路由四个核心原语都用到了。8.3 开始，我们就是把这几个原语落到第六章的需求分析系统上——后面的内容都是在这个基础上做组合和扩展。</p>
+<aside>
+<p>🧭 <strong>从这里开始衔接 Ch6</strong></p>
+<p>到这里，你应该已经能回答三个问题：</p>
+<ol>
+<li>LangChain 和 LangGraph 各自擅长什么。</li>
+<li>LangGraph 的核心原语是哪几个。</li>
+<li>为什么 Ch6 的五段式 Promise 链需要被重写成一张图。</li>
+</ol>
+<p>下一节开始，我们就把这张最小示例“放大”到真实业务：用 LangGraph 重写 Ch6 的 <code>extract → clarify → analysis → risk → summary</code> 流程，并在此基础上逐步叠加路由、循环、质检、持久化、HITL 和流式输出。</p>
+</aside>
+<h3 id="8-2-7-文件结构与版本">8.2.7 文件结构与版本</h3>
+<p>整章只围绕一个文件展开：</p>
+<pre><code>services/chat/src/llm/graph/
+└── requirement-analysis-graph.ts
+</code></pre>
+<p>后续每一节都在这一个文件上做增量演进。</p>
+<p>本章示例基于 <code>@langchain/langgraph</code> <strong>v1.2.9</strong>（v1 起 <code>START</code> / <code>END</code> 常量、<code>MessagesAnnotation</code>、<code>interrupt()</code> / <code>Command</code>、<code>streamMode: &quot;updates&quot;</code> 等均为推荐写法）：</p>
+<pre><code class="language-bash">cd services/chat &amp;&amp; bun add @langchain/langgraph@^1.2.9
+</code></pre>
+<hr />
+<h2 id="8-3-基线迁移-把五段式搬到-stategraph">8.3 基线迁移：把五段式搬到 StateGraph</h2>
+<p>这一节只做一件事：<strong>业务逻辑不动，把 Promise 链换成基础图结构</strong>。后面所有改动都在这个基线上叠加。</p>
+<ul>
+<li>
+<p>🤖 用 AI 生成本节代码（对应 8.3 基线）</p>
+<p>将以下 Prompt 粘贴到 Claude CLI 中执行：</p>
+</li>
+</ul>
+<pre><code> 把 services/chat/src/llm/agents/requirement-analysis.ts 的 Promise 链迁移到 LangGraph（@langchain/langgraph ^1.2.9）：
+
+ 1. 新建 services/chat/src/llm/graph/requirement-analysis-graph.ts
+ 2. 使用 Annotation.Root + MessagesAnnotation.spec 定义 RequirementAnalysisState，字段：messages（复用 MessagesAnnotation）、extracted、clarified、analysis、risk、summary，业务字段使用默认覆盖型 reducer
+ 3. 五个节点 extract/clarify/analysis/risk/summary 一一对应第六章的 Agent，节点内部复用原来的 Agent 调用，只返回 Partial&lt;State&gt;
+ 4. 线性边使用 v1 常量：START → extract → clarify → analysis → risk → summary → END
+ 5. 导出 createAnalysisGraph() 和 runAnalysisGraph(input)
+ 6. 保留原 Ch6 入口文件，仅改为转调新的 graph
+
+ 验证：同样的输入，新图的 summary 与旧链一致
+</code></pre>
+<pre><code class="language-tsc">import { Annotation, MessagesAnnotation, StateGraph, START, END } from '@langchain/langgraph';
+import { BaseChatModel } from '@langchain/core/language_models/chat_models';
+import {
+  createExtractAgent,
+  createClarifyAgent,
+  createAnalysisAgent,
+  createRiskAgent,
+  createSummaryAgent,
+} from '../agents/sub-agents';
+
+export const RequirementAnalysisState = Annotation.Root({
+  ...MessagesAnnotation.spec,
+  input: Annotation&lt;string&gt;,
+  retrievedContext: Annotation&lt;string&gt;,
+  extracted: Annotation&lt;Record&lt;string, unknown&gt;&gt;,
+  clarified: Annotation&lt;{ needsClarification: boolean; questions: string[] }&gt;,
+  analysisResult: Annotation&lt;string&gt;,
+  riskResult: Annotation&lt;string&gt;,
+  summary: Annotation&lt;string&gt;,
+});
+
+const parseJson = &lt;T&gt;(raw: string, fallback: T): T =&gt; {
+  try {
+    const match = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
+    return JSON.parse(match ? match[1].trim() : raw.trim());
+  } catch {
+    return fallback;
+  }
+};
+
+const createNodes = (model: BaseChatModel) =&gt; ({
+  extractStep: async (state: typeof RequirementAnalysisState.State) =&gt; {
+    const raw = await createExtractAgent(model).invoke({ input: state.input });
+    return {
+      extracted: parseJson(raw, {
+        isComplete: false,
+        missingFields: ['JSON 解析失败，请重试'],
+      }),
+    };
+  },
+
+  clarifyStep: async (state: typeof RequirementAnalysisState.State) =&gt; {
+    const raw = await createClarifyAgent(model).invoke({
+      input: state.input,
+      extractResult: JSON.stringify(state.extracted),
+    });
+    return {
+      clarified: parseJson(raw, {
+        needsClarification: false,
+        questions: [],
+      }),
+    };
+  },
+
+  analysisStep: async (state: typeof RequirementAnalysisState.State) =&gt; ({
+    analysisResult: await createAnalysisAgent(model).invoke({
+      input: state.input,
+      extractResult: JSON.stringify(state.extracted),
+    }),
+  }),
+
+  riskStep: async (state: typeof RequirementAnalysisState.State) =&gt; ({
+    riskResult: await createRiskAgent(model).invoke({
+      input: state.input,
+      extractResult: JSON.stringify(state.extracted),
+    }),
+  }),
+
+  summaryStep: async (state: typeof RequirementAnalysisState.State) =&gt; ({
+    summary: await createSummaryAgent(model).invoke({
+      input: state.input,
+      extractResult: JSON.stringify(state.extracted),
+      analysisResult: state.analysisResult,
+      riskResult: state.riskResult,
+      retrievedContext: state.retrievedContext || '无相关参考文档',
+    }),
+  }),
+});
+
+export function createAnalysisGraph(model: BaseChatModel) {
+  const nodes = createNodes(model);
+
+  return new StateGraph(RequirementAnalysisState)
+    .addNode('extractStep', nodes.extractStep)
+    .addNode('clarifyStep', nodes.clarifyStep)
+    .addNode('analysisStep', nodes.analysisStep)
+    .addNode('riskStep', nodes.riskStep)
+    .addNode('summaryStep', nodes.summaryStep)
+    .addEdge(START, 'extractStep')
+    .addEdge('extractStep', 'clarifyStep')
+    .addEdge('clarifyStep', 'analysisStep')
+    .addEdge('analysisStep', 'riskStep')
+    .addEdge('riskStep', 'summaryStep')
+    .addEdge('summaryStep', END)
+    .compile();
+}
+
+export async function runAnalysisGraph(args: {
+  input: string;
+  retrievedContext: string;
+  model: BaseChatModel;
+}) {
+  const graph = createAnalysisGraph(args.model);
+  const result = await graph.invoke({
+    input: args.input,
+    retrievedContext: args.retrievedContext,
+    messages: [],
+  });
+
+  return {
+    summary: result.summary ?? '',
+    extracted: result.extracted ?? {},
+    clarified: result.clarified ?? { needsClarification: false, questions: [] },
+    analysisResult: result.analysisResult ?? '',
+    riskResult: result.riskResult ?? '',
+    steps: {
+      extract: JSON.stringify(result.extracted ?? {}),
+      clarify: JSON.stringify(result.clarified ?? {}),
+      analysis: result.analysisResult ?? '',
+      risk: result.riskResult ?? '',
+      summary: result.summary ?? '',
+    },
+  };
+}
+</code></pre>
+<p>以上为示例代码。</p>
+<div class="mermaid">flowchart LR
+    A[&quot;__start__&quot;] --&gt; B[&quot;extract&quot;] --&gt; C[&quot;clarify&quot;] --&gt; D[&quot;analysis&quot;] --&gt; E[&quot;risk&quot;] --&gt; F[&quot;summary&quot;] --&gt; G[&quot;__end__&quot;]
+</div>
+<aside>
+<p>📌 <strong>为什么这一步仍然重要</strong></p>
+<p>把 Promise 链改写为线性图，本身不会立即带来巨大收益；它真正的意义在于，为后续加入路由、循环、优化闭环、断点恢复等能力提供统一容器。后面各节几乎都只是在这张基线图上替换某个节点或插入某条边。</p>
+</aside>
+<hr />
+<h2 id="8-4-加路由层-不是每个请求都需要跑完整分析链">8.4 加路由层：不是每个请求都需要跑完整分析链</h2>
+<p>系统上线后，用户请求通常会分成三类：</p>
+<ol>
+<li><strong>分析需求</strong>：需要跑完整五段式流程。</li>
+<li><strong>查询需求状态</strong>：只需要取数，不需要完整分析。</li>
+<li><strong>闲聊或寒暄</strong>：不需要进入业务链路。</li>
+</ol>
+<p>如果继续沿用 Promise 链，主流程会被大量 <code>if / else</code> 分支切碎；而在图结构里，只需要增加一个 <code>classifier</code> 节点，再从它发出一条条件边。</p>
+<ul>
+<li>
+<p>🤖 用 AI 生成本节代码（对应 8.4 路由层升级）</p>
+<p>将以下 Prompt 粘贴到 Claude CLI 中执行：</p>
+</li>
+</ul>
+<pre><code>在 8.3 的 requirement-analysis-graph.ts 基础上增量升级（@langchain/langgraph ^1.2.9）：
+## 1. State 扩展
+- 新增 intent 字段：Annotation&lt;'analyze' | 'query' | 'chat'&gt;({ default: () =&gt; 'analyze' })
+- 新增 queryResponse、chatResponse 字段用于存储对应响应
+## 2. classifierNode 实现要求
+- 使用 ChatModel.withStructuredOutput(zod schema) 判断意图
+- Zod schema 包含：intent (enum) 和 reasoning (string)
+- System prompt 需包含：
+  - 明确的三类意图判断规则（analyze/query/chat）
+  - 每类意图的关键特征和示例
+  - 边界情况处理策略（如“查询XXX的分析报告”应判为 query）
+  - 优先级规则：有需求编号优先 query，纯闲聊优先 chat，默认 analyze
+- 实现 try-catch 降级：失败时用关键词匹配（需求编号正则、关键词检测）
+## 3. 新增处理节点
+- queryHandlerNode：调用 model.invoke()，system prompt 为“你是需求查询助手”
+- chatHandlerNode：调用 model.invoke()，system prompt 为“你是友好的AI助手”
+- 两者均返回 { [responseField]: content, summary: content } 兼容旧接口
+## 4. 图结构配置
+- 边：START → classifier
+- 条件边：addConditionalEdges('classifier', routeByIntent)
+- routeByIntent 返回：'extractStep' | 'queryHandler' | 'chatHandler'
+- queryHandler/chatHandler → END
+- 保留完整分析链：extractStep → clarifyStep → analysisStep/riskStep → summaryStep → END
+## 5. 输出类型扩展
+- RunAnalysisGraphOutput 新增：intent、queryResponse、chatResponse 字段（可选）
+- steps 记录根据 intent 动态添加相应步骤
+## 6. 测试用例（创建 test-graph.ts）
+包含以下测试场景：
+### Case 1: 完整需求分析
+- 输入：'分析需求 REQ-20240315-001：开发在线问卷系统，支持多种题型...'
+- 期望：intent='analyze'
+- 验证：extracted、clarified、analysisResult、riskResult、summary 均非空
+### Case 2: 需求状态查询
+- 输入：'查询 REQ-20240315-001 的当前状态'
+- 期望：intent='query'
+- 验证：queryResponse 非空，analysisResult/riskResult/extracted 为 undefined
+### Case 3: 普通闲聊
+- 输入：'你好，今天天气不错'
+- 期望：intent='chat'
+- 验证：chatResponse 非空，业务节点未触发，响应时间 &lt; 5秒
+### Case 4: 模糊意图
+- 输入：'看看 REQ-20240315-001 有没有什么问题'
+- 期望：能明确选出 analyze 或 query（不卡住）
+### Case 5: 带编号的查询
+- 输入：'REQ-20240415-002 的进度如何'
+- 期望：intent='query'（需求编号优先级高）
+### Case 6: 简短需求
+- 输入：'我需要一个用户登录功能'
+- 期望：intent='analyze'，能正常提取并分析
+### Case 7: 多重含义
+- 输入：'查询 REQ-20240315-001 的风险分析报告'
+- 期望：intent='query'（“查询”优先级高于“分析”）
+## 验收标准
+- 意图分类准确率 ≥ 85%（7个测试用例至少6个正确）
+- 不同意图走不同路径，节点触发符合预期
+- query/chat 响应时间明显快于完整分析
+- 无死循环或卡住情况
+- 测试脚本输出清晰的通过/失败状态
+</code></pre>
+<pre><code class="language-tsc">import { z } from 'zod';
+import { createChatModel } from '../model.factory';
+
+async function classifierNode(state: typeof RequirementAnalysisState.State) {
+  const model = createChatModel();
+  const structured = model.withStructuredOutput(
+    z.object({ intent: z.enum(['analyze', 'query', 'chat']) }),
+  );
+  const { intent } = await structured.invoke([
+    {
+      role: 'system',
+      content:
+        '判断用户意图：analyze（需要完整分析需求/冲突/复杂度）、query（只查需求详情或状态）、chat（闲聊/问候/感谢）。',
+    },
+    state.messages.at(-1)!,
+  ]);
+  return { intent };
+}
+
+async function queryHandlerNode(state: typeof RequirementAnalysisState.State) {
+  const extracted = await extractAgent.invoke({
+    input: state.messages.at(-1)?.content,
+  });
+  return { extracted, summary: `已查询到：${JSON.stringify(extracted)}` };
+}
+
+async function chatHandlerNode(state: typeof RequirementAnalysisState.State) {
+  const model = createChatModel();
+  const response = await model.invoke(state.messages);
+  return { summary: response.content as string };
+}
+
+function routeByIntent(state: typeof RequirementAnalysisState.State) {
+  switch (state.intent) {
+    case 'query':
+      return 'queryHandler';
+    case 'chat':
+      return 'chatHandler';
+    case 'analyze':
+    default:
+      return 'extractStep';
+  }
+}
+</code></pre>
+<p>上面的代码是<strong>最小示例</strong>，用于说明路由层的核心结构；完整实现仍应包含 Prompt 中提到的结构化输出、try-catch 降级与测试用例。</p>
+<div class="mermaid">flowchart TD
+    A[&quot;__start__&quot;] --&gt; B[&quot;classifier&lt;br&gt;路由层&quot;]
+    B --&gt;|&quot;analyze&quot;| C[&quot;extractStep&quot;]
+    B --&gt;|&quot;query&quot;| Q[&quot;queryHandler&quot;]
+    B --&gt;|&quot;chat&quot;| H[&quot;chatHandler&quot;]
+    C --&gt; D[&quot;clarify&quot;] --&gt; E[&quot;analysis&quot;] --&gt; F[&quot;risk&quot;] --&gt; G[&quot;summary&quot;]
+    G --&gt; Z[&quot;__end__&quot;]
+    Q --&gt; Z
+    H --&gt; Z
+</div>
+<aside>
+<p>📌 <strong>这就是路由层在工程上的最直接形态</strong></p>
+<p><code>addConditionalEdges(source, routerFn)</code> 实际上就是“路径级推理”：先判断请求属于哪一类，再决定后面应该进入哪条链路。后续如果要升级为 Supervisor 调度多个专家子图，也依然沿用这一思想。</p>
+</aside>
+<h3 id="验证步骤-对应-8-4"><strong>🧪 验证步骤（对应 8.4）</strong></h3>
+<p>完成 <code>classifierNode</code> 与条件边改造后，建议按 <strong>“脚本快速验证 → 前端体验验证”</strong> 的顺序检查。</p>
+<h4>方式 1：脚本快速验证（推荐）</h4>
+<p>运行测试脚本：</p>
+<pre><code class="language-bash">cd services/chat
+bun run src/llm/graph/test-graph.ts
+</code></pre>
+<p>重点关注以下结果：</p>
+<ul>
+<li><strong>分类是否正确</strong>：<code>analyze / query / chat</code> 是否符合预期</li>
+<li><strong>路径是否正确</strong>：不同意图是否只触发对应节点</li>
+<li><strong>耗时是否合理</strong>：<code>query</code> / <code>chat</code> 是否明显快于完整分析链</li>
+<li><strong>通过率是否达标</strong>：7 个测试用例至少通过 6 个</li>
+</ul>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/dcd70bb32b464e5582aad1e271fcb652~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1292&amp;h=1204&amp;s=158834&amp;e=png&amp;b=282c34" alt="image 3.png" /></p>
+<h4>方式 2：前端体验验证</h4>
+<ol>
+<li>启动项目：</li>
+</ol>
+<pre><code class="language-bash">bun run dev
+</code></pre>
+<ol>
+<li>
+<p>打开 <code>http://localhost:3000</code>，登录后创建新对话。</p>
+</li>
+<li>
+<p>依次输入下面三类消息进行验证：</p>
+<ul>
+<li><strong>分析请求</strong>：如“分析需求 REQ-20240315-001：开发一个在线问卷调查系统，支持多种题型（单选、多选、填空），能够实时收集和统计数据，目标用户是企业HR和市场调研人员。”</li>
+</ul>
+</li>
+</ol>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/377d843a7cff4e0ab48fd5add76959a0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2996&amp;h=1720&amp;s=860575&amp;e=png&amp;b=fdfbf7" alt="image 4.png" /></p>
+<pre><code>*   **查询请求**：如“查询 REQ-20240315-001 的当前状态”
+</code></pre>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9a4b2db7e9c84de4abafa15a1ff142bd~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1538&amp;h=908&amp;s=117215&amp;e=png&amp;b=fffdfa" alt="image 5.png" /></p>
+<pre><code>*   **闲聊请求**：如“你好，今天天气不错”
+</code></pre>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18b2bd6156f54e5db4cfff6e6d42f0b5~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1460&amp;h=522&amp;s=69944&amp;e=png&amp;b=fefcf8" alt="image 6.png" /></p>
+<p>预期表现：</p>
+<ul>
+<li><strong>分析请求</strong>：展示五段步骤进度，并生成完整分析报告</li>
+<li><strong>查询请求</strong>：快速返回查询结果，不进入完整分析链</li>
+<li><strong>闲聊请求</strong>：直接返回自然对话，不生成业务产物</li>
+</ul>
+<aside>
+<p>📌 <strong>验证重点</strong>：路径正确（不同意图走不同链路）、最短路径（query/chat 不进五段链）、失败兜底（classifier 对未知值有默认出口）、可观测（日志与 SSE 能看到节点执行顺序）。详细排查见 8.8。</p>
+</aside>
+<hr />
+<h2 id="8-5-升级分析节点-从回边原语到-react-子图">8.5 升级分析节点：从回边原语到 ReAct 子图</h2>
+<p>8.4 的路由层解决的是“<strong>走哪条路</strong>”：请求进入系统后，先判断应该进入完整分析、状态查询，还是普通闲聊。但每条路径本身仍然是一次性执行。</p>
+<p>8.5 开始复杂度上了一个台阶：节点内部不再是调一次就完事，可能需要多轮&quot;判断 → 调工具 → 看结果 → 再判断&quot;。这是从条件分支走向循环子图的转折点。</p>
+<p>一旦 <code>analysis</code> 需要反复&quot;思考 → 调工具 → 观察&quot;，把它塞在单个节点里就不合适了。不管是本节的 ReAct 循环还是下一节的 Critic-Refine 闭环，底层用的都是同一个图结构原语：<strong>条件边回指前序节点</strong>。</p>
+<aside>
+<p>🧩 <strong>本节主线</strong></p>
+<p>先理解“回边”这种最小循环原语，再把它落实到 <code>analysis</code> 节点上：将一次性调用升级为一个可以自主决定是否继续用工具的 ReAct 子图。</p>
+</aside>
+<aside>
+<p>🗺️ <strong>本节你会得到什么</strong></p>
+<ul>
+<li>理解 LangGraph 里的“回边”为什么是循环能力的基础</li>
+<li>看懂 <code>analysis</code> 节点为何要升级为 ReAct 子图</li>
+<li>拿到可直接落地的 Prompt、代码骨架、图示和验证步骤</li>
+</ul>
+</aside>
+<h3 id="8-5-1-回边原语-循环结构的基础">8.5.1 回边原语：循环结构的基础</h3>
+<p>在 LangGraph 中，一个可靠的循环通常包含三部分：</p>
+<ol>
+<li><strong>计数字段</strong>：在 State 中保留循环计数，如 <code>iterationCount</code> 或 <code>toolCallCount</code>。</li>
+<li><strong>退出条件</strong>：在条件边中写明“继续循环”还是“退出”的业务规则。</li>
+<li><strong>硬上限</strong>：始终设置最大循环次数，防止失控。</li>
+</ol>
+<pre><code class="language-tsx">function shouldLoop(state, { counterField, limit, targetNode }) {
+  // 优先级 1：硬上限检查
+  if (state[counterField] &gt;= limit) return END;
+
+  // 优先级 2：业务退出条件
+  if (/* 业务上满足终止条件 */) return END;
+
+  // 优先级 3：继续循环
+  return targetNode;
+}
+</code></pre>
+<p><strong>回边的图结构表示：</strong></p>
+<pre><code>agent → (条件判断) → tools
+  ↑                    ↓
+  └────────────────────┘  (这就是回边)
+</code></pre>
+<aside>
+<p>⚠️ <strong>硬上限不可省略</strong></p>
+<p>ReAct 可能反复调用工具确认细节，Critic 也可能持续提出新的修改意见。只要存在回边，就必须有明确的退出条件。本文后续示例中，ReAct 子图设置 <code>maxSteps = 6</code>，Critic-Refine 子图设置 <code>maxRevises = 2</code>。</p>
+</aside>
+<h3 id="8-5-2-为什么需要-react-子图">8.5.2 为什么需要 ReAct 子图</h3>
+<p>有了回边的概念，再看 <code>analysis</code> 节点就好理解了：Ch6 的 <code>analysisAgent</code> 是一锤子买卖——把上下文丢给模型，直接出结论。但实际的需求分析中，这一步经常需要多次工具检索：</p>
+<ol>
+<li><strong>查询当前需求详情</strong>：通过需求编号获取完整信息。</li>
+<li><strong>查询相似历史需求</strong>：找到可借鉴的案例。</li>
+<li><strong>调用冲突检测工具</strong>：识别与现有需求的冲突点。</li>
+<li><strong>综合信息后再输出分析结论</strong>：整合所有信息给出完整分析。</li>
+</ol>
+<p>这就是第七章讲的 <strong>ReAct</strong>（Reasoning + Acting）模式。在 LangGraph 里，与其继续往单个节点里堆逻辑，不如直接把 <code>analysis</code> 拆成一张子图。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62536730511b4f3488060dc3f5bec94d~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1306&amp;h=1205&amp;s=1316085&amp;e=png&amp;b=fefefe" alt="image 7.png" /></p>
+<aside>
+<p>✅ <strong>子图的三大优势</strong></p>
+<ol>
+<li><strong>逻辑隔离</strong>：子图内部的循环不影响主图的线性流程。</li>
+<li><strong>可复用</strong>：同一个 ReAct 子图可以用在不同的主图中。</li>
+<li><strong>可测试</strong>：子图可以独立测试，不依赖主图的其他节点。</li>
+</ol>
+</aside>
+<h3 id="8-5-3-prompt-生成-react-子图">8.5.3 Prompt：生成 ReAct 子图</h3>
+<ul>
+<li>
+<p>🤖 用 AI 生成本节代码（对应 8.5 analysis 升级）</p>
+<p>将以下 Prompt 粘贴到 Claude CLI 中执行：</p>
+<pre><code>在 8.4 的 requirement-analysis-graph.ts 基础上增量升级（@langchain/langgraph ^1.2.9）：
+
+1. 将原本的 analysisStep 替换为一个 ReAct 子图 createAnalysisSubGraph()
+2. State 增加 toolLoopCount: number（default 0）用于限制最大工具轮次
+3. 子图包含以下节点：
+   - agentNode：模型负责判断是否需要调用工具，或直接输出分析结论
+   - toolsNode：使用 @langchain/langgraph/prebuilt 的 ToolNode 执行工具
+   - finalizeNode：从最后一条 AIMessage 中提取分析结果，写入 analysisResult
+4. 图结构：
+   - START → agent
+   - agent --(有 tool_calls)--&gt; tools
+   - tools → agent
+   - agent --(无 tool_calls 或达到上限)--&gt; finalize
+   - finalize → END
+
+节点实现要求：
+
+agentNode：
+- 使用 createChatModel().bindTools(analysisTools)
+- system prompt 明确说明：
+  1. 如果输入中包含需求编号（如 REQ-XXX），先调用 search_requirement
+  2. 如果需要检测冲突，调用 check_conflicts
+  3. 获取足够信息后，直接输出分析结论，不再继续调用工具
+  4. 避免对相同参数重复调用同一工具
+- 输出内容至少包含：功能分解、用户故事、验收标准、技术复杂度评估
+
+toolsNode：
+- 直接使用 ToolNode，无需手写工具执行逻辑
+
+finalizeNode：
+- 从 messages 中提取最后一条 AI 回复
+- 将其写入 analysisResult
+- 若最后一条为空，提供安全降级
+
+工具要求：
+- 提供 search_requirement 工具：根据 reqId 查询需求详情
+- 提供 check_conflicts 工具：根据 reqId 与描述检测冲突
+- 如果项目里暂无真实工具，可先用 Mock 实现
+
+测试要求：
+1. 无编号的普通需求输入，能直接生成分析
+2. 带 REQ 编号的输入，会先查详情再分析
+3. 涉及登录/认证类需求时，可触发冲突检测
+4. 工具轮次达到 6 次时强制退出，避免死循环
+5. 子图可独立运行，且服务端日志能看到 agent → tools → agent → finalize 的路径
+
+验收标准：
+- 子图具备稳定的回边循环
+- analysisResult 能正确写入主图 State
+- 不出现无限循环
+- 至少 4/5 测试用例通过
+</code></pre>
+</li>
+</ul>
+<aside>
+<p>🛠️ <strong>落地时重点关注三件事</strong></p>
+<ul>
+<li><code>agentNode</code> 负责决定“继续调工具”还是“直接收敛输出”</li>
+<li><code>ToolNode</code> 负责执行工具，避免手写重复的工具分发逻辑</li>
+<li><code>finalizeNode</code> 负责把子图结果稳定写回主图 State</li>
+</ul>
+</aside>
+<h3 id="8-5-4-代码示例">8.5.4 代码示例</h3>
+<pre><code class="language-tsx">import { ToolNode } from '@langchain/langgraph/prebuilt';
+import {
+  searchRequirementTool,
+  checkConflictsTool,
+} from '../tools/business.tools';
+
+const analysisTools = [searchRequirementTool, checkConflictsTool];
+
+function createAnalysisSubGraph() {
+  async function agentNode(state: typeof RequirementAnalysisState.State) {
+    const model = createChatModel().bindTools(analysisTools);
+    const response = await model.invoke([
+      {
+        role: 'system',
+        content:
+          '你是需求分析专家。使用工具检索需求详情、检测冲突。分析完成后直接给出结论，不再调用工具。',
+      },
+      ...state.messages,
+      {
+        role: 'user',
+        content: `已澄清的需求：${JSON.stringify(state.clarified)}`,
+      },
+    ]);
+    return { messages: [response] };
+  }
+
+  function shouldCallTools(state: typeof RequirementAnalysisState.State) {
+    const last = state.messages.at(-1) as any;
+    const toolRounds = state.messages.filter(
+      (m: any) =&gt; m._getType?.() === 'tool',
+    ).length;
+    if (toolRounds &gt;= 6) return 'done';
+    return last?.tool_calls?.length &gt; 0 ? 'tools' : 'done';
+  }
+
+  async function finalizeNode(state: typeof RequirementAnalysisState.State) {
+    const last = state.messages.at(-1);
+    return { analysisResult: (last?.content as string) ?? '' };
+  }
+
+  return new StateGraph(RequirementAnalysisState)
+    .addNode('agent', agentNode)
+    .addNode('tools', new ToolNode(analysisTools))
+    .addNode('finalize', finalizeNode)
+    .addEdge(START, 'agent')
+    .addConditionalEdges('agent', shouldCallTools, {
+      tools: 'tools',
+      done: 'finalize',
+    })
+    .addEdge('tools', 'agent')
+    .addEdge('finalize', END)
+    .compile();
+}
+</code></pre>
+<h3 id="8-5-5-图结构可视化">8.5.5 图结构可视化</h3>
+<div class="mermaid">flowchart TD
+    subgraph MAIN[&quot;主图&quot;]
+        C[&quot;clarify&quot;] --&gt; AN[&quot;analysis&lt;br&gt;（子图）&quot;]
+        AN --&gt; R[&quot;risk&quot;]
+    end
+    subgraph SUB[&quot;analysis 子图（ReAct）&quot;]
+        S1[&quot;__start__&quot;] --&gt; A[&quot;agent&lt;br&gt;Thought&quot;]
+        A --&gt;|&quot;tool_calls&quot;| T[&quot;tools&lt;br&gt;Observation&quot;]
+        T --&gt; A
+        A --&gt;|&quot;无 tool_calls&quot;| FZ[&quot;finalize&quot;]
+        FZ --&gt; E1[&quot;__end__&quot;]
+    end
+</div>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ba5cb5275bcc46509631e1ce5b1f4721~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1306&amp;h=1204&amp;s=1216425&amp;e=png&amp;b=f7f8ef" alt="image.png" /></p>
+<h3 id="8-5-6-关键要点">8.5.6 关键要点</h3>
+<aside>
+<p>📌 <strong>“子图作为节点”是 LangGraph 极其关键的组合原语</strong></p>
+<p>从主图视角看，<code>analysis</code> 仍然只是一个节点；但这个节点内部已经具备自己的循环、工具调用与终止逻辑。未来如果扩展到多专家协作、Supervisor 调度，本质上仍然是在主图中挂载更复杂的子图。</p>
+</aside>
+<aside>
+<p>⚠️ <strong>工具描述会直接影响 Agent 的决策质量</strong></p>
+<p><code>bindTools()</code> 会把工具的 <code>name</code> 与 <code>description</code> 一起传给模型。描述越清晰，模型越容易正确判断“什么时候该调哪个工具、参数该怎么传”；如果工具说明含糊，错误选工具和错误传参都会明显增多。</p>
+</aside>
+<aside>
+<p>💡 <strong><code>messages</code> 数组的管理机制</strong></p>
+<p>子图与主图共享同一个 State，所以 <code>messages</code> 字段是累积的：</p>
+<ul>
+<li><code>agent</code> 节点追加 AIMessage</li>
+<li><code>tools</code> 节点追加 ToolMessage</li>
+<li>这些消息对后续所有节点可见</li>
+</ul>
+<p>如果需要完全隔离子图的消息，有两种方案：</p>
+<ol>
+<li>在子图内使用独立的 State 字段（如 <code>subgraphMessages</code>）</li>
+<li>在 <code>finalize</code> 节点中清空或过滤 messages</li>
+</ol>
+<p>本例采用共享方案，因为后续节点（如 <code>summary</code>）可能需要参考工具调用的上下文。</p>
+</aside>
+<h3 id="8-5-7-验证步骤-对应-8-5">8.5.7 验证步骤（对应 8.5）</h3>
+<p>完成 ReAct 子图改造后，建议从 <strong>“子图能否稳定闭环”</strong> 这个角度验证，而不是只看最终有没有产出文本。</p>
+<h4>方式 1：脚本快速验证（推荐）</h4>
+<p>运行测试脚本：</p>
+<pre><code class="language-bash">cd services/chat
+bun run src/llm/graph/test-graph.ts
+</code></pre>
+<p>重点检查以下结果：</p>
+<ul>
+<li><strong>是否出现回边循环</strong>：日志中能看到 <code>agent → tools → agent → finalize</code> 的路径。</li>
+<li><strong>是否正确触发工具</strong>：带 <code>REQ-</code> 编号的输入会优先查询详情；涉及登录 / 认证类需求时可触发冲突检测。</li>
+<li><strong>是否具备硬上限保护</strong>：工具轮次达到 6 次后会强制结束，不会无限循环。</li>
+<li><strong>是否能安全降级</strong>：没有工具调用时，子图也能直接产出分析结果。</li>
+<li><strong>analysisResult 是否正确落盘</strong>：主图后续节点能够读取分析结果，而不是拿到空值。</li>
+</ul>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9eb6799d36af4c5aa589c9a77b0283b8~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1234&amp;h=648&amp;s=147514&amp;e=png&amp;b=282c34" alt="image 8.png" /></p>
+<h4>方式 2：日志与前端联调验证</h4>
+<ol>
+<li>启动项目并发送一条普通需求分析请求。</li>
+<li>观察服务端日志中的节点顺序，确认是否按预期进入 ReAct 子图。</li>
+<li>再分别用以下输入做对比测试：
+<ul>
+<li><strong>普通需求</strong>：如“我需要一个用户登录功能” → 应可直接分析。</li>
+<li><strong>带编号需求</strong>：如“分析需求 REQ-20240315-001 的实现方案” → 应先查详情再分析。</li>
+<li><strong>冲突敏感需求</strong>：如“新增登录认证能力，并兼容现有认证系统” → 应有机会触发冲突检测。</li>
+<li><strong>极端情况</strong>：构造容易反复调工具的输入，确认不会卡死在子图里。</li>
+</ul>
+</li>
+</ol>
+<p>预期表现：</p>
+<ul>
+<li><code>analysis</code> 不再是一次性黑盒调用，而是可观察的“思考 / 工具 / 观察 / 收敛”过程。</li>
+<li>子图结束后，<code>risk</code> 与 <code>summary</code> 能继续消费 <code>analysisResult</code>，主流程不被破坏。</li>
+<li>即使工具没有命中，仍能回退到直接生成分析结论。</li>
+</ul>
+<aside>
+<p>📌 <strong>验证重点</strong>：循环可控（有硬上限和退出条件）、工具有用（不重复调用）、状态正确（<code>analysisResult</code> 写回主图）、主图无感（不影响后续 <code>risk</code> / <code>summary</code>）。详细排查见 8.8。</p>
+</aside>
+<hr />
+<h2 id="8-6-升级汇总节点-给-summary-挂-critic-refine-子图">8.6 升级汇总节点：给 summary 挂 Critic-Refine 子图</h2>
+<p>经过 8.5 的改造，<code>analysis</code> 的质量已经好了不少；但 <code>summary</code> 这边还是会冒出章节缺失、排期不完整、冲突解决方案太笼统之类的毛病。</p>
+<p>这种情况用 <strong>Critic-Refine</strong> 更合适：不重跑整条链，而是在现有 draft 上做局部修补。具体做法是把 <code>summary</code> 节点替换成一个小子图：<code>actor → critic → refine → critic</code>。</p>
+<h3 id="8-6-1-critic-refine-模式的原理">8.6.1 Critic-Refine 模式的原理</h3>
+<p>Critic-Refine 与 ReAct 同样依赖回边原语，但两者的<strong>回边指向位置</strong>和<strong>循环目的</strong>完全不同：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ReAct（8.5）</th>
+<th>Critic-Refine（8.6）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>回边指向</strong></td>
+<td>tools → agent（思考节点）</td>
+<td>refine → critic（评审节点）</td>
+</tr>
+<tr>
+<td><strong>循环目的</strong></td>
+<td>获取更多信息（工具调用）</td>
+<td>提升现有内容质量（修订）</td>
+</tr>
+<tr>
+<td><strong>成本特点</strong></td>
+<td>每次循环可能有外部工具开销</td>
+<td>纯 LLM 调用，无外部依赖</td>
+</tr>
+<tr>
+<td><strong>终止条件</strong></td>
+<td>信息足够 or 达到硬上限</td>
+<td>质量通过 or 达到硬上限</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>需要外部数据的分析任务</td>
+<td>报告、文档、创意内容</td>
+</tr>
+</tbody>
+</table>
+<p><strong>图结构对比</strong>：</p>
+<pre><code>ReAct:
+  agent → (有工具调用?) → tools
+    ↑                        ↓
+    └────────────────────────┘  (获取信息)
+
+Critic-Refine:
+  actor → critic → (不通过?) → refine
+            ↑                      ↓
+            └──────────────────────┘  (提升质量)
+</code></pre>
+<h3 id="8-6-2-为什么-summary-需要质量闭环">8.6.2 为什么 summary 需要质量闭环</h3>
+<p><strong>一次性生成的三大局限</strong>：</p>
+<ol>
+<li><strong>章节遗漏</strong>：模型可能遗忘某些必需章节（如排期、风险缓解措施）</li>
+<li><strong>细节不足</strong>：排期没有标明依赖项、冲突分析只描述问题不给方案</li>
+<li><strong>前后矛盾</strong>：摘要说&quot;低复杂度&quot;，但技术分析又提到&quot;需要重构数据库架构&quot;</li>
+</ol>
+<p>这些问题的共同特点是：<strong>不是信息缺失，而是生成质量不稳定</strong>。</p>
+<p><strong>为什么不重跑 summaryAgent？</strong></p>
+<ul>
+<li>重跑整个 summary 成本高，且可能引入新问题</li>
+<li>Critic-Refine 只修订被指出的问题，保留正确部分</li>
+<li>评审标准可以显式定义，质量更可控</li>
+</ul>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b4091e7dba6f4212926733df604f8a43~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1313&amp;h=1198&amp;s=1454116&amp;e=png&amp;b=fefdfd" alt="image 9.png" /></p>
+<h3 id="8-6-3-prompt-生成-critic-refine-子图">8.6.3 Prompt：生成 Critic-Refine 子图</h3>
+<p>本节先给出完整工程版 Prompt，便于一次性生成带测试、日志和排查能力的实现。首次学习时，可以先关注 8.6.4 的最小代码示例，理解 <code>actor → critic → refine → critic</code> 的闭环后，再回来看完整 Prompt。</p>
+<ul>
+<li>
+<p>🤖 用 AI 生成本节代码（对应 8.6 summary 升级）</p>
+<p>将以下 Prompt 粘贴到 Claude CLI 中执行：</p>
+<pre><code>在 8.5 的 requirement-analysis-graph.ts 基础上增量升级（@langchain/langgraph ^1.2.9）：
+
+    ## 1. State 字段管理
+
+    ### 新增字段
+    - critique: Annotation&lt;string&gt;({ default: () =&gt; '' })  // 评审意见（覆盖型）
+    - reviseCount: Annotation&lt;number&gt;({ default: () =&gt; 0 })  // 修订次数（覆盖型）
+    - summaryDraft: Annotation&lt;string&gt;({ default: () =&gt; '' })  // 可选：如果需要保留历史版本
+
+    ### 字段说明
+    - critique 为空字符串表示通过评审
+    - reviseCount 用于硬上限检查（建议上限 2-3 次）
+    - summary 字段被覆盖更新，不保留历史
+
+    ## 2. 创建 Critic-Refine 子图函数
+
+    ### 函数签名
+```
+
+function createSummarySubGraph(model: BaseChatModel): CompiledStateGraph
+
+```
+
+### 节点实现要求
+
+#### actorNode（生成初版报告）
+```
+
+async function actorNode(state: typeof RequirementAnalysisState.State) {
+const model = createChatModel();
+
+// System prompt 要求：
+
+// 1. 明确报告的必需章节（摘要、冲突、复杂度、排期）
+
+// 2. 每个章节的具体要求
+
+// 3. 输出格式要求（Markdown、层级结构）
+
+const response = await model.invoke([
+
+{
+role: 'system',
+
+content: `你是资深需求分析师。根据分析和风险评估生成综合报告。
+
+**报告必需章节**：
+
+1. 需求摘要：200-300 字概述
+2. 功能分解：主要模块和子功能
+3. 冲突分析：与现有需求的冲突点 + 解决方案
+4. 技术复杂度：评估（低/中/高）+ 理由
+5. 开发排期：各阶段时长 + 依赖项
+
+**格式要求**：
+
+- 使用 Markdown 标题（## 和 ###）
+- 关键信息用粗体或列表
+- 排期必须标明依赖关系
+- 冲突分析必须包含解决方案，不能只描述问题`,
+    
+    },
+    
+    {
+    
+    role: 'user',
+    
+    content: `原始需求：${state.input}
+    
+
+提取结果：${JSON.stringify(state.extracted)}
+
+分析结果：${state.analysisResult}
+
+风险评估：${state.riskResult}
+
+请生成完整的综合报告。`,
+
+},
+
+]);
+
+return { summary: response.content as string };
+}
+
+```
+
+#### criticNode（评审检查）
+```
+
+async function criticNode(state: typeof RequirementAnalysisState.State) {
+const model = createChatModel();
+
+// 使用结构化输出确保返回格式正确
+
+const structured = model.withStructuredOutput(
+
+z.object({
+pass: z.boolean().describe('是否通过评审'),
+
+critique: z.string().describe('不通过时的修改意见，通过时为空'),
+
+issues: z.array(z.string()).optional().describe('具体问题列表'),
+
+})
+
+);
+
+const result = await structured.invoke([
+
+{
+role: 'system',
+
+content: `你是资深需求评审专家。按以下标准检查综合报告：
+
+**评审标准**（必须全部满足）：
+
+1. 章节完整性：必须包含&quot;需求摘要&quot;、&quot;冲突分析&quot;、&quot;技术复杂度&quot;、&quot;开发排期&quot;
+2. 排期依赖项：排期章节必须标明各阶段的依赖关系（如&quot;前端开发依赖后端 API 完成&quot;）
+3. 冲突解决方案：如果存在冲突，必须给出具体解决方案，不能只描述问题
+4. 逻辑一致性：各章节之间不能有明显矛盾（如摘要说低复杂度，但技术分析提到大规模重构）
+
+**输出要求**：
+
+- 如果全部满足，返回 pass=true, critique=&quot;&quot;
+- 如果任一不满足，返回 pass=false，并给出最关键的 1-2 条修改意见
+- 修改意见要具体，指出缺少什么或哪里矛盾
+- 避免主观性评价（如&quot;语言不够优美&quot;）
+
+**重要**：不要过度严格，只检查核心要素，否则会导致无限循环。`,
+
+},
+
+{
+role: 'user',
+
+content: `待评审报告：
+
+${state.summary}
+
+请按标准评审。`,
+
+},
+
+]);
+
+console.log(`[Critic] pass=${result.pass}, critique=${result.critique}`);
+
+return {
+critique: result.pass ? '' : result.critique
+
+};
+}
+
+```
+
+#### refineNode（修订改进）
+```
+
+async function refineNode(state: typeof RequirementAnalysisState.State) {
+const model = createChatModel();
+
+const response = await model.invoke([
+
+{
+role: 'system',
+
+content: `你是需求分析师。根据评审意见修订报告。
+
+**修订原则**：
+
+1. 只修改被指出的问题部分
+2. 未被批评的章节保持不变
+3. 补充缺失的章节或内容
+4. 修正逻辑矛盾
+
+**禁止行为**：
+
+- 不要重新生成整个报告
+- 不要删除正确的内容
+- 不要改变原有的结构和风格`,
+    
+    },
+    
+    {
+    
+    role: 'user',
+    
+    content: `原报告：
+    
+
+${state.summary}
+
+评审意见：
+
+${state.critique}
+
+请根据评审意见修订报告，只改有问题的地方。`,
+
+},
+
+]);
+
+console.log(`[Refine] reviseCount=${state.reviseCount + 1}`);
+
+return {
+summary: response.content as string,
+
+reviseCount: state.reviseCount + 1,
+
+};
+}
+
+```
+
+#### shouldRefine（条件边函数）
+```
+
+function shouldRefine(state: typeof RequirementAnalysisState.State): string {
+// 优先级 1：硬上限检查（防止无限循环）
+
+if (state.reviseCount &gt;= 2) {
+console.log('[Critic子图] 达到修订上限，强制终止');
+
+return END;
+}
+
+// 优先级 2：检查是否通过评审
+
+if (!state.critique || state.critique.trim() === '') {
+console.log('[Critic子图] 通过评审，完成');
+
+return END;
+}
+
+// 优先级 3：需要修订
+
+console.log('[Critic子图] 未通过评审，进入 refine');
+
+return 'refine';
+}
+
+```
+
+### 图结构配置
+```
+
+return new StateGraph(RequirementAnalysisState)
+
+.addNode('actor', actorNode)
+
+.addNode('critic', criticNode)
+
+.addNode('refine', refineNode)
+
+.addEdge(START, 'actor')        // 开始 → 生成初版
+
+.addEdge('actor', 'critic')     // 初版 → 评审
+
+.addConditionalEdges('critic', shouldRefine, {
+[END]: END,                   // 通过或达上限 → 结束
+
+'refine': 'refine',           // 未通过 → 修订
+
+})
+
+.addEdge('refine', 'critic')    // 修订完 → 重新评审（回边！）
+
+.compile();
+
+```
+
+## 3. 主图装配
+
+### 替换原有的 summaryStep 节点
+
+```
+
+export function createAnalysisGraph(model: BaseChatModel) {
+// 创建子图
+
+const summarySubGraph = createSummarySubGraph(model);
+
+const graph = new StateGraph(RequirementAnalysisState)
+
+.addNode('classifier', (state) =&gt; classifierNode(state, { model }))
+
+.addNode('extractStep', (state) =&gt; extractNode(state, { model }))
+
+.addNode('clarifyStep', (state) =&gt; clarifyNode(state, { model }))
+
+.addNode('analysisStep', analysisSubGraph)  // 8.5 的 ReAct 子图
+
+.addNode('riskStep', (state) =&gt; riskNode(state, { model }))
+
+// ⭐ 关键：summary 节点替换为 Critic-Refine 子图
+
+.addNode('summaryStep', summarySubGraph)
+
+.addNode('queryHandler', (state) =&gt; queryHandlerNode(state, { model }))
+
+.addNode('chatHandler', (state) =&gt; chatHandlerNode(state, { model }))
+
+// ... 边的配置保持不变 ...
+
+.compile();
+
+return graph;
+}
+</code></pre>
+<p>本 Prompt 不再内嵌完整测试用例、测试运行器和长篇排查 FAQ，避免与正文的 8.6.7 与 8.8 重复。生成代码时只保留以下验收约束：</p>
+<ul>
+<li>子图必须包含 <code>actor → critic → refine → critic</code> 闭环。</li>
+<li><code>critique</code> 为空时直接结束；未通过时进入 <code>refine</code>。</li>
+<li><code>reviseCount &gt;= 2</code> 时强制结束，防止无限循环。</li>
+<li><code>refineNode</code> 只修改被指出的问题，不重写全文。</li>
+<li><code>summary</code> 始终写回主图 State；即使达到修订上限，也要保持可用结果。</li>
+<li>详细单元测试、前端验证和异常排查统一见 8.6.7 与 8.8。</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-6-4-代码示例">8.6.4 代码示例</h3>
+<pre><code class="language-tsx">// RequirementAnalysisState 增量字段：
+// critique: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+// reviseCount: Annotation&lt;number&gt;({ default: () =&gt; 0 }),
+
+function createSummarySubGraph() {
+  async function actorNode(state: typeof RequirementAnalysisState.State) {
+    const summary = await summaryAgent.invoke({
+      extracted: state.extracted,
+      analysis: state.analysisResult,
+      risk: state.riskResult,
+    });
+    return { summary };
+  }
+
+  async function criticNode(state: typeof RequirementAnalysisState.State) {
+    const model = createChatModel();
+    const structured = model.withStructuredOutput(
+      z.object({ pass: z.boolean(), critique: z.string() }),
+    );
+    const result = await structured.invoke([
+      {
+        role: 'system',
+        content: `你是资深需求评审人。按四条标准检查综合报告：
+1) 是否覆盖全部章节（摘要/冲突/复杂度/排期）
+2) 排期是否标明依赖项
+3) 冲突分析是否给出解决方案而不仅描述
+4) 有无前后矛盾
+任一不满足，则返回 pass=false，并给出最关键的 1~2 条修改意见。`,
+      },
+      { role: 'user', content: `待评审报告：\n${state.summary}` },
+    ]);
+    return { critique: result.pass ? '' : result.critique };
+  }
+
+  async function refineNode(state: typeof RequirementAnalysisState.State) {
+    const model = createChatModel();
+    const response = await model.invoke([
+      {
+        role: 'system',
+        content: '你是需求分析师，根据评审意见只修订被指出的问题，其他部分保持不变。',
+      },
+      {
+        role: 'user',
+        content: `原报告：\n${state.summary}\n\n评审意见：\n${state.critique}`,
+      },
+    ]);
+    return {
+      summary: response.content as string,
+      reviseCount: state.reviseCount + 1,
+    };
+  }
+
+  function shouldRefine(state: typeof RequirementAnalysisState.State) {
+    if (state.reviseCount &gt;= 2) return END;
+    if (!state.critique) return END;
+    return 'refine';
+  }
+
+  return new StateGraph(RequirementAnalysisState)
+    .addNode('actor', actorNode)
+    .addNode('critic', criticNode)
+    .addNode('refine', refineNode)
+    .addEdge(START, 'actor')
+    .addEdge('actor', 'critic')
+    .addConditionalEdges('critic', shouldRefine)
+    .addEdge('refine', 'critic')
+    .compile();
+}
+</code></pre>
+<h3 id="8-6-5-图结构可视化">8.6.5 图结构可视化</h3>
+<div class="mermaid">flowchart LR
+    A1[&quot;actor&lt;br&gt;生成初版&quot;] --&gt; C1[&quot;critic&lt;br&gt;按标准检查&quot;]
+    C1 --&gt;|&quot;pass 或 reviseCount&gt;=2&quot;| E1[&quot;__end__&quot;]
+    C1 --&gt;|&quot;不通过&quot;| R1[&quot;refine&lt;br&gt;只改问题处&quot;]
+    R1 --&gt; C1
+</div>
+<h3 id="8-6-6-关键要点">8.6.6 关键要点</h3>
+<aside>
+<p>📌 <strong>回边差异回顾</strong>（详见 8.6.1 对比表）</p>
+<p>ReAct 回边 <code>tools → agent</code> 用于获取信息，有工具开销，硬上限建议 5–6 次；Critic-Refine 回边 <code>refine → critic</code> 用于提升质量，纯 LLM 调用，2–3 次即可。</p>
+</aside>
+<aside>
+<p>⚠️ <strong>评审标准设计的三大原则</strong></p>
+<ol>
+<li><strong>客观性</strong>：只检查可验证的内容
+<ul>
+<li>✅ 好：&quot;是否包含排期章节&quot;</li>
+<li>❌ 差：&quot;语言是否优美&quot;</li>
+</ul>
+</li>
+<li><strong>核心性</strong>：只检查 3-5 个最重要的标准
+<ul>
+<li>标准越多，修订次数越多，成本越高</li>
+<li>次要问题可以容忍</li>
+</ul>
+</li>
+<li><strong>可终止性</strong>：必须有明确的通过条件
+<ul>
+<li>避免&quot;持续改进到完美&quot;的思路</li>
+<li>设置合理的硬上限（2-3 次）</li>
+</ul>
+</li>
+</ol>
+<p>如果 critic 标准过严，会导致：</p>
+<ul>
+<li>频繁触发修订，成本线性增长</li>
+<li>达到硬上限强制终止，输出仍不满意</li>
+<li>难以调试（不知道哪条标准太严格）</li>
+</ul>
+</aside>
+<aside>
+<p>💡 <strong>修订的增量性原则</strong></p>
+<p>refineNode 的核心价值是<strong>只改有问题的部分</strong>，而不是重新生成：</p>
+<p><strong>为什么不重新生成？</strong></p>
+<ul>
+<li>重新生成可能引入新问题</li>
+<li>正确的章节会被覆盖</li>
+<li>成本与 actorNode 相当，失去了 Critic-Refine 的优势</li>
+</ul>
+<p><strong>如何确保增量修订？</strong></p>
+<ul>
+<li>System prompt 明确&quot;只修订被指出的问题&quot;</li>
+<li>将原报告和评审意见一起传入</li>
+<li>在 prompt 中列出禁止行为（&quot;不要重写整个报告&quot;）</li>
+</ul>
+<p><strong>降级策略</strong>：如果 refineNode 频繁重写全文，考虑：</p>
+<ol>
+<li>在输入中明确标注需要保留的章节</li>
+<li>使用 few-shot 示例展示正确的修订方式</li>
+<li>切换到质量更稳定的模型</li>
+</ol>
+</aside>
+<h3 id="8-6-7-验证步骤">8.6.7 验证步骤</h3>
+<p>完成 Critic-Refine 子图改造后，本节只保留<strong>最小验收路径</strong>，详细排查统一放到 8.8，避免同类 FAQ 重复出现。</p>
+<h4>推荐验证顺序</h4>
+<ol>
+<li><strong>单元测试</strong>：运行 <code>bun run src/llm/graph/test-graph.ts</code>，确认子图能够正常结束。</li>
+<li><strong>日志检查</strong>：观察是否出现 <code>actor → critic → refine → critic</code> 的闭环路径。</li>
+<li><strong>前端联调</strong>：发送一条完整需求和一条简单需求，确认最终报告可用，且不会卡在修订循环中。</li>
+</ol>
+<h4>核心验收点</h4>
+<ul>
+<li><strong>能收敛</strong>：<code>critique</code> 为空时直接结束；未通过时最多修订 2 次。</li>
+<li><strong>不死循环</strong>：<code>reviseCount</code> 永远不超过硬上限。</li>
+<li><strong>修订有效</strong>：缺少排期、冲突解决方案或依赖关系时，修订后应补齐关键内容。</li>
+<li><strong>状态正确</strong>：最终 <code>summary</code> 可被主图后续流程和前端正常读取。</li>
+<li><strong>可观察</strong>：日志或 SSE 事件能看出 <code>actor / critic / refine</code> 的实际执行路径。</li>
+</ul>
+<hr />
+<h2 id="8-7-工程化落地-持久化-hitl-流式输出与调试">8.7 工程化落地：持久化、HITL、流式输出与调试</h2>
+<p>走到这里，路由层、执行层、优化层三块核心结构都有了。本节把上生产前绕不开的几件事一次讲完：状态持久化、人工介入、节点级流式反馈、以及图跑出问题时怎么排查。8.2.5 提过的那三个工程能力，这里统一落地。</p>
+<p>如果你正在跟随本教程的示例项目，可以采用下面的实现方案；如果你只是学习 LangGraph，也可以把本节理解为工程化选型参考。</p>
+<aside>
+🗺️
+<p><strong>本节内容组织逻辑</strong></p>
+<p>按照&quot;已实现 → 可选扩展&quot;的顺序展开：</p>
+<ol>
+<li><strong>会话持久化（8.7.1）</strong>：✅ 已实现，通过业务层管理会话与消息，无需 LangGraph Checkpointer。</li>
+<li><strong>HITL 人工介入（8.7.2）</strong>：⚠️ 可选扩展，本项目通过 UI 协议实现确认流程，无需图级中断。</li>
+<li><strong>流式输出（8.7.3）</strong>：✅ 已实现，通过 <code>streamAnalysisGraph()</code> + SSE 推送节点级事件。</li>
+<li><strong>常见问题排查（8.8）</strong>：✅ 统一收口 8.4–8.7 的 FAQ，避免同一类排查内容散落在各小节中重复出现。</li>
+</ol>
+<p>如果你是首次接入，建议按顺序阅读；8.7.2 为可选内容，可根据实际需求决定是否实现。</p>
+</aside>
+<aside>
+<p>📌 <strong>与现有项目的衔接</strong></p>
+<p>本项目已有 <code>OrchestratorService</code> 作为统一的编排层，无需额外创建 Service 层。只需在现有服务中调用 LangGraph 的 <code>runAnalysisGraph()</code> 或 <code>streamAnalysisGraph()</code> 即可。你可以结合当前工程项目进行学习，也可以按本文设计继续自行开发。</p>
+</aside>
+<h3 id="8-7-1-会话持久化-本项目的实现方案">8.7.1 会话持久化：本项目的实现方案</h3>
+<aside>
+<p>📌 <strong>关于 LangGraph Checkpointer</strong></p>
+<p>LangGraph 提供了内置的持久化机制 <strong>Checkpointer</strong>（<code>MemorySaver</code> / <code>PostgresSaver</code>），用于在每个节点边界自动保存图的完整状态，支持断点恢复、多轮对话状态共享、以及 HITL（人工介入）场景下的暂停-恢复。</p>
+<p><strong>本项目目前暂时不使用 LangGraph Checkpointer</strong>，而是通过业务层管理会话持久化。原因如下：</p>
+<ul>
+<li>✅ <strong>已有完整的会话管理体系</strong>：基于 NestJS + Prisma + PostgreSQL，会话与消息数据已统一保存在业务数据库的 <code>conversations</code> 和 <code>messages</code> 表。</li>
+<li>✅ <strong>图执行是无状态的</strong>：每次调用 <code>runAnalysisGraph()</code> 都是独立执行，不依赖上一次的图状态。历史上下文通过加载数据库中的消息记录传入，而不是依赖图的内部快照。</li>
+<li>✅ <strong>前端控制更灵活</strong>：会话生命周期（创建、删除、重命名、导出）完全由业务逻辑控制，无需关心图状态的清理与迁移。</li>
+<li>✅ <strong>避免双重存储</strong>：如果启用 Checkpointer，会产生额外的 <code>checkpoints</code> / <code>checkpoint_writes</code> 表，与业务表形成数据冗余。</li>
+</ul>
+<p><strong>何时需要 LangGraph Checkpointer？</strong></p>
+<p>只有在以下场景中，才建议启用 Checkpointer：</p>
+<ul>
+<li>需要使用 <code>interrupt()</code> / <code>Command</code> 实现 HITL（人工介入），并在用户审批后精确恢复到中断点。</li>
+<li>需要图级别的断点续传（例如长任务中途崩溃后，从最后一个完成的节点恢复）。</li>
+<li>需要在图内部维护跨节点的临时状态，且这些状态不适合持久化到业务表。</li>
+</ul>
+<p>如果你的项目立刻有这些需求，可参考官方文档：<a href="https://langchain-ai.github.io/langgraph/concepts/persistence/">LangGraph Persistence</a></p>
+</aside>
+<h4>本项目的持久化架构</h4>
+<div class="mermaid">sequenceDiagram
+    participant 前端
+    participant ConversationController
+    participant MessageService
+    participant OrchestratorService
+    participant LangGraph
+    participant Database
+
+    前端-&gt;&gt;ConversationController: POST /api/conversations/:id/chat
+    Note over 前端: 携带 conversationId + message
+
+    ConversationController-&gt;&gt;Database: 验证会话所有权
+    ConversationController-&gt;&gt;MessageService: getHistory(conversationId)
+    MessageService-&gt;&gt;Database: 查询 messages 表
+    Database--&gt;&gt;MessageService: 返回历史消息
+    MessageService--&gt;&gt;ConversationController: 历史上下文
+
+    ConversationController-&gt;&gt;MessageService: addMessage(USER, message)
+    MessageService-&gt;&gt;Database: 插入用户消息
+
+    ConversationController-&gt;&gt;OrchestratorService: orchestrate(input, context)
+    OrchestratorService-&gt;&gt;LangGraph: runAnalysisGraph(...)
+    Note over LangGraph: 无状态执行&lt;br/&gt;不保存图状态
+
+    LangGraph--&gt;&gt;OrchestratorService: 返回结果
+    OrchestratorService--&gt;&gt;ConversationController: OrchestratorResult
+
+    ConversationController-&gt;&gt;MessageService: addMessage(ASSISTANT, result)
+    MessageService-&gt;&gt;Database: 插入 AI 回复
+
+    ConversationController--&gt;&gt;前端: 返回完整结果
+</div>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d0b49e4d790a4db9a17d4d0d4d5a3b6f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1335&amp;h=1178&amp;s=1187684&amp;e=png&amp;b=fefdfd" alt="image.png" /></p>
+<h4>核心组件说明</h4>
+<p><strong>1. 数据库表结构（Prisma Schema）</strong></p>
+<pre><code>model conversations {
+  id        String     @id @default(cuid())
+  userId    String
+  title     String     @default(&quot;New Conversation&quot;)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  messages  messages[]
+
+  @@index([userId])
+}
+
+model messages {
+  id             String        @id @default(cuid())
+  conversationId String
+  role           MessageRole   // USER | ASSISTANT | SYSTEM
+  content        String
+  metadata       Json?         // 存储 uiResponse、interactionState 等
+  createdAt      DateTime      @default(now())
+  conversations  conversations @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+}
+</code></pre>
+<p><strong>2. 会话服务（ConversationService）</strong></p>
+<pre><code class="language-tsx">// services/chat/src/conversation/conversation.service.ts
+@Injectable()
+export class ConversationService {
+  async create(userId: string, title?: string) {
+    return this.prisma.conversations.create({
+      data: { userId, title: title ?? 'New Conversation' },
+    });
+  }
+
+  async findByUser(userId: string) {
+    return this.prisma.conversations.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+    });
+  }
+
+  async findById(conversationId: string, userId: string) {
+    // 验证会话所有权
+    const conv = await this.prisma.conversations.findUnique({
+      where: { id: conversationId },
+    });
+    if (!conv) throw new NotFoundException('会话不存在');
+    if (conv.userId !== userId) throw new ForbiddenException('无权访问该会话');
+    return conv;
+  }
+}
+</code></pre>
+<p><strong>3. 消息服务（MessageService）</strong></p>
+<pre><code class="language-tsx">// services/chat/src/message/message.service.ts
+@Injectable()
+export class MessageService {
+  async addMessage(
+    conversationId: string,
+    role: MessageRole,
+    content: string,
+    metadata?: Record&lt;string, unknown&gt;,
+  ) {
+    return this.prisma.messages.create({
+      data: { conversationId, role, content, metadata },
+    });
+  }
+
+  async getHistory(conversationId: string, limit?: number) {
+    return this.prisma.messages.findMany({
+      where: { conversationId },
+      orderBy: { createdAt: 'asc' },
+      ...(limit ? { take: limit } : {}),
+    });
+  }
+
+  async getHistoryAsLangChainMessages(conversationId: string): Promise&lt;BaseMessage[]&gt; {
+    const messages = await this.getHistory(conversationId);
+    return messages.map((m) =&gt;
+      m.role === MessageRole.USER
+        ? new HumanMessage(m.content)
+        : new AIMessage(m.content),
+    );
+  }
+}
+</code></pre>
+<p><strong>4. 请求处理流程（ConversationController）</strong></p>
+<pre><code class="language-tsx">// services/chat/src/conversation/conversation.controller.ts（节选）
+@Post(':id/chat')
+async chat(
+  @Req() req: Request,
+  @Param('id') conversationId: string,
+  @Body() body: { message: string; modelId?: string },
+) {
+  const userId = (req.user as any).userId;
+
+  // 1. 验证会话所有权
+  await this.conversationService.findById(conversationId, userId);
+
+  // 2. 加载历史消息（可选限制条数，避免上下文过长）
+  const historyMessages = await this.messageService.getHistoryAsLangChainMessages(conversationId);
+
+  // 3. 保存用户消息
+  await this.messageService.addMessage(conversationId, MessageRole.USER, body.message);
+
+  // 4. 调用 LangGraph 执行分析（无状态）
+  const result = await this.orchestratorService.orchestrate(
+    body.message,
+    retrievedContext,
+    body.modelId,
+  );
+
+  // 5. 保存 AI 回复
+  await this.messageService.addMessage(
+    conversationId,
+    MessageRole.ASSISTANT,
+    result.summary,
+    { uiResponse: result.uiResponse, usedAgents: result.usedAgents },
+  );
+
+  // 6. 返回结果
+  return result;
+}
+</code></pre>
+<p><strong>5. LangGraph 执行层（OrchestratorService）</strong></p>
+<pre><code class="language-tsx">// services/chat/src/llm/agents/orchestrator.service.ts（节选）
+@Injectable()
+export class OrchestratorService {
+  async orchestrate(
+    input: string,
+    retrievedContext: string,
+    modelConfigId?: string,
+  ): Promise&lt;OrchestratorResult&gt; {
+    // 每次调用都是独立的，不依赖上一次的图状态
+    const { runAnalysisGraph } = await import('../graph/requirement-analysis-graph');
+
+    const result = await runAnalysisGraph({
+      input,
+      retrievedContext,
+      model,
+    });
+
+    return {
+      summary: result.summary,
+      intent: result.intent,
+      // ...其他字段
+    };
+  }
+}
+</code></pre>
+<h4>验证步骤</h4>
+<p><strong>1. 创建会话并发送消息</strong></p>
+<pre><code class="language-bash"># 1. 创建新会话
+curl -X POST http://localhost:4001/api/conversations \
+  -H &quot;Authorization: Bearer YOUR_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;title&quot;: &quot;测试会话&quot;}'
+
+# 返回: {&quot;id&quot;: &quot;clxxx...&quot;, &quot;userId&quot;: &quot;...&quot;, &quot;title&quot;: &quot;测试会话&quot;}
+
+# 2. 发送第一条消息
+curl -X POST http://localhost:4001/api/conversations/clxxx.../chat \
+  -H &quot;Authorization: Bearer YOUR_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;message&quot;: &quot;分析需求：开发一个用户登录功能&quot;}'
+
+# 3. 发送第二条消息（验证多轮对话）
+curl -X POST http://localhost:4001/api/conversations/clxxx.../chat \
+  -H &quot;Authorization: Bearer YOUR_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;message&quot;: &quot;补充：需要支持邮箱和手机号登录&quot;}'
+</code></pre>
+<p><strong>2. 前端验证多轮对话</strong></p>
+<ol>
+<li>启动前端项目：<code>cd clients/chat-web &amp;&amp; bun run dev</code></li>
+<li>登录后创建新对话</li>
+<li>发送第一条消息：&quot;分析需求：开发一个用户登录功能&quot;</li>
+<li>等待 AI 回复后，继续发送：&quot;补充：需要支持邮箱和手机号登录&quot;</li>
+<li>刷新页面，确认历史消息完整保留</li>
+</ol>
+<p><strong>验证要点</strong>：</p>
+<ul>
+<li>✅ 会话在数据库中正确创建</li>
+<li>✅ 每轮对话产生 2 条消息（USER + ASSISTANT）</li>
+<li>✅ 多轮对话的上下文正确累积</li>
+<li>✅ 刷新页面后历史消息不丢失</li>
+<li>✅ 删除会话后，关联的消息也被级联删除</li>
+</ul>
+<hr />
+<h3 id="8-7-2-human-in-the-loop-风险评审前暂停等待审批-可选扩展">8.7.2 Human-in-the-Loop：风险评审前暂停等待审批（可选扩展）</h3>
+<aside>
+<p>⚠️ <strong>本项目暂未实现此功能</strong></p>
+<p>本节内容描述的是 LangGraph 原生的 <code>interrupt()</code> / <code>Command</code> 机制，<strong>本项目暂未实现</strong>。原因：</p>
+<ol>
+<li>依赖 Checkpointer（见 8.7.1，本项目使用业务层持久化）</li>
+<li>已有第六章的 <code>confirmation</code> 组件（业务层实现）</li>
+<li>大多数场景下业务层控制已足够</li>
+</ol>
+<p>本节内容仅供参考，如需实现请参考：<a href="https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/">LangGraph Human-in-the-Loop</a></p>
+</aside>
+<p>假设 <code>risk</code> 节点会触发“提交冲突检测工单”这样的外部副作用操作，那么它就不应在没有确认的情况下自动执行。LangGraph v1 提供了两种写法，<strong>推荐使用动态中断</strong> <code>interrupt()</code> ——它能携带自定义 payload，并通过 <code>new Command({ resume })</code> 精准恢复。</p>
+<h4>写法 A：静态中断（最简单场景）</h4>
+<pre><code class="language-tsx">return builder.compile({
+  checkpointer,
+  interruptBefore: ['risk'],
+});
+</code></pre>
+<p>适合“只要到达某个节点就无条件暂停”的场景，缺点是没法把任何上下文带给前端。</p>
+<h4>写法 B：动态中断（推荐）</h4>
+<pre><code class="language-tsx">import { interrupt, Command } from '@langchain/langgraph';
+
+async function riskNode(state: typeof RequirementAnalysisState.State) {
+  // 图会在这里暂停；传入的对象会作为 interrupt payload 返回给调用方
+  const approved = interrupt({
+    question: '即将提交冲突检测工单，是否继续？',
+    preview: state.analysisResult,
+  });
+
+  if (!approved) {
+    return { riskResult: '用户已拒绝风险评审，流程终止。' };
+  }
+
+  const risk = await riskAgent.invoke({
+    analysis: state.analysisResult,
+    clarified: state.clarified,
+  });
+  return { riskResult: risk };
+}
+</code></pre>
+<p>前端侧的典型流程：</p>
+<ol>
+<li>调用 <code>graph.invoke({...}, { configurable: { thread_id } })</code>，图运行到 <code>interrupt()</code> 时暂停，返回结构中包含 <code>__interrupt__</code> payload。</li>
+<li>前端拿 payload 里的 <code>question</code> / <code>preview</code> 渲染 Ch6 的 <code>confirmation</code> 组件。</li>
+<li>用户点“确认”：<code>graph.invoke(new Command({ resume: true }), { configurable: { thread_id } })</code> 恢复执行；点“拒绝”：传 <code>resume: false</code>。</li>
+<li>需要在恢复前顺便修改 state，可改用 <code>new Command({ update: { ... }, resume })</code>。</li>
+</ol>
+<aside>
+📌
+<p>Ch6 的 <code>confirmation</code> 组件与 LangGraph 的 <code>interrupt()</code> 是天然配套的：前者定义了交互形态，后者提供了运行时暂停与双向传值能力。写法 A 适合最小可用版本，真正上生产建议直接用写法 B。</p>
+</aside>
+<h4>验证步骤（对应 8.7.2）</h4>
+<p>完成 HITL 配置后，建议按以下步骤验证：</p>
+<ol>
+<li>
+<p><strong>后端验证</strong></p>
+<pre><code class="language-bash">cd services/chat
+bun run test-hitl.ts
+</code></pre>
+<p>预期输出：</p>
+<ul>
+<li>✅ 第一次 invoke 返回 <code>__interrupt__</code> 对象</li>
+<li>✅ 同意后继续执行并完成</li>
+<li>✅ 拒绝后优雅终止，不崩溃</li>
+</ul>
+</li>
+<li>
+<p><strong>前端验证</strong></p>
+<ul>
+<li>启动完整应用 <code>bun run dev</code></li>
+<li>发起需求分析请求</li>
+<li>观察 confirmation 弹窗是否正确显示</li>
+<li>点击“确认”，验证流程继续</li>
+<li>点击“取消”，验证流程终止</li>
+</ul>
+</li>
+<li>
+<p><strong>验证要点</strong></p>
+<ul>
+<li>✅ interrupt payload 包含完整上下文</li>
+<li>✅ 前端能正确渲染 preview 信息</li>
+<li>✅ 同意/拒绝都能正确处理</li>
+<li>✅ 多次中断场景正常工作</li>
+<li>✅ 与 Checkpointer 配合无冲突</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h3 id="8-7-3-流式输出-把节点事件推给-ch6-的-steps-组件">8.7.3 流式输出：把节点事件推给 Ch6 的 steps 组件</h3>
+<p>Ch6 的 <code>steps</code> 组件原本依赖主流程手动上报阶段进度；而在 LangGraph 中，每个节点天然就是一个进度单元。LangGraph v1 提供了两种常用流模式，针对 <code>steps</code> 场景各自有最合适的用法：</p>
+<ul>
+<li><code>graph.stream(input, { streamMode: 'updates' })</code>：<strong>按节点推送 State 增量</strong>，每条事件形如 <code>{ [nodeName]: partialState }</code>。驱动 <code>steps</code> 这类“节点级进度条”最直接。</li>
+<li><code>graph.streamEvents(input, { version: 'v2' })</code>：<strong>更细粒度的执行事件</strong>（chain start/end、LLM token、tool call 等），适合需要逐 token 渲染或工具调用可视化。</li>
+</ul>
+<h4>推荐写法：<code>streamMode: &quot;updates&quot;</code></h4>
+<pre><code class="language-tsx">@Sse('analysis-stream')
+async analysisStream(@Query('input') input: string, @Query('thread') thread: string) {
+  const subject = new Subject&lt;MessageEvent&gt;();
+  const graph = createAnalysisGraph();
+
+  (async () =&gt; {
+    const stream = await graph.stream(
+      { messages: [new HumanMessage(input)] },
+      { streamMode: 'updates', configurable: { thread_id: thread } },
+    );
+
+    for await (const chunk of stream) {
+      // chunk 形如 { classifier: { intent: 'analyze' } }
+      const [nodeName, patch] = Object.entries(chunk)[0] ?? [];
+      if (!nodeName) continue;
+      subject.next({
+        data: JSON.stringify({ type: 'step:update', step: nodeName, patch }),
+      });
+    }
+
+    subject.next({ data: JSON.stringify({ type: 'done' }) });
+    subject.complete();
+  })();
+
+  return subject.asObservable();
+}
+</code></pre>
+<h4>需要 token 级细节时：<code>streamEvents</code></h4>
+<pre><code class="language-tsx">const stream = graph.streamEvents(
+  { messages: [new HumanMessage(input)] },
+  { version: 'v2', configurable: { thread_id: thread } },
+);
+
+for await (const event of stream) {
+  if (event.event === 'on_chat_model_stream') {
+    // 逐 token 输出
+  }
+  if (event.event === 'on_tool_start') {
+    // 工具调用可视化
+  }
+}
+</code></pre>
+<aside>
+<p>📌 升级到图之后，<code>steps</code> 不必再手工硬编码。节点名本身就是进度定义：新增一个节点，步骤列表就自然多一项；如果路由层提前结束，进度条也会按实际执行路径自动停在对应位置。优先用 <code>streamMode: &quot;updates&quot;</code> 喂进度条，只在需要 token / 工具级细节时才退到 <code>streamEvents</code>。</p>
+</aside>
+<h4>验证步骤（对应 8.7.3）</h4>
+<p>完成流式输出配置后，建议按以下步骤验证：</p>
+<ol>
+<li>
+<p><strong>后端验证（使用 curl）</strong></p>
+<pre><code class="language-bash"># 测试 SSE 连接
+curl -N &quot;http://localhost:3000/api/analysis/stream?input=分析需求：用户登录&amp;sessionId=test-stream&quot;
+</code></pre>
+<p>预期输出：</p>
+<ul>
+<li>✅ 连接立即建立，输出 <code>data: {&quot;type&quot;:&quot;start&quot;}</code></li>
+<li>✅ 每个节点执行时推送 <code>step:update</code> 事件</li>
+<li>✅ 最后输出 <code>data: {&quot;type&quot;:&quot;done&quot;}</code></li>
+<li>✅ 连接自动关闭</li>
+</ul>
+</li>
+<li>
+<p><strong>前端验证</strong></p>
+<ul>
+<li>启动应用并打开浏览器开发者工具</li>
+<li>发起需求分析请求</li>
+<li>观察 Network 标签中的 EventStream 连接</li>
+<li>确认 steps 组件实时更新</li>
+</ul>
+</li>
+<li>
+<p><strong>验证要点</strong></p>
+<ul>
+<li>✅ 节点按正确顺序执行并推送</li>
+<li>✅ 路由分流时只推送实际执行的节点</li>
+<li>✅ 中断事件能被正确捕获</li>
+<li>✅ 错误不会导致连接卡死</li>
+<li>✅ patch 数据被正确清理，体积合理</li>
+</ul>
+</li>
+</ol>
+<h2 id="8-8-常见问题排查-faq">8.8 常见问题排查 FAQ</h2>
+<p>本节把 8.4–8.7 分散出现的排查内容统一收口，目标不是罗列更多细节，而是给出一条稳定的定位路径：先判断问题属于哪一层，再沿着“输入 → 节点路径 → State 字段 → 条件边 → SSE 事件”逐步缩小范围。</p>
+<aside>
+<p>🧭 <strong>建议使用顺序</strong></p>
+<ol>
+<li><strong>先看 8.8.1 跨节排查汇总</strong>：按模块判断问题属于路由、ReAct、Critic-Refine、会话持久化、HITL 还是 SSE。</li>
+<li><strong>再看 8.8.2 调试技巧与常见问题</strong>：用 <code>streamEvents</code> 确认节点路径，再按 FAQ 症状快速定位修复点。</li>
+</ol>
+</aside>
+<aside>
+<p>🧩 <strong>一张排查地图</strong></p>
+<ul>
+<li><strong>请求走错路</strong>：优先查 <code>classifierNode</code>、<code>routeByIntent</code>、条件边 mapping。</li>
+<li><strong>节点没产出</strong>：优先查节点返回字段、State 字段名、reducer、结构化输出降级逻辑。</li>
+<li><strong>循环不结束</strong>：优先查 <code>shouldCallTools</code> / <code>shouldRefine</code> 的硬上限和退出条件。</li>
+<li><strong>工具不触发</strong>：优先查工具 <code>name</code> / <code>description</code>、<code>bindTools()</code>、最后一条 AIMessage 的 <code>tool_calls</code>。</li>
+<li><strong>报告反复修订</strong>：优先查 critic 标准是否过严、<code>critique</code> 是否在通过时清空、<code>reviseCount</code> 是否正确递增。</li>
+<li><strong>前端进度异常</strong>：优先查 <code>streamMode: &quot;updates&quot;</code> 输出结构、SSE 格式、事件完成与错误兜底。</li>
+</ul>
+</aside>
+<table>
+<thead>
+<tr>
+<th>现象</th>
+<th>优先定位点</th>
+<th>常见修复</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分析请求被当成闲聊</td>
+<td>classifier prompt / 降级关键词 / <code>routeByIntent</code></td>
+<td>补充需求类关键词、把默认意图设为 <code>analyze</code>、检查条件边返回节点名</td>
+</tr>
+<tr>
+<td>query / chat 也跑完整五段链</td>
+<td><code>addConditionalEdges('classifier', routeByIntent)</code></td>
+<td>确认 <code>queryHandler</code>、<code>chatHandler</code> 直接连到 <code>END</code>，不要再进入 <code>extractStep</code></td>
+</tr>
+<tr>
+<td>ReAct 一直调工具</td>
+<td><code>shouldCallTools</code>、工具轮次统计、重复工具参数</td>
+<td>硬上限放在第一行判断；prompt 中禁止相同参数重复调用</td>
+</tr>
+<tr>
+<td>summary 一直被修订</td>
+<td><code>criticNode</code> 标准、<code>critique</code> 清空逻辑、<code>reviseCount</code></td>
+<td>只保留 3–5 条客观标准；通过时返回 <code>critique: ''</code>；<code>reviseCount &gt;= 2</code> 强制结束</td>
+</tr>
+<tr>
+<td>前端 steps 不更新</td>
+<td>SSE 事件格式、<code>streamMode: &quot;updates&quot;</code>、节点名映射</td>
+<td>统一输出 <code>{ type: 'step:update', step, patch }</code>；结束时发送 <code>done</code> 并 <code>complete()</code></td>
+</tr>
+</tbody>
+</table>
+<aside>
+<p>✅ <strong>整理目标</strong></p>
+<p>8.8 不再按“某个功能出问题就回到对应小节翻找”的方式组织，而是统一按 <strong>模块定位 → 调试流程 → 症状 FAQ → 验收清单</strong> 四层展开。这样实际排障时，可以先确定问题属于路由、循环、状态、持久化还是前端事件，再进入对应修复路径。</p>
+</aside>
+<h3 id="8-8-1-跨节排查汇总">8.8.1 跨节排查汇总</h3>
+<p>把 8.4–8.7 各节的高频问题按模块归类。实际踩坑时，不必从头翻每一节，先在这里按模块定位；如果还不能解决，再进入 8.8.2 的通用调试流程，最后用 8.8.3 做症状级快速定位。</p>
+<aside>
+<p>🌊 <strong>SSE / 流式输出</strong></p>
+<ol>
+<li><strong>SSE 连接建立失败</strong>
+<ul>
+<li>检查 NestJS 的 CORS 配置</li>
+<li>确认 <code>@Sse()</code> 装饰器正确使用</li>
+<li>验证返回类型为 <code>Observable&lt;MessageEvent&gt;</code></li>
+</ul>
+</li>
+<li><strong>前端收不到事件</strong>
+<ul>
+<li>检查 EventSource URL 是否正确</li>
+<li>确认事件格式符合 SSE 规范（<code>data: {...}</code>
+）</li>
+<li>查看浏览器控制台错误</li>
+</ul>
+</li>
+<li><strong>事件推送过快导致卡顿</strong>
+<ul>
+<li>使用 <code>throttleTime</code> 节流</li>
+<li>清理 patch 中的大型数据</li>
+<li>考虑只推送关键字段</li>
+</ul>
+</li>
+<li><strong>连接不会自动关闭</strong>
+<ul>
+<li>确认 <code>subject.complete()</code> 被调用</li>
+<li>检查错误处理是否完整</li>
+<li>验证 <code>finally</code> 块正常执行</li>
+</ul>
+</li>
+</ol>
+</aside>
+<aside>
+<p>🔁 <strong>循环与回边：硬上限与退出条件</strong>（涉及 8.5 ReAct、8.6 Critic-Refine）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>ReAct 持续 agent → tools → agent，不收敛</li>
+<li><code>reviseCount</code> 一直增长或卡住，日志未出现“达到上限”提示</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li>条件边函数（<code>shouldCallTools</code> / <code>shouldRefine</code>）是否把硬上限检查放在最前面</li>
+<li>是否实现了“无 tool_calls”或“critique 为空”的退出分支</li>
+<li>退出分支返回值与 <code>addConditionalEdges</code> 的 mapping 是否一致</li>
+<li>critic 标准是否过严：保持客观、3–5 条、避免主观风格描述</li>
+</ol>
+</aside>
+<aside>
+<p>🪫 <strong>节点不触发：工具 / 中断 / 修订都没动作</strong>（涉及 8.5、8.6、8.7.2）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>工具一次都没调用</li>
+<li>评审从未失败（<code>reviseCount</code> 总是 0）</li>
+<li>HITL 没有触发暂停</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li>agent / critic 的 system prompt 是否清晰说明了触发条件</li>
+<li>工具的 <code>name</code>、<code>description</code> 是否描述准确</li>
+<li><code>withStructuredOutput</code> 的 zod schema 是否完整</li>
+<li><code>interruptBefore</code> 节点名是否与图节点名完全一致；图编译时是否启用了 checkpointer</li>
+</ol>
+</aside>
+<aside>
+<p>🧪 <strong>状态字段未正确读写</strong>（涉及 8.5、8.6）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li><code>analysisResult</code> / <code>summary</code> 为空</li>
+<li>评审通过后 <code>critique</code> 仍残留旧内容</li>
+<li>refine 后正确章节被覆盖</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li><code>finalizeNode</code> 是否读到最后一条 AIMessage，并对空消息做降级</li>
+<li><code>criticNode</code> 通过时必须返回空字符串 <code>''</code>，不要 <code>null</code> / <code>undefined</code></li>
+<li><code>shouldRefine</code> 用 <code>!state.critique || state.critique.trim() === ''</code> 判断</li>
+<li><code>refineNode</code> 的 prompt 强调“只改有问题的地方”，并把原报告与评审意见一起传入</li>
+<li>子图与主图的 <code>messages</code> 默认共享，需要隔离时再加独立字段</li>
+</ol>
+</aside>
+<aside>
+<p>🚦 <strong>路由分流走错路径</strong>（涉及 8.4、8.7.2）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>query / chat 被拖入完整分析链</li>
+<li>分类正确但路径不对</li>
+<li>HITL 恢复后从头执行</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li><code>addConditionalEdges</code> 的 mapping 与 <code>routerFn</code> 返回值是否完全一致</li>
+<li><code>routerFn</code> 是否对未知值给出默认出口</li>
+<li>模型温度是否过高，分类是否稳定</li>
+<li>HITL 场景 <code>thread_id</code> 必须保持一致，并通过 <code>new Command({ resume })</code> 恢复</li>
+</ol>
+</aside>
+<aside>
+<p>💾 <strong>持久化与多轮对话</strong>（涉及 8.7.1）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>历史消息不显示或刷新后丢失</li>
+<li>多轮对话每次都“失忆”</li>
+<li>会话创建失败</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li>JWT Token 与 <code>conversationId</code> 校验是否一致</li>
+<li><code>addMessage</code> 在 USER / ASSISTANT 两侧都被调用</li>
+<li><code>getHistoryAsLangChainMessages</code> 是否正确转换消息类型</li>
+<li><code>orchestrate</code> 是否真正接收到历史上下文</li>
+</ol>
+</aside>
+<aside>
+<p>📡 <strong>SSE / 流式输出与前端联调</strong>（涉及 8.6、8.7.2、8.7.3）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>前端 <code>steps</code> 不更新</li>
+<li>meta 信息（<code>reviseCount</code>、<code>critique</code>）拿不到</li>
+<li>前端拿不到 <code>__interrupt__</code> payload</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li>后端是否用 <code>streamMode: 'updates'</code> 推送，而非 invoke</li>
+<li>关键状态变更时是否通过 SSE 发送 meta 事件</li>
+<li>Controller 是否把图返回结构原样转给前端（保留 <code>__interrupt__</code> 字段）</li>
+<li>前端 EventSource / fetch-stream 是否正确解析 <code>data:</code> 行</li>
+</ol>
+</aside>
+<aside>
+<p>⚙️ <strong>测试脚本与环境</strong>（涉及 8.4 起所有节）</p>
+<p><strong>典型现象</strong></p>
+<ul>
+<li>脚本启动报错、模型 401 / 超时</li>
+</ul>
+<p><strong>排查清单</strong></p>
+<ol>
+<li><code>.env</code> 是否齐全（模型 key、base URL、temperature）</li>
+<li>模型服务是否可达，建议先用 <code>curl</code> 单独验证</li>
+<li><code>services/chat/src/config/load-langchain-config.ts</code> 配置是否正确加载</li>
+</ol>
+</aside>
+<hr />
+<h3 id="8-8-2-调试技巧与常见问题">8.8.2 调试技巧与常见问题</h3>
+<p>图结构的运行路径比线性链更丰富。调试时建议先用 <code>streamEvents</code> 观察节点执行顺序：</p>
+<pre><code class="language-tsx">for await (const event of graph.streamEvents(input, { version: 'v2' })) {
+  if (event.event === 'on_chain_start') console.log('→', event.name);
+  if (event.event === 'on_chain_end') console.log('←', event.name);
+}
+</code></pre>
+<p><strong>高频问题快速定位：</strong></p>
+<ul>
+<li><strong>图出现无限循环</strong>：条件边始终没有返回 <code>__end__</code>。检查是否缺少硬上限。</li>
+<li><strong>State 字段异常丢失</strong>：通常是 reducer 设置不当。<code>messages</code> 应追加，其他多数业务字段应覆盖。</li>
+<li><strong>ToolNode 报错</strong>：常见原因是工具 <code>name</code> 与模型输出不匹配。</li>
+<li><strong>模型不调用工具</strong>：优先检查工具 <code>description</code> 是否足够明确，以及 system prompt 是否清晰表达了“需要用工具”。</li>
+<li><strong>Checkpointer 不生效</strong>：通常是每次请求都重新实例化图，或 <code>thread_id</code> 没有保持一致。</li>
+<li><strong>HITL 没有暂停</strong>：检查 <code>interruptBefore</code> 中的节点名是否与 <code>addNode()</code> 完全一致。</li>
+<li><strong>Critic 长时间无法通过</strong>：评审标准过严，且缺少硬上限。需要同时调整标准与终止条件。</li>
+</ul>
+<hr />
+<h2 id="8-9-本章总结-从单-agent-图到多-agent-协作">8.9 本章总结：从单 Agent 图到多 Agent 协作</h2>
+<p>本章把 Ch6 的五段式 Promise 链改造成了一套基于 LangGraph 的单图系统：</p>
+<ol>
+<li><strong>执行层图化</strong>：用 <code>StateGraph</code> 承接 <code>extract → clarify → analysis → risk → summary</code>，把原本硬编码在业务代码里的流程迁移到可扩展的图结构中。</li>
+<li><strong>路由层显式化</strong>：用 <code>classifier</code> 和条件边区分分析、查询与闲聊请求，让同一个入口可以根据意图进入不同路径。</li>
+<li><strong>分析节点循环化</strong>：用 ReAct 子图升级 <code>analysisStep</code>，让分析过程可以按需调用工具、读取观察结果，并通过硬上限保持可控。</li>
+<li><strong>汇总节点闭环化</strong>：用 Critic-Refine 子图升级 <code>summaryStep</code>，让最终报告具备评审、局部修订与收敛能力。</li>
+<li><strong>工程能力产品化</strong>：用业务层持久化、SSE 节点流、HITL 选型说明和 FAQ，把图结构接入真实项目。</li>
+</ol>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f29e4435861d43cfbc7f97d81e484539~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1536&amp;h=1024&amp;s=1385789&amp;e=png&amp;b=fefefe" alt="image 10.png" /></p>
+<aside>
+<p>💡 <strong>一句话总结</strong></p>
+<p>LangGraph 不是为了把简单的事搞复杂，而是让本来就复杂的控制流变得<strong>好写、好看、好测、好恢复</strong>。直线能搞定的问题就别画图；但一旦涉及分流、循环、质量闭环或人工介入，图结构就比手写 if-else 靠谱得多。</p>
+</aside>
+<h3 id="后续章节预告">后续章节预告</h3>
+<p>下一章会进入 <strong>LangGraph Multi-Agent 实战</strong>。本章的几个组件会继续升级：</p>
+<ul>
+<li><code>Router</code> 会进一步升级为 <code>Supervisor</code>，由它决定把任务交给哪个专家 Agent。</li>
+<li>ReAct 子图会拆分为独立的分析专家、查询专家或风险专家。</li>
+<li>Critic-Refine 会从单节点质量闭环，扩展为跨 Agent 的评审与修订机制。</li>
+<li><code>State</code> 不再只服务一条单 Agent 流程，而会成为多个专家协作时共享上下文的核心。</li>
+</ul>
+<p>第八章讲的是一个 Agent 内部怎么把流程跑通；第九章要解决的是多个 Agent 之间怎么分工、配合、最终收敛出结果。</p>
+<h2 id="写在最后">写在最后🧪</h2>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。 我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。 不只聊概念，也尽量分享能直接上手、能够复用的经验。 希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-9.html">← 第七章：Agent 推理的三层决策机制：路由、执行与优化</a>
+      <a class="next" href="ch-11.html">第九章：LangGraph Multi-Agent 实战 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#8-1-从-langchain-到-langgraph-先讲清楚两者的定位">8.1 从 LangChain 到 LangGraph：先讲清楚两者的定位</a></li>
+      <li class="lv3"><a href="#8-1-1-langchain-擅长什么">8.1.1 LangChain 擅长什么</a></li>
+      <li class="lv3"><a href="#8-1-2-langchain-做不了-或很难优雅做-的事">8.1.2 LangChain 做不了（或很难优雅做）的事</a></li>
+      <li class="lv3"><a href="#8-1-3-langgraph-补足了什么">8.1.3 LangGraph 补足了什么</a></li>
+      <li class="lv3"><a href="#8-1-4-回到我们的系统-为什么-ch6-的链需要换成图">8.1.4 回到我们的系统：为什么 Ch6 的链需要换成图</a></li>
+      <li class="lv2"><a href="#8-2-langgraph-核心概念">8.2 LangGraph 核心概念</a></li>
+      <li class="lv3"><a href="#8-2-1-state-图的共享上下文">8.2.1 State：图的共享上下文</a></li>
+      <li class="lv3"><a href="#8-2-2-node-一步任务">8.2.2 Node：一步任务</a></li>
+      <li class="lv3"><a href="#8-2-3-edge-节点之间怎么走">8.2.3 Edge：节点之间怎么走</a></li>
+      <li class="lv3"><a href="#8-2-4-循环与子图">8.2.4 循环与子图</a></li>
+      <li class="lv3"><a href="#8-2-5-工程能力三件套">8.2.5 工程能力三件套</a></li>
+      <li class="lv3"><a href="#8-2-6-一个-50-行的最小示例">8.2.6 一个 50 行的最小示例</a></li>
+      <li class="lv3"><a href="#8-2-7-文件结构与版本">8.2.7 文件结构与版本</a></li>
+      <li class="lv2"><a href="#8-3-基线迁移-把五段式搬到-stategraph">8.3 基线迁移：把五段式搬到 StateGraph</a></li>
+      <li class="lv2"><a href="#8-4-加路由层-不是每个请求都需要跑完整分析链">8.4 加路由层：不是每个请求都需要跑完整分析链</a></li>
+      <li class="lv3"><a href="#验证步骤-对应-8-4">**🧪 验证步骤（对应 8.4）**</a></li>
+      <li class="lv2"><a href="#8-5-升级分析节点-从回边原语到-react-子图">8.5 升级分析节点：从回边原语到 ReAct 子图</a></li>
+      <li class="lv3"><a href="#8-5-1-回边原语-循环结构的基础">8.5.1 回边原语：循环结构的基础</a></li>
+      <li class="lv3"><a href="#8-5-2-为什么需要-react-子图">8.5.2 为什么需要 ReAct 子图</a></li>
+      <li class="lv3"><a href="#8-5-3-prompt-生成-react-子图">8.5.3 Prompt：生成 ReAct 子图</a></li>
+      <li class="lv3"><a href="#8-5-4-代码示例">8.5.4 代码示例</a></li>
+      <li class="lv3"><a href="#8-5-5-图结构可视化">8.5.5 图结构可视化</a></li>
+      <li class="lv3"><a href="#8-5-6-关键要点">8.5.6 关键要点</a></li>
+      <li class="lv3"><a href="#8-5-7-验证步骤-对应-8-5">8.5.7 验证步骤（对应 8.5）</a></li>
+      <li class="lv2"><a href="#8-6-升级汇总节点-给-summary-挂-critic-refine-子图">8.6 升级汇总节点：给 summary 挂 Critic-Refine 子图</a></li>
+      <li class="lv3"><a href="#8-6-1-critic-refine-模式的原理">8.6.1 Critic-Refine 模式的原理</a></li>
+      <li class="lv3"><a href="#8-6-2-为什么-summary-需要质量闭环">8.6.2 为什么 summary 需要质量闭环</a></li>
+      <li class="lv3"><a href="#8-6-3-prompt-生成-critic-refine-子图">8.6.3 Prompt：生成 Critic-Refine 子图</a></li>
+      <li class="lv3"><a href="#8-6-4-代码示例">8.6.4 代码示例</a></li>
+      <li class="lv3"><a href="#8-6-5-图结构可视化">8.6.5 图结构可视化</a></li>
+      <li class="lv3"><a href="#8-6-6-关键要点">8.6.6 关键要点</a></li>
+      <li class="lv3"><a href="#8-6-7-验证步骤">8.6.7 验证步骤</a></li>
+      <li class="lv2"><a href="#8-7-工程化落地-持久化-hitl-流式输出与调试">8.7 工程化落地：持久化、HITL、流式输出与调试</a></li>
+      <li class="lv3"><a href="#8-7-1-会话持久化-本项目的实现方案">8.7.1 会话持久化：本项目的实现方案</a></li>
+      <li class="lv3"><a href="#8-7-2-human-in-the-loop-风险评审前暂停等待审批-可选扩展">8.7.2 Human-in-the-Loop：风险评审前暂停等待审批（可选扩展）</a></li>
+      <li class="lv3"><a href="#8-7-3-流式输出-把节点事件推给-ch6-的-steps-组件">8.7.3 流式输出：把节点事件推给 Ch6 的 steps 组件</a></li>
+      <li class="lv2"><a href="#8-8-常见问题排查-faq">8.8 常见问题排查 FAQ</a></li>
+      <li class="lv3"><a href="#8-8-1-跨节排查汇总">8.8.1 跨节排查汇总</a></li>
+      <li class="lv3"><a href="#8-8-2-调试技巧与常见问题">8.8.2 调试技巧与常见问题</a></li>
+      <li class="lv2"><a href="#8-9-本章总结-从单-agent-图到多-agent-协作">8.9 本章总结：从单 Agent 图到多 Agent 协作</a></li>
+      <li class="lv3"><a href="#后续章节预告">后续章节预告</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后🧪</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

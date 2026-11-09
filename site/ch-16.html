@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>第十四章：DeepAgent——一个开箱即用的 Agent Harness - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li class="active"><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>第十四章：DeepAgent——一个开箱即用的 Agent Harness</h1>
+<p>第十一章解决的是“让模型读懂业务知识”：通过 RAG，Agent 在回答前先检索资料。第十二章解决的是“让模型标准化地接入外部工具”：通过 MCP，工具不再硬编码在项目里。第十三章进一步把角色约束、工具说明、工作流、输出规范和质量标准沉淀成可复用的 Skill 资产。</p>
+<p>但如果沿着第八章到第十三章一路实现下来，会发现大量代码并不直接属于业务逻辑，而是在反复搭建 Agent 运行时基础设施：</p>
+<ul>
+<li>State 定义与 reducer</li>
+<li>节点、边、条件分支和循环上限</li>
+<li>工具绑定与 ToolNode 装配</li>
+<li>Checkpointer 与线程状态</li>
+<li>消息压缩和上下文管理</li>
+<li>子图、Supervisor、Plan-and-Execute</li>
+<li><code>interrupt()</code> 与 <code>Command</code> 驱动的人工介入</li>
+<li>Skill 加载、工具注册和运行时约束</li>
+</ul>
+<p>这些部分共同构成了 Agent 的运行环境。每创建一个新 Agent，如果都从零装配一次，工程成本会快速上升。</p>
+<p>本章的主角 <code>deepagents</code> SDK，解决的正是这一层问题。它不是新的大模型，也不是新的图原语，而是一套 <strong>Agent Harness（运行时框架）</strong>：把任务规划、虚拟文件系统、子 Agent 调度、上下文压缩、Skills 接入等通用能力，预装成一套默认中间件。开发者仍然提供业务工具和 system prompt，但不再需要为每个 Agent 重写同一套运行时脚手架。</p>
+<blockquote>
+<p>RAG 让模型<strong>读懂知识</strong>，MCP 让模型<strong>调用工具</strong>，Agents 让模型<strong>自主执行</strong>，Skills 把<strong>方法资产化</strong>，DeepAgent 则把这些能力组织成一套可复用的 <strong>Agent Harness</strong>。</p>
+</blockquote>
+<p>本章先给出定位：DeepAgent 在 Agent Harness 谱系中处在哪一层，为什么有了现成 Agent 工具还需要 LangChain，为什么有了 LangChain 还需要 DeepAgent。随后进入最小可运行示例、产品调研 Agent、内置规划工具、虚拟文件系统、子 Agent 和 Skills 接入。</p>
+<p><strong>本章验收点</strong></p>
+<ul>
+<li>能在 Agent Harness 谱系中定位 DeepAgent，并区分 DeepAgent、Claude Agent SDK、Pi 的取舍</li>
+<li>能说明“有了 Claude Agent SDK / Pi，为什么还需要 LangChain”</li>
+<li>能说明“有了 LangChain，为什么还需要 DeepAgent”</li>
+<li>能区分 <code>createReactAgent</code>、LangGraph <code>StateGraph</code>、<code>createDeepAgent</code> 的定位差异</li>
+<li>理解 DeepAgent 的第一性原理：它没有引入新的图原语，而是把已有原语打包成默认中间件</li>
+<li>跑通最小 DeepAgent 示例：<code>scripts/run-deepagent-hello.ts</code></li>
+<li>用“产品调研 Agent”场景观察 DeepAgent 相对 <code>createReactAgent</code> 的行为差异</li>
+<li>理解三个核心内置能力：<code>write_todos</code>、虚拟文件系统、<code>task</code> 子 Agent</li>
+<li>将第十三章的 <code>SKILL.md</code> 资产接入 DeepAgent，并理解为什么必须显式配置 <code>FilesystemBackend</code></li>
+<li>能区分本章演示内容、教学边界，以及留到第十五章的生产化内容</li>
+<li>每个关键实现阶段都配有可直接用于生成代码的 Prompt，并标注对应测试用例</li>
+</ul>
+<p>本章使用全新的“产品调研”场景做演示，<strong>不修改第八、九章的需求分析代码</strong>。DeepAgent 如何接入已有业务系统，将在第十五章展开。</p>
+<p><strong>版本与运行假设</strong></p>
+<p>本章基于当前仓库 <code>services/chat/package.json</code> 中的依赖组合编写：<code>deepagents</code> 为 <code>^1.10.2</code>，<code>@langchain/core</code> 为 <code>^1.1.41</code>，<code>@langchain/langgraph</code> 为 <code>^1.2.9</code>，<code>langchain</code> 为 <code>^1.2.37</code>。模型示例默认使用 <code>gpt-5.4</code>，可通过 <code>DEEPAGENT_MODEL</code> 或测试中的 <code>LLM_DEEPAGENT_TEST_MODEL</code> 覆盖。</p>
+<p>文中涉及 <code>write_todos</code>、虚拟文件系统、<code>task</code>、<code>skills</code>、<code>FilesystemBackend</code> 的 API 和行为，均以这组依赖为准。后续升级 <code>deepagents</code> 或 LangChain / LangGraph 时，应优先复跑 14.9.3 的配套测试，再同步更新本章内容。</p>
+<hr />
+<h2 id="14-1-先看全景-agent-harness-谱系">14.1 先看全景：Agent Harness 谱系</h2>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/05eb8c7e18f14a38b37cc1c1851eafe1~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=515347&amp;e=jpg&amp;b=e9ecfe" alt="generated-image-1780142056654.png" /></p>
+<p>Agent Harness 的四类运行时要素：Guides、Sensors、Loop Control 与 Hardening</p>
+<p>进入 DeepAgent 代码前，先把它放回 Agent 工具谱系中看。2026 年，Agent 产品和框架已经形成明显分层：有面向终端交互的 CLI，有面向编码任务的 SDK，也有面向通用长任务的运行时框架。DeepAgent 的位置，需要放在这张图里判断。</p>
+<h3 id="14-1-1-harness-engineering-agent-model-harness">14.1.1 Harness Engineering：Agent = Model + Harness</h3>
+<p>过去几年，“如何让大模型把任务完成好”的工程重心经历了三次迁移：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时期</th>
+<th>关注点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompt Engineering</td>
+<td>2022–2024</td>
+<td>如何组织单次提示词，让一次回答更准确</td>
+</tr>
+<tr>
+<td>Context Engineering</td>
+<td>2025</td>
+<td>如何把正确的信息放进上下文，包括 RAG、记忆和工具结果</td>
+</tr>
+<tr>
+<td>Harness Engineering</td>
+<td>2026</td>
+<td>如何搭建模型外部的运行环境，让模型能自主推进长任务</td>
+</tr>
+</tbody>
+</table>
+<p>到了 Harness Engineering 这一层，业界逐渐形成一个共识：</p>
+<blockquote>
+<p><strong>Agent = Model + Harness</strong>。模型决定单次推理能力，harness 决定任务能否在真实环境中被规划、执行、观察、修正并最终交付。</p>
+</blockquote>
+<p>一套 Agent Harness 通常包含四类要素：</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guides（前馈）</td>
+<td>在模型执行前提供方向、边界和方法</td>
+<td><code>CLAUDE.md</code>、<code>AGENTS.md</code>、system prompt、Skills</td>
+</tr>
+<tr>
+<td>Sensors（反馈）</td>
+<td>让模型看见执行结果和质量信号</td>
+<td>lint、类型检查、测试结果、eval、工具返回</td>
+</tr>
+<tr>
+<td>Loop Control（循环控制）</td>
+<td>驱动规划、工具调用、观察和修正</td>
+<td>ReAct loop、Plan-and-Execute、子 Agent 调度</td>
+</tr>
+<tr>
+<td>Hardening（加固）</td>
+<td>控制风险、成本和权限</td>
+<td>沙箱、审批、超时、预算、可观测性</td>
+</tr>
+</tbody>
+</table>
+<p>DeepAgent 的定位是：把这些长任务中最常见的运行时要素预装成默认中间件，让开发者从“搭建基础设施”转向“定义业务能力”。</p>
+<h3 id="14-1-2-三个-harness-横向对比">14.1.2 三个 Harness 横向对比</h3>
+<p>把 DeepAgent 与 Claude Agent SDK、Pi 放在一起看，差异更清楚：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>DeepAgent</th>
+<th>Claude Agent SDK</th>
+<th>Pi（pi.dev）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定位</td>
+<td>通用长任务 Agent Harness</td>
+<td>构建 Claude Code 式编码 Agent 的 SDK</td>
+<td>极简终端编码 Agent</td>
+</tr>
+<tr>
+<td>运行方式</td>
+<td>库，嵌入业务服务，底层运行在 LangGraph 上</td>
+<td>库，运行在自有进程或基础设施中</td>
+<td>本地 CLI / 终端</td>
+</tr>
+<tr>
+<td>模型支持</td>
+<td>provider 无关，依托 LangChain Chat Model</td>
+<td>以 Claude 为核心，经 API / Bedrock / Vertex / Azure 使用</td>
+<td>provider 无关，支持多家模型和本地模型</td>
+</tr>
+<tr>
+<td>设计哲学</td>
+<td>batteries-included，预装规划、文件系统、子 Agent、压缩等能力</td>
+<td>内置完整编码工具链，如 Read / Write / Edit / Bash / Grep / WebSearch</td>
+<td>primitives-only，尽量少内置能力</td>
+</tr>
+<tr>
+<td>任务规划</td>
+<td>内置 <code>write_todos</code></td>
+<td>模型自决 + 内置 Plan 子代理</td>
+<td>不内置</td>
+</tr>
+<tr>
+<td>子 Agent</td>
+<td>内置 <code>task</code> 工具，可声明专用 subagent</td>
+<td>内置 subagents，偏编码场景</td>
+<td>不内置</td>
+</tr>
+<tr>
+<td>上下文管理</td>
+<td>自动 summarization + 虚拟文件系统</td>
+<td>自动 context 压缩 + Explore 子代理隔离上下文</td>
+<td>可定制 compaction</td>
+</tr>
+<tr>
+<td>扩展机制</td>
+<td>middleware、tools、subagents、skills</td>
+<td>hooks、自定义工具、MCP、<code>.claude/agents</code></td>
+<td>extensions</td>
+</tr>
+<tr>
+<td>与本书关系</td>
+<td>本章主角</td>
+<td>同类 Agent SDK 对照组</td>
+<td>极简对照组</td>
+</tr>
+</tbody>
+</table>
+<p>读这张表，重点看两条主轴：</p>
+<ol>
+<li><strong>内置能力多少</strong>：DeepAgent 和 Claude Agent SDK 都偏“开箱即用”，Pi 偏“只提供基础原语”。</li>
+<li><strong>绑定程度如何</strong>：Claude Agent SDK 与 Claude 和编码场景绑定更强；DeepAgent 依托 LangChain，模型和业务场景都更开放。</li>
+</ol>
+<h3 id="14-1-3-设计哲学光谱">14.1.3 设计哲学光谱</h3>
+<div class="mermaid">flowchart LR
+  Pi[&quot;Pi&lt;br&gt;primitives-only&lt;br&gt;规划/子 Agent 自行搭建&quot;] --&gt; SDK[&quot;Claude Agent SDK&lt;br&gt;自带编码工具链&quot;]
+  SDK --&gt; DA[&quot;DeepAgent&lt;br&gt;batteries-included&lt;br&gt;预装规划/文件系统/子 Agent&quot;]
+</div>
+<p>除了“内置多少”之外，还要看它是否能作为库嵌入业务系统：</p>
+<ul>
+<li><strong>CLI 成品</strong>：如 Pi，适合终端交互，不适合直接嵌入后端服务。</li>
+<li><strong>可嵌入 SDK</strong>：如 Claude Agent SDK、DeepAgent，可以 <code>import</code> 进业务服务并纳入测试、部署和观测体系。</li>
+<li><strong>provider 无关的运行时</strong>：DeepAgent 通过 LangChain Chat Model 支持不同模型供应商，更适合本书这种业务系统集成场景。</li>
+</ul>
+<blockquote>
+<p>DeepAgent 的取舍是：<strong>内置多、面向通用长任务、可嵌入业务系统、模型供应商无关</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="14-2-三个关键问题">14.2 三个关键问题</h2>
+<p>定位清楚后，还需要拆开三个问题：</p>
+<ol>
+<li>LangChain 自身为什么会演进到 DeepAgent 这一层？</li>
+<li>已经有 Claude Agent SDK / Pi，为什么还需要 LangChain？</li>
+<li>已经有 LangChain，为什么还需要 DeepAgent？</li>
+</ol>
+<h3 id="14-2-1-langchain-自身的演进路径">14.2.1 LangChain 自身的演进路径</h3>
+<p>DeepAgent 不是孤立出现的，它是 LangChain / LangGraph 生态持续抽象后的结果：</p>
+<div class="mermaid">flowchart LR
+  Chains[&quot;Chains / AgentExecutor&lt;br&gt;(legacy 0.x)&quot;] --&gt; ReAct[&quot;createReactAgent&lt;br&gt;(LangGraph prebuilt)&quot;]
+  ReAct --&gt; LG[&quot;LangGraph 1.0&lt;br&gt;(图运行时)&quot;]
+  LG --&gt; CA[&quot;LangChain 1.0 createAgent&lt;br&gt;(middleware 驱动)&quot;]
+  CA --&gt; DA[&quot;deepagents&lt;br&gt;(batteries-included harness)&quot;]
+</div>
+<p>几个关键阶段：</p>
+<ol>
+<li><strong>Chains / <code>AgentExecutor</code>（0.x）</strong>：早期通过链式封装串联 prompt、model、parser 和 tool。LangChain 1.0 后已属于 legacy 写法。</li>
+<li><strong><code>createReactAgent</code></strong>：LangGraph 提供的预构建 ReAct 循环，第十三章使用的就是这种形态。</li>
+<li><strong>LangGraph 1.0</strong>：把 Agent 执行抽象成显式图结构，包括 State、Node、Edge、条件边和 Checkpointer。</li>
+<li><strong>LangChain 1.0 <code>createAgent</code></strong>：引入 middleware 机制，把规划、记忆、压缩、人工介入等横切能力变成可插拔组件。</li>
+<li><strong>DeepAgent</strong>：在 <code>createAgent</code> 和 LangGraph 之上，预装一组长任务常用中间件，形成可直接使用的 Agent Harness。</li>
+</ol>
+<p>这条演进线解决的，是把重复脚手架从业务代码中抽离出来：先给图运行时，再给中间件机制，最后给一套默认装配好的运行时。</p>
+<h3 id="14-2-2-为什么有了-claude-agent-sdk-pi-还需要-langchain">14.2.2 为什么有了 Claude Agent SDK / Pi，还需要 LangChain</h3>
+<p>Claude Agent SDK 和 Pi 都能构建 Agent，但它们的默认场景不同。</p>
+<p>Pi 是 CLI 成品，适合在终端中交互式使用；要将它原样嵌入一个 NestJS 服务、接入自有权限系统、纳入单元测试和部署流水线，并不自然。</p>
+<p>Claude Agent SDK 是可嵌入的库，但它的能力设计围绕 Claude Code 和编码任务展开，内置 Read / Write / Edit / Bash / Grep / WebSearch 等工具。对于非编码业务，例如需求分析、竞品调研、知识库问答、流程自动化，它仍然需要大量业务适配。</p>
+<p>LangChain 的价值在于它是 <strong>provider 无关、不预设业务场景的可编程地基</strong>。同一套业务逻辑，可以根据复杂度选择不同粒度：</p>
+<table>
+<thead>
+<tr>
+<th>构建方式</th>
+<th>定位</th>
+<th>需要手写什么</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createReactAgent</code></td>
+<td>最小 ReAct 循环</td>
+<td>工具列表 + prompt</td>
+<td>工具少、流程短、无需复杂规划的任务</td>
+</tr>
+<tr>
+<td>LangGraph <code>StateGraph</code></td>
+<td>底层图原语</td>
+<td>State / Node / Edge / 子图 / Checkpointer</td>
+<td>需要精确控制每个节点、并行和汇合逻辑的复杂业务</td>
+</tr>
+<tr>
+<td><code>createDeepAgent</code></td>
+<td>Agent Harness</td>
+<td>工具列表 + prompt + 可选 subagents / skills / backend</td>
+<td>需要规划、上下文管理和子任务隔离的中等复杂度任务</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Claude Agent SDK 适合构建 Claude 驱动的编码 Agent；Pi 适合极简终端 Agent；LangChain 适合在自己的系统中、使用自己选择的模型，构建可测试、可部署、可治理的业务 Agent。</p>
+</blockquote>
+<h3 id="14-2-3-有了-langchain-为什么还需要-deepagent">14.2.3 有了 LangChain，为什么还需要 DeepAgent</h3>
+<p>第八章到第十三章已经用 LangChain / LangGraph 手写过许多运行时能力：</p>
+<table>
+<thead>
+<tr>
+<th>章节</th>
+<th>手写内容</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8.3</td>
+<td><code>RequirementAnalysisState</code>、<code>Annotation.Root</code>、<code>MessagesAnnotation</code></td>
+<td>共享状态定义</td>
+</tr>
+<tr>
+<td>8.4</td>
+<td><code>classifierNode</code>、<code>addConditionalEdges</code></td>
+<td>运行时路由</td>
+</tr>
+<tr>
+<td>8.5</td>
+<td><code>agentNode → ToolNode → agentNode</code> 循环</td>
+<td>ReAct 工具调用循环</td>
+</tr>
+<tr>
+<td>8.6</td>
+<td><code>actorNode → criticNode → refineNode</code></td>
+<td>质量闭环</td>
+</tr>
+<tr>
+<td>8.7</td>
+<td>Checkpointer、<code>interrupt()</code>、<code>streamMode: &quot;updates&quot;</code></td>
+<td>持久化、人工介入、流式输出</td>
+</tr>
+<tr>
+<td>9.2</td>
+<td>Supervisor、专家工厂、aggregator</td>
+<td>Multi-Agent 协作</td>
+</tr>
+<tr>
+<td>9.5</td>
+<td><code>plannerNode → executorNode → evaluatorNode → reflectorNode</code></td>
+<td>Plan-and-Execute</td>
+</tr>
+<tr>
+<td>13.8</td>
+<td><code>loadSkill</code>、<code>DynamicStructuredTool</code>、<code>createReactAgent</code></td>
+<td>Skills 按需加载</td>
+</tr>
+</tbody>
+</table>
+<p>LangChain 1.0 的 <code>createAgent</code> 提供了 middleware 机制，但机制本身不等于完整运行时。规划、文件系统、子 Agent、上下文压缩、Skills 加载等能力仍然需要选择、配置和装配。</p>
+<p>DeepAgent 的作用，是把这一组长任务高频能力预装为默认中间件：</p>
+<div class="mermaid">flowchart TB
+    subgraph DA[&quot;createDeepAgent (Agent Harness)&quot;]
+        Plan[&quot;write_todos&lt;br&gt;任务规划&quot;]
+        FS[&quot;虚拟文件系统&lt;br&gt;ls / read / write / edit&quot;]
+        Sub[&quot;task 子 Agent&lt;br&gt;上下文隔离&quot;]
+        Sum[&quot;自动 Summarization&lt;br&gt;上下文压缩&quot;]
+        Skill[&quot;Skills&lt;br&gt;领域能力注入&quot;]
+    end
+    subgraph LG[&quot;LangGraph 运行时&quot;]
+        State[&quot;State + Reducer&quot;]
+        Node[&quot;Node&quot;]
+        Edge[&quot;Edge + 条件边&quot;]
+        CP[&quot;Checkpointer&quot;]
+        Stream[&quot;stream / streamEvents&quot;]
+    end
+    subgraph LC[&quot;LangChain 核心&quot;]
+        Model[&quot;Chat Model&quot;]
+        Tool[&quot;Tool&quot;]
+        Prompt[&quot;Prompt&quot;]
+    end
+    DA --&gt; LG
+    LG --&gt; LC
+</div>
+<p><code>createDeepAgent</code> 返回的仍然是一个编译后的 LangGraph 图，因此可以继续使用 <code>invoke()</code>、<code>stream()</code>、<code>streamEvents()</code>、Checkpointer 和 LangSmith trace。DeepAgent 并没有替代 LangGraph，而是在 LangGraph 之上给出一套默认装配。</p>
+<blockquote>
+<p><code>createAgent</code> 提供 middleware 机制，DeepAgent 提供一组已经装配好的 middleware 默认值。前者是框架能力，后者是长任务运行时模板。</p>
+</blockquote>
+<hr />
+<h2 id="14-3-deepagent-的主要功能">14.3 DeepAgent 的主要功能</h2>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8417066c10294fa5bde619660202c374~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=456893&amp;e=jpg&amp;b=e7f0fc" alt="generated-image-1780142090679.png" /></p>
+<p>DeepAgent 默认装配：规划、文件系统、子 Agent、摘要压缩与 Skills 统一进入运行时框架</p>
+<p><code>createDeepAgent</code> 默认提供五类能力，它们分别对应前面章节中手写过的机制：</p>
+<table>
+<thead>
+<tr>
+<th>内置能力</th>
+<th>对应章节</th>
+<th>DeepAgent 提供的能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>write_todos</code></td>
+<td>9.5 plannerNode</td>
+<td>让模型拆解任务、记录步骤、更新进度</td>
+</tr>
+<tr>
+<td>虚拟文件系统</td>
+<td>第十章 Token 经济学</td>
+<td><code>ls</code> / <code>read_file</code> / <code>write_file</code> / <code>edit_file</code> / <code>glob</code> / <code>grep</code>，把中间产物从 messages 中移出</td>
+</tr>
+<tr>
+<td><code>task</code> 子 Agent</td>
+<td>9.2 Supervisor + 9.4 Handoff</td>
+<td>主 Agent 可把子任务委托给独立上下文的子 Agent</td>
+</tr>
+<tr>
+<td>自动 Summarization</td>
+<td>第十章上下文压缩</td>
+<td>消息过长时自动压缩历史，保留最近消息和摘要</td>
+</tr>
+<tr>
+<td>Smart Defaults</td>
+<td>8.2 Agent 基础概念</td>
+<td>内置 prompt 引导模型正确使用规划、文件系统和子 Agent</td>
+</tr>
+</tbody>
+</table>
+<p>这些能力都通过 <strong>Middleware</strong> 实现。每个 middleware 可以完成三类工作：</p>
+<ol>
+<li>向 Agent 注入工具，例如 <code>write_todos</code>、<code>read_file</code></li>
+<li>在模型调用或工具调用前后插入逻辑，例如 summarization</li>
+<li>向 State 增加字段，例如 <code>todos</code>、<code>files</code></li>
+</ol>
+<p>默认中间件如下：</p>
+<table>
+<thead>
+<tr>
+<th>中间件</th>
+<th>注入或提供的能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TodoListMiddleware</code></td>
+<td><code>write_todos</code></td>
+</tr>
+<tr>
+<td><code>FilesystemMiddleware</code></td>
+<td><code>ls</code> / <code>read_file</code> / <code>write_file</code> / <code>edit_file</code> / <code>glob</code> / <code>grep</code></td>
+</tr>
+<tr>
+<td><code>SubAgentMiddleware</code></td>
+<td><code>task</code></td>
+</tr>
+<tr>
+<td><code>SummarizationMiddleware</code></td>
+<td>自动上下文压缩，不注入工具</td>
+</tr>
+</tbody>
+</table>
+<p>按需启用的中间件：</p>
+<table>
+<thead>
+<tr>
+<th>中间件</th>
+<th>启用条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SkillsMiddleware</code></td>
+<td>传入 <code>skills</code> 参数</td>
+</tr>
+<tr>
+<td><code>MemoryMiddleware</code></td>
+<td>传入 <code>memory</code> 参数</td>
+</tr>
+<tr>
+<td><code>HumanInTheLoopMiddleware</code></td>
+<td>传入 <code>interruptOn</code> 参数</td>
+</tr>
+</tbody>
+</table>
+<p>这三个按需中间件的简要定位如下，其中 <code>MemoryMiddleware</code> 和 <code>HumanInTheLoopMiddleware</code> 的完整用法留到第十五章：</p>
+<ul>
+<li><code>SkillsMiddleware</code>：扫描 <code>skills</code> 目录中的 <code>SKILL.md</code>，按需把领域能力注入上下文（见 14.9）。</li>
+<li><code>MemoryMiddleware</code>：在多次会话（跨 thread）之间保留长期记忆，区别于 <code>SummarizationMiddleware</code> 只压缩当前会话的历史。</li>
+<li><code>HumanInTheLoopMiddleware</code>：在指定工具调用前插入人工审批，对应第八章手写的 <code>interrupt()</code> / <code>Command</code>。</li>
+</ul>
+<p>需要注意：DeepAgent 没有引入新的 LangGraph 原语。<code>write_todos</code> 是一个普通 Tool，虚拟文件系统是一组文件工具，<code>task</code> 是在主 Agent 内部启动子 Agent。第八、九章讲过的 State、Node、Edge、条件边和子图，仍然是底层实现。</p>
+<h3 id="14-3-1-createdeepagent-参数速查">14.3.1 <code>createDeepAgent</code> 参数速查</h3>
+<p>为方便后文查阅，先把本章用到的主要参数集中如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型 / 取值</th>
+<th>作用</th>
+<th>出现小节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>LangChain Chat Model</td>
+<td>底层推理模型，provider 无关</td>
+<td>14.4</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>Tool[]</td>
+<td>业务工具，与内置工具合并</td>
+<td>14.4 / 14.5</td>
+</tr>
+<tr>
+<td><code>systemPrompt</code></td>
+<td>string</td>
+<td>业务提示词，与内置 prompt 组合（见下）</td>
+<td>14.4</td>
+</tr>
+<tr>
+<td><code>subagents</code></td>
+<td>SubAgent[]</td>
+<td>声明专用子 Agent</td>
+<td>14.8</td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td>string[]（目录路径）</td>
+<td>Skill 目录，配合 backend 使用</td>
+<td>14.9</td>
+</tr>
+<tr>
+<td><code>backend</code></td>
+<td>StateBackend / FilesystemBackend …</td>
+<td>虚拟文件系统后端，默认 <code>StateBackend</code></td>
+<td>14.7 / 14.9</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>启用 <code>MemoryMiddleware</code></td>
+<td>跨会话长期记忆（第十五章）</td>
+<td>第十五章</td>
+</tr>
+<tr>
+<td><code>interruptOn</code></td>
+<td>启用 <code>HumanInTheLoopMiddleware</code></td>
+<td>工具调用前人工审批（第十五章）</td>
+<td>第十五章</td>
+</tr>
+<tr>
+<td><code>checkpointer</code></td>
+<td>boolean / Checkpointer</td>
+<td>持久化与断点续跑（第十五章）</td>
+<td>第十五章</td>
+</tr>
+<tr>
+<td><code>middleware</code></td>
+<td>Middleware[]</td>
+<td>追加自定义中间件</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>关于 <code>systemPrompt</code>：你传入的业务 prompt <strong>不会覆盖</strong>内置 prompt，而是与之<strong>组合</strong>——DeepAgent 先提供引导模型使用规划、文件系统和子 Agent 的内置基础 prompt，再拼接你的业务 prompt。因此当业务 prompt 出现“直接回答、不要调用工具”这类指令时，可能与内置规划引导冲突，导致 <code>write_todos</code> 不被触发（参见 14.6.2）。</p>
+</blockquote>
+<hr />
+<h2 id="14-4-最小-deepagent-30-行跑通">14.4 最小 DeepAgent：30 行跑通</h2>
+<h3 id="14-4-1-安装依赖">14.4.1 安装依赖</h3>
+<pre><code class="language-bash">cd services/chat &amp;&amp; bun add deepagents
+</code></pre>
+<p><code>deepagents</code> 会带上 <code>langchain</code>、<code>@langchain/core</code>、<code>@langchain/langgraph</code> 等核心依赖。项目中已有的 <code>@langchain/openai</code> 可以直接复用。</p>
+<h3 id="14-4-2-hello-world">14.4.2 Hello World</h3>
+<p>先创建一个最小示例，验证 <code>createDeepAgent</code> 能正常工作。</p>
+<ul>
+<li>
+<p>生成代码 Prompt：Hello World 脚本</p>
+<pre><code>在 services/chat/scripts/ 下创建 run-deepagent-hello.ts：
+
+1. 加载 .env
+2. 使用 createDeepAgent 创建最小 Agent
+3. model 使用 ChatOpenAI，读取 OPENAI_BASE_URL，默认模型为 gpt-5.4，可通过 DEEPAGENT_MODEL 覆盖
+4. 自定义工具 get_weather：接收 city 参数，返回固定天气字符串
+5. systemPrompt 设为“你是一个天气助手”
+6. invoke 输入“北京今天天气怎么样？”
+7. 打印最终回复、todos 和 files
+
+约束：
+- 工具使用 DynamicStructuredTool 包装，和第十三章 run-skill-demo.ts 保持一致
+
+验证：
+- bun run scripts/run-deepagent-hello.ts 能正常输出
+</code></pre>
+</li>
+</ul>
+<pre><code class="language-tsx">import { createDeepAgent } from 'deepagents';
+import { ChatOpenAI } from '@langchain/openai';
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { z } from 'zod';
+import { config } from 'dotenv';
+
+config({ path: new URL('../.env', import.meta.url).pathname });
+
+const getWeather = new DynamicStructuredTool({
+  name: 'get_weather',
+  description: '获取指定城市的天气',
+  schema: z.object({ city: z.string().describe('城市名') }),
+  func: async ({ city }) =&gt; `${city}：晴，28°C，微风`,
+});
+
+const agent = createDeepAgent({
+  model: new ChatOpenAI({
+    model: process.env.DEEPAGENT_MODEL || 'gpt-5.4',
+    temperature: 0,
+    configuration: { baseURL: process.env.OPENAI_BASE_URL },
+  }),
+  tools: [getWeather],
+  systemPrompt: '你是一个天气助手。用户问天气时，调用 get_weather 工具获取数据。',
+});
+
+const result = await agent.invoke({
+  messages: [{ role: 'user', content: '北京今天天气怎么样？' }],
+});
+
+const lastMsg = result.messages[result.messages.length - 1];
+console.log('回复:', lastMsg.content);
+console.log('todos:', JSON.stringify(result.todos ?? [], null, 2));
+console.log('files:', Object.keys(result.files ?? {}));
+</code></pre>
+<p>一次典型输出：</p>
+<pre><code>回复: 北京今天天气：晴，28°C，微风。
+todos: []
+files: []
+</code></pre>
+<h3 id="14-4-3-这个最小示例说明了什么">14.4.3 这个最小示例说明了什么</h3>
+<p>即使任务很短，DeepAgent 也已经完成了以下装配：</p>
+<ol>
+<li>注入 <code>write_todos</code> 工具</li>
+<li>注入文件系统工具</li>
+<li>注入内置 system prompt，引导模型使用规划、文件系统和子 Agent</li>
+<li>准备好 summarization 机制</li>
+</ol>
+<p>但在天气查询这类简单任务中，模型通常会直接调用业务工具并返回结果，不会生成 todos，也不会写文件。这是合理行为：DeepAgent 提供能力，不强制每个任务都使用全部能力。</p>
+<hr />
+<h2 id="14-5-第一个有用的-deepagent-产品调研-agent">14.5 第一个有用的 DeepAgent：产品调研 Agent</h2>
+<p>天气查询无法体现 DeepAgent 的差异。更能暴露问题的场景是“产品调研”：</p>
+<blockquote>
+<p>调研中小团队项目管理工具竞品，分析主要竞品的功能、定价、优劣势，输出一份竞品分析报告。</p>
+</blockquote>
+<p>这个任务会同时暴露三类需求：</p>
+<ol>
+<li><strong>需要规划</strong>：先搜集竞品信息，再分析对比，最后形成报告。</li>
+<li><strong>中间产物多</strong>：每个竞品的信息需要暂存，不能全部堆在 messages 中。</li>
+<li><strong>可以拆子任务</strong>：不同竞品的分析可以交给子 Agent 独立完成。</li>
+</ol>
+<p>它们正好对应 DeepAgent 的 <code>write_todos</code>、虚拟文件系统和 <code>task</code> 子 Agent。</p>
+<h3 id="14-5-1-代码实现">14.5.1 代码实现</h3>
+<p>本节复用第十三章的 Python 工具脚本，通过 <code>callPythonTool</code> 包装为 LangChain Tool。</p>
+<ul>
+<li>
+<p>生成代码 Prompt：调研 Demo 脚本</p>
+<pre><code>在 services/chat/scripts/ 下创建 run-deepagent-research-demo.ts：
+
+1. 加载 .env
+2. 复用第十三章的 Python 工具包装模式：
+   - callPythonTool
+   - child_process.execSync + stdin JSON
+3. 注册工具：
+   - search_competitors，对应 competitor-research/scripts/search_competitors.py
+   - search_best_practices，对应 competitor-research/scripts/search_best_practices.py
+4. 使用 createDeepAgent 创建 Agent：
+   - model: ChatOpenAI
+   - 读取 OPENAI_BASE_URL
+   - 默认模型 gpt-5.4，可通过 DEEPAGENT_MODEL 覆盖
+   - systemPrompt: 产品调研分析师
+   - tools: 上面的工具
+5. invoke 输入：调研中小团队项目管理工具竞品
+6. 打印：
+   - Agent 最终输出
+   - 工具调用链
+   - 输出长度
+
+约束：
+- 不修改第八、九章代码
+- 不修改第十三章 SKILL.md 和 Python 脚本
+- Python 工具脚本路径指向 src/skills/definitions/competitor-research/scripts/
+</code></pre>
+</li>
+</ul>
+<pre><code class="language-tsx">import { createDeepAgent } from 'deepagents';
+import { ChatOpenAI } from '@langchain/openai';
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { z } from 'zod';
+import { execSync } from 'child_process';
+import { join } from 'path';
+import { config } from 'dotenv';
+
+config({ path: new URL('../.env', import.meta.url).pathname });
+
+const SKILLS_DIR = join(import.meta.dir, '../src/skills/definitions');
+
+function callPythonTool(skillName: string, scriptName: string, input: Record&lt;string, unknown&gt;): string {
+  const scriptPath = join(SKILLS_DIR, skillName, 'scripts', scriptName);
+  return execSync(`python3 &quot;${scriptPath}&quot;`, {
+    input: JSON.stringify(input),
+    encoding: 'utf-8',
+  }).trim();
+}
+
+const searchCompetitors = new DynamicStructuredTool({
+  name: 'search_competitors',
+  description: '搜索竞品信息，返回竞品名称、定位、定价等关键信息。',
+  schema: z.object({ query: z.string().describe('搜索关键词') }),
+  func: async ({ query }) =&gt;
+    callPythonTool('competitor-research', 'search_competitors.py', { query }),
+});
+
+const searchBestPractices = new DynamicStructuredTool({
+  name: 'search_best_practices',
+  description: '搜索行业最佳实践和常见做法。',
+  schema: z.object({ topic: z.string().describe('搜索主题') }),
+  func: async ({ topic }) =&gt;
+    callPythonTool('competitor-research', 'search_best_practices.py', { topic }),
+});
+
+const model = new ChatOpenAI({
+  model: process.env.DEEPAGENT_MODEL || 'gpt-5.4',
+  temperature: 0,
+  configuration: { baseURL: process.env.OPENAI_BASE_URL },
+});
+
+const agent = createDeepAgent({
+  model,
+  tools: [searchCompetitors, searchBestPractices],
+  systemPrompt: '你是一位产品调研分析师。你的任务是调研竞品信息，并输出结构清晰、可用于产品决策的竞品分析报告。',
+});
+
+const result = await agent.invoke({
+  messages: [
+    {
+      role: 'user',
+      content: '调研中小团队项目管理工具竞品，我们想做一个轻量级项目管理工具。',
+    },
+  ],
+});
+
+const toolCalls = result.messages
+  .filter((m: any) =&gt; m.tool_calls?.length &gt; 0)
+  .flatMap((m: any) =&gt; m.tool_calls.map((tc: any) =&gt; tc.name));
+
+const output = result.messages[result.messages.length - 1].content.toString();
+console.log(`调用链: ${toolCalls.join(' → ')}`);
+console.log(output);
+</code></pre>
+<p>这一版只注册业务工具，暂不接入 Skills。它对应配套测试中的 Layer 2 端到端用例。</p>
+<p>工具调用顺序不应写成固定预期。更可靠的观察点是：复杂任务中模型通常会先调用 <code>write_todos</code> 拆解任务，再调用业务工具，并在过程中更新进度。</p>
+<p>典型调用链形态：</p>
+<pre><code>write_todos → search_competitors → search_best_practices → write_todos → write_todos
+</code></pre>
+<p>调用次数会随模型、提示词和工具返回内容变化；需要关注的是“先规划、再执行、过程中更新计划”这一行为形态。</p>
+<h3 id="14-5-2-对比-createreactagent-vs-createdeepagent">14.5.2 对比：<code>createReactAgent</code> vs <code>createDeepAgent</code></h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th><code>createReactAgent</code></th>
+<th><code>createDeepAgent</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任务规划</td>
+<td>模型直接进入工具调用，没有显式计划</td>
+<td>模型可先调用 <code>write_todos</code> 拆解步骤</td>
+</tr>
+<tr>
+<td>中间产物</td>
+<td>全部进入 messages，容易膨胀</td>
+<td>可通过 <code>write_file</code> 写入虚拟文件系统</td>
+</tr>
+<tr>
+<td>上下文管理</td>
+<td>不内置压缩机制</td>
+<td>内置 summarization</td>
+</tr>
+<tr>
+<td>子任务隔离</td>
+<td>所有步骤共享同一上下文</td>
+<td>可通过 <code>task</code> 委托给独立上下文的子 Agent</td>
+</tr>
+<tr>
+<td>适合任务</td>
+<td>短任务、工具少、流程简单</td>
+<td>多步骤、上下文较长、可拆分的任务</td>
+</tr>
+</tbody>
+</table>
+<p><strong>边界</strong>：DeepAgent 不适合替代所有 Agent。天气查询、简单分类、单工具调用，使用 <code>createReactAgent</code> 已经足够。只有当任务需要规划、上下文管理或子任务隔离时，DeepAgent 的优势才明显。</p>
+<hr />
+<h2 id="14-6-任务规划-write_todos">14.6 任务规划：<code>write_todos</code></h2>
+<h3 id="14-6-1-机制">14.6.1 机制</h3>
+<p><code>write_todos</code> 是由 <code>TodoListMiddleware</code> 注入的普通 LangChain Tool。模型可以在执行过程中多次调用它，维护当前任务计划。</p>
+<p>典型输入：</p>
+<pre><code class="language-tsx">{
+  todos: [
+    { id: &quot;1&quot;, content: &quot;搜索主要竞品&quot;, status: &quot;in_progress&quot; },
+    { id: &quot;2&quot;, content: &quot;收集竞品功能和定价&quot;, status: &quot;pending&quot; },
+    { id: &quot;3&quot;, content: &quot;对比分析&quot;, status: &quot;pending&quot; },
+    { id: &quot;4&quot;, content: &quot;撰写报告&quot;, status: &quot;pending&quot; },
+  ]
+}
+</code></pre>
+<p>其中 <code>status</code> 的合法取值为三个：<code>pending</code>（待办）、<code>in_progress</code>（进行中）、<code>completed</code>（已完成）。约定上同一时刻最多只有一个 todo 处于 <code>in_progress</code>。</p>
+<p>模型通常会在三个时机调用它：</p>
+<ol>
+<li><strong>初始规划</strong>：把用户目标拆成多个可执行步骤。</li>
+<li><strong>进度更新</strong>：完成一步后把状态改为 <code>completed</code>，并把下一步置为 <code>in_progress</code>。</li>
+<li><strong>计划调整</strong>：发现新信息后增加、删除或修改步骤。</li>
+</ol>
+<h3 id="14-6-2-对照第九章-plannernode">14.6.2 对照第九章 <code>plannerNode</code></h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>第九章 <code>plannerNode</code></th>
+<th>DeepAgent <code>write_todos</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>规划时机</td>
+<td>图中的固定第一个节点</td>
+<td>模型可在任意时刻调用</td>
+</tr>
+<tr>
+<td>规划格式</td>
+<td>通过 Zod schema 强制结构</td>
+<td>半结构化 todo 列表</td>
+</tr>
+<tr>
+<td>进度追踪</td>
+<td>手写 <code>currentStepIndex</code> 等状态字段</td>
+<td>模型自行更新 todo status</td>
+</tr>
+<tr>
+<td>计划修订</td>
+<td>需要显式 reflector 节点</td>
+<td>模型可再次调用 <code>write_todos</code> 覆盖计划</td>
+</tr>
+<tr>
+<td>控制强度</td>
+<td>强，路径可控</td>
+<td>中，依赖模型遵循内置 prompt</td>
+</tr>
+</tbody>
+</table>
+<p><strong>边界</strong>：<code>write_todos</code> 是引导式规划，不是强制流程。DeepAgent 的内置 prompt 会鼓励模型在复杂任务中先规划，但如果业务 prompt 明确要求“直接回答，不调用工具”，模型可能跳过规划。任务过于简单时跳过规划也是合理行为。</p>
+<h3 id="14-6-3-验收方式">14.6.3 验收方式</h3>
+<p>运行调研 demo 后，观察工具调用链是否出现 <code>write_todos</code>。如果没有出现，可按以下顺序排查：</p>
+<ol>
+<li>任务是否过于简单，模型判断不需要规划</li>
+<li>业务 system prompt 是否与内置规划引导冲突</li>
+<li>当前模型是否稳定支持 tool calling</li>
+<li>是否需要在业务 prompt 中明确写入“先使用 <code>write_todos</code> 制定计划”</li>
+</ol>
+<hr />
+<h2 id="14-7-虚拟文件系统-长任务的草稿纸">14.7 虚拟文件系统：长任务的草稿纸</h2>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/03e933ea0a8d409782ecfc50c8cbb3f3~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=399554&amp;e=jpg&amp;b=ffffff" alt="generated-image-1780142054223.png" /></p>
+<p>虚拟文件系统把长任务中的中间产物从对话上下文迁移到可读写文件中</p>
+<h3 id="14-7-1-为什么需要文件系统">14.7.1 为什么需要文件系统</h3>
+<p>第十章讲 Token 经济学时已经讨论过：上下文窗口不是无限资源。一个产品调研任务如果分析 5 个竞品，每个竞品产生 2000 字信息，全部放在 messages 中会带来三个问题：</p>
+<ol>
+<li>token 成本随轮次线性增长</li>
+<li>模型注意力被大量中间信息稀释</li>
+<li>接近上下文窗口上限时触发截断或报错</li>
+</ol>
+<p>DeepAgent 的虚拟文件系统提供了一个中间层：把阶段性资料写入文件，需要时再读取。这样 messages 中保留执行轨迹，文件系统保存中间产物。</p>
+<blockquote>
+<p><strong>如何量化收益</strong>：本章的对比多为定性描述。若要拿到实际数字，可在同一调研任务上分别用 <code>createReactAgent</code> 和 <code>createDeepAgent</code> 跑一遍，从 LangSmith trace 或回调中读取每轮的 prompt tokens，对比“总 token 数 / 轮次 / 成本”。通常竞品越多、中间产物越大，文件系统对上下文的节省越明显。这与第十章的成本拆账方法一致。</p>
+</blockquote>
+<h3 id="14-7-2-六个内置工具">14.7.2 六个内置工具</h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ls</code></td>
+<td>列出目录内容</td>
+<td>shell <code>ls</code></td>
+</tr>
+<tr>
+<td><code>read_file</code></td>
+<td>读取文件</td>
+<td>shell <code>cat</code></td>
+</tr>
+<tr>
+<td><code>write_file</code></td>
+<td>创建或覆盖文件</td>
+<td>shell <code>&gt;</code></td>
+</tr>
+<tr>
+<td><code>edit_file</code></td>
+<td>编辑文件局部内容</td>
+<td>shell <code>sed</code></td>
+</tr>
+<tr>
+<td><code>glob</code></td>
+<td>按模式匹配文件</td>
+<td>shell <code>find</code></td>
+</tr>
+<tr>
+<td><code>grep</code></td>
+<td>在文件中搜索内容</td>
+<td>shell <code>grep</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>FilesystemMiddleware</code> 内部还可以注入 <code>execute</code> 工具，但只有后端支持命令执行时才会启用。本章使用的默认 <code>StateBackend</code> 和后文的 <code>FilesystemBackend</code> 都不启用 <code>execute</code>，因此实际可见的是上表六个文件工具。</p>
+<h3 id="14-7-3-默认后端-statebackend">14.7.3 默认后端：StateBackend</h3>
+<p>默认情况下，DeepAgent 使用 <code>StateBackend</code> 存储虚拟文件。它是内存态的、线程隔离的，只在当前 Agent 执行期间存在。</p>
+<pre><code>Agent 执行期间的虚拟文件系统
+
+/competitors/
+  asana.md
+  trello.md
+  linear.md
+
+/report.md
+</code></pre>
+<p>文件系统的典型使用方式：</p>
+<ol>
+<li>搜集 Asana 信息 → 写入 <code>/competitors/asana.md</code></li>
+<li>搜集 Trello 信息 → 写入 <code>/competitors/trello.md</code></li>
+<li>搜集 Linear 信息 → 写入 <code>/competitors/linear.md</code></li>
+<li>汇总时读取上述文件</li>
+<li>生成 <code>/report.md</code></li>
+</ol>
+<p>是否使用文件系统由模型决定。短任务通常不会写文件；任务越长、中间产物越多，越容易触发文件工具。</p>
+<p><strong>边界</strong>：虚拟文件系统解决的是 Agent 执行期间的上下文管理，不是业务数据持久化。执行结束后，如果需要保存报告或中间文件，应由应用层将结果写入数据库、对象存储或业务系统。</p>
+<h3 id="14-7-4-文件系统验收方式">14.7.4 文件系统验收方式</h3>
+<p>调研 demo 不能保证模型一定使用文件系统。要稳定验证文件系统，应在用户输入中明确要求写文件：</p>
+<pre><code class="language-tsx">const result = await agent.invoke({
+  messages: [{
+    role: 'user',
+    content: [
+      '调研中小团队项目管理工具竞品。',
+      '要求：',
+      '1. 先把 Asana、Trello、Linear 的竞品资料分别写入 /competitors/asana.md、/competitors/trello.md、/competitors/linear.md。',
+      '2. 再读取这些文件，汇总成一份竞品分析报告。',
+      '3. 最终回答里列出你写入过的文件路径。',
+    ].join('\n'),
+  }],
+});
+</code></pre>
+<p>验收点：</p>
+<ol>
+<li>工具调用链中出现 <code>write_file</code> 和 <code>read_file</code></li>
+<li><code>Object.keys(result.files ?? {})</code> 包含三个目标路径</li>
+<li>最终报告使用了文件中的内容，而不是只复述搜索结果</li>
+</ol>
+<h3 id="14-7-5-自动-summarization-与文件系统互补的上下文管理">14.7.5 自动 Summarization：与文件系统互补的上下文管理</h3>
+<p>虚拟文件系统是“主动”的上下文管理：由模型决定把什么写进文件、什么时候读回来。<code>SummarizationMiddleware</code> 则是“被动”的兜底：当消息历史增长到阈值时，自动把较早的消息压缩成摘要，只保留摘要加最近若干条原始消息。两者互补——文件系统决定哪些中间产物不进上下文，summarization 负责在历史仍然变长时防止超出窗口。</p>
+<p>它的关键行为：</p>
+<ol>
+<li><strong>触发条件</strong>：按消息历史的 token 规模触发，而不是固定轮次。未达阈值时不会压缩。</li>
+<li><strong>保留策略</strong>：保留最近的消息原文，并用一段摘要替换更早的历史，从而保住近期上下文的精度。</li>
+<li><strong>对工具的影响</strong>：它不注入任何工具，对模型是透明的；调用链里看不到它。</li>
+<li><strong>可配置性</strong>：触发阈值、保留消息数、用于生成摘要的模型等通常可通过中间件参数覆盖。具体可配置项随 <code>deepagents</code> 版本变化，应以 14.9.3 的配套测试和当前版本文档为准。</li>
+</ol>
+<p><strong>与第十章的关系</strong>：第十章手写过消息裁剪 / 压缩逻辑，<code>SummarizationMiddleware</code> 把这一层变成默认能力。但它只压缩“当前会话”的历史；跨会话的长期记忆属于 <code>MemoryMiddleware</code>（第十五章）。</p>
+<p><strong>验收方式</strong>：summarization 在短任务中不会触发，难以稳定复现。要观察它，可构造一个工具返回内容很长、且需要多轮调用的任务，运行后对比压缩前后 messages 的长度与条数；或在中间件配置中调低触发阈值，再检查历史是否被替换为摘要。</p>
+<hr />
+<h2 id="14-8-subagent-task-工具">14.8 Subagent：<code>task</code> 工具</h2>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eaac905f1f294c0ebf44f20810e3ccfe~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=422580&amp;e=jpg&amp;b=f2f7fb" alt="generated-image-1780142130450.png" /></p>
+<p>主 Agent 将子任务委托给多个独立子 Agent，并汇总返回结果</p>
+<h3 id="14-8-1-为什么需要子-agent">14.8.1 为什么需要子 Agent</h3>
+<p>在产品调研任务中，每个竞品都可能需要多次工具调用、资料整理和判断。如果全部在主 Agent 的 messages 中完成，会出现三个问题：</p>
+<ol>
+<li><strong>上下文膨胀</strong>：多个竞品的分析过程都进入主上下文。</li>
+<li><strong>信息干扰</strong>：后续竞品分析会被前面竞品的细节污染。</li>
+<li><strong>失败传播</strong>：单个子任务错误可能影响主任务继续推进。</li>
+</ol>
+<p>DeepAgent 的 <code>task</code> 工具用于解决这个问题：主 Agent 将子任务委托给子 Agent，子 Agent 在独立上下文中执行，并将结果摘要返回给主 Agent。</p>
+<h3 id="14-8-2-两种子-agent-声明方式">14.8.2 两种子 Agent 声明方式</h3>
+<p><strong>方式一：使用默认通用子 Agent</strong></p>
+<p>不传 <code>subagents</code> 参数时，DeepAgent 会提供通用子 Agent，主 Agent 可直接通过 <code>task</code> 委托任务：</p>
+<pre><code class="language-tsx">const agent = createDeepAgent({
+  model,
+  tools: [searchCompetitors, searchBestPractices],
+  systemPrompt: '你是产品调研分析师。',
+});
+</code></pre>
+<p><strong>方式二：声明专用子 Agent</strong></p>
+<pre><code class="language-tsx">import { type SubAgent } from 'deepagents';
+
+const competitorAnalyst: SubAgent = {
+  name: 'competitor-analyst',
+  description: '对单个竞品进行功能、定价和适用场景分析',
+  systemPrompt: '你是竞品分析专家。请对指定竞品进行功能拆解、定价模型分析和优劣势评估。',
+  tools: [searchCompetitors, searchBestPractices],
+};
+
+const agent = createDeepAgent({
+  model,
+  tools: [searchCompetitors, searchBestPractices],
+  subagents: [competitorAnalyst],
+  systemPrompt: '你是产品调研分析师。需要深入分析单个竞品时，委托给 competitor-analyst。',
+});
+</code></pre>
+<p>关于子 Agent 还有两点需要说明：</p>
+<ul>
+<li><strong>工具继承</strong>：声明专用 <code>SubAgent</code> 时，它使用自己 <code>tools</code> 字段里列出的工具；如示例中 <code>competitor-analyst</code> 显式获得了两个搜索工具。若不显式声明，子 Agent 能用哪些工具取决于 SDK 默认策略，建议总是为子 Agent 显式声明所需工具，避免依赖隐式继承。</li>
+<li><strong>执行方式</strong>：<code>task</code> 默认是<strong>串行</strong>委托——主 Agent 发起一次子任务、拿到摘要后再发起下一次。若需要并行委托，应以当前 <code>deepagents</code> 版本的能力为准，不要假设默认并行。</li>
+</ul>
+<h3 id="14-8-3-task-的验收方式">14.8.3 <code>task</code> 的验收方式</h3>
+<p>与虚拟文件系统类似，<code>task</code> 不一定在普通任务中自动触发。要稳定验证，应把任务设计成天然可拆分：</p>
+<pre><code class="language-tsx">const result = await agent.invoke({
+  messages: [{
+    role: 'user',
+    content: [
+      '请调研 Asana 和 Trello 两个项目管理工具。',
+      '要求：',
+      '1. 分别委托子 Agent 分析 Asana 和 Trello 的功能、定价、适合团队类型。',
+      '2. 主 Agent 只负责汇总两个子 Agent 的结论。',
+      '3. 最终输出一个对比报告。',
+    ].join('\n'),
+  }],
+});
+</code></pre>
+<p>验收点：</p>
+<ol>
+<li>工具调用链中出现 <code>task</code></li>
+<li>如果声明了 <code>competitor-analyst</code>，检查 <code>task</code> 入参是否选择该子 Agent</li>
+<li>主 Agent 的 messages 中只保留子任务结果，不包含子 Agent 的完整执行过程</li>
+</ol>
+<h3 id="14-8-4-对照第九章-supervisor">14.8.4 对照第九章 Supervisor</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>第九章 Supervisor + 专家</th>
+<th>DeepAgent <code>task</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>子 Agent 声明</td>
+<td>手写 <code>createExpertSubGraph</code> 工厂并装配主图</td>
+<td>通过 <code>subagents</code> 声明</td>
+</tr>
+<tr>
+<td>调度方式</td>
+<td>Supervisor 节点根据状态分发</td>
+<td>模型在执行过程中按需调用 <code>task</code></td>
+</tr>
+<tr>
+<td>并行能力</td>
+<td>可通过图路由并发分发</td>
+<td>默认串行委托</td>
+</tr>
+<tr>
+<td>上下文隔离</td>
+<td>依赖子图和 State 设计</td>
+<td>子 Agent 天然使用独立上下文</td>
+</tr>
+<tr>
+<td>适合场景</td>
+<td>专家集合固定、需要精确控制并行与汇合</td>
+<td>子任务类型动态、需要按需委托</td>
+</tr>
+</tbody>
+</table>
+<p>两者不是替代关系。固定多专家并行适合 LangGraph <code>StateGraph</code>；动态委托适合 DeepAgent <code>task</code>。第十五章会展示如何把已有 LangGraph 图作为 DeepAgent 的子 Agent 接入。</p>
+<hr />
+<h2 id="14-9-把第十三章的-skills-接入-deepagent">14.9 把第十三章的 Skills 接入 DeepAgent</h2>
+<p>第十三章用 <code>createReactAgent</code> + 手写 <code>load_skill</code> 工具演示了 Skills 按需加载。DeepAgent 内置 <code>SkillsMiddleware</code>，可以直接扫描 <code>SKILL.md</code> 目录，不再需要手写 <code>load_skill</code> 工具。</p>
+<h3 id="14-9-1-接入方式">14.9.1 接入方式</h3>
+<pre><code class="language-tsx">import { createDeepAgent, FilesystemBackend } from 'deepagents';
+import { join } from 'path';
+
+const SKILLS_DIR = join(import.meta.dir, '../src/skills/definitions');
+
+const agent = createDeepAgent({
+  model,
+  tools: [searchCompetitors, searchBestPractices, analyzeCompleteness, estimateComplexity],
+  backend: new FilesystemBackend({ rootDir: '/' }),
+  skills: [SKILLS_DIR],
+  systemPrompt: '你是一位产品调研分析师。需要专业能力时，可以加载对应 skill，并输出结构清晰的分析报告。',
+});
+</code></pre>
+<p><code>skills</code> 参数接收目录路径数组。DeepAgent 会：</p>
+<ol>
+<li>扫描目录下的 Skill 子目录</li>
+<li>读取每个子目录中的 <code>SKILL.md</code> frontmatter</li>
+<li>将 <code>name</code> 和 <code>description</code> 注入 skill 索引</li>
+<li>在任务需要时读取完整 <code>SKILL.md</code> 内容</li>
+</ol>
+<p>每个 Skill 子目录下的 <code>SKILL.md</code> 顶部都是一段 YAML frontmatter，最小形态如下：</p>
+<pre><code class="language-markdown">---
+name: competitor-research
+description: 调研竞品功能、定价与优劣势，输出竞品分析报告
+allowed-tools:
+  - search_competitors
+  - search_best_practices
+---
+
+# 竞品调研方法
+（这里是供模型按需读取的完整方法说明……）
+</code></pre>
+<p>DeepAgent 先只把 <code>name</code> 和 <code>description</code> 放进索引，只有当任务匹配到该 Skill 时才读取正文，从而避免一次性把所有 Skill 内容塞进上下文。</p>
+<p><strong>关键点：必须显式传入 <code>FilesystemBackend</code>。</strong></p>
+<p>DeepAgent 的 Skill 加载依赖 backend。默认 <code>StateBackend</code> 是内存态，对操作系统磁盘上的 <code>SKILL.md</code> 不可见。如果只传 <code>skills: [SKILLS_DIR]</code>，但不传 <code>FilesystemBackend</code>，Skill 目录可能不会被正确加载。</p>
+<p>教学 demo 使用：</p>
+<pre><code class="language-tsx">backend: new FilesystemBackend({ rootDir: '/' })
+</code></pre>
+<p>这是为了让绝对路径 <code>SKILLS_DIR</code> 能被 backend 访问。生产环境不应直接暴露系统根目录，而应将 <code>rootDir</code> 限定到明确的工作目录或 Skill 根目录，并只开放 Agent 完成任务所需的路径。</p>
+<h3 id="14-9-2-对照第十三章">14.9.2 对照第十三章</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>第十三章 Custom Pattern</th>
+<th>第十四章 DeepAgent Skills</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>load_skill</code> 工具</td>
+<td>手写 <code>DynamicStructuredTool</code></td>
+<td>SDK 自动处理 Skill 发现和读取</td>
+</tr>
+<tr>
+<td>Skill 发现</td>
+<td>硬编码在工具 description 或 middleware 中</td>
+<td>扫描目录中的 <code>SKILL.md</code> frontmatter</td>
+</tr>
+<tr>
+<td>新增 Skill</td>
+<td>修改 skill 索引和工具描述</td>
+<td>新增目录和 <code>SKILL.md</code></td>
+</tr>
+<tr>
+<td>Python 工具注册</td>
+<td>需要显式注册</td>
+<td>仍然需要显式注册</td>
+</tr>
+<tr>
+<td>适合场景</td>
+<td>Skill 数量少、希望完全掌控加载逻辑</td>
+<td>Skill 目录规范化、希望由 SDK 管理加载</td>
+</tr>
+</tbody>
+</table>
+<p><strong>边界</strong>：<code>skills</code> 只负责 Skill 发现和加载，不负责自动创建业务工具。<code>SKILL.md</code> 中的 <code>allowed-tools</code> 是声明性引用，应用层仍然要把对应工具注册到 <code>tools</code> 参数中。</p>
+<h3 id="14-9-3-完整调研-agent-含-skills">14.9.3 完整调研 Agent（含 Skills）</h3>
+<pre><code class="language-tsx">import { createDeepAgent, FilesystemBackend } from 'deepagents';
+import { ChatOpenAI } from '@langchain/openai';
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { z } from 'zod';
+import { execSync } from 'child_process';
+import { join } from 'path';
+
+const SKILLS_DIR = join(import.meta.dir, '../src/skills/definitions');
+
+function callPythonTool(skillName: string, scriptName: string, input: Record&lt;string, unknown&gt;): string {
+  return execSync(`python3 &quot;${join(SKILLS_DIR, skillName, 'scripts', scriptName)}&quot;`, {
+    input: JSON.stringify(input),
+    encoding: 'utf-8',
+  }).trim();
+}
+
+const tools = [
+  new DynamicStructuredTool({
+    name: 'search_competitors',
+    description: '搜索竞品信息，返回竞品名称、定位、定价等关键信息。',
+    schema: z.object({ query: z.string() }),
+    func: async ({ query }) =&gt;
+      callPythonTool('competitor-research', 'search_competitors.py', { query }),
+  }),
+  new DynamicStructuredTool({
+    name: 'search_best_practices',
+    description: '搜索行业最佳实践和常见做法。',
+    schema: z.object({ topic: z.string() }),
+    func: async ({ topic }) =&gt;
+      callPythonTool('competitor-research', 'search_best_practices.py', { topic }),
+  }),
+  new DynamicStructuredTool({
+    name: 'analyze_completeness',
+    description: '分析需求描述的完整性，从六个维度检查是否缺少关键信息。',
+    schema: z.object({ requirementText: z.string() }),
+    func: async ({ requirementText }) =&gt;
+      callPythonTool('requirement-analysis', 'analyze_completeness.py', { requirementText }),
+  }),
+  new DynamicStructuredTool({
+    name: 'estimate_complexity',
+    description: '估算需求的技术复杂度，返回 T-shirt size 和预计工期。',
+    schema: z.object({ requirementText: z.string() }),
+    func: async ({ requirementText }) =&gt;
+      callPythonTool('requirement-analysis', 'estimate_complexity.py', { requirementText }),
+  }),
+];
+
+const agent = createDeepAgent({
+  model: new ChatOpenAI({
+    model: process.env.DEEPAGENT_MODEL || 'gpt-5.4',
+    temperature: 0,
+    configuration: { baseURL: process.env.OPENAI_BASE_URL },
+  }),
+  tools,
+  backend: new FilesystemBackend({ rootDir: '/' }),
+  skills: [SKILLS_DIR],
+  systemPrompt: '你是一位产品调研分析师。需要专业能力时，可以加载对应 skill；输出可用于产品决策的竞品分析报告。',
+});
+</code></pre>
+<p>接入 Skills 后，调用链通常会多出一次 <code>read_file</code>，用于读取匹配 Skill 的 <code>SKILL.md</code>。典型调用链：</p>
+<pre><code>read_file → write_todos → search_competitors → search_best_practices → write_todos
+</code></pre>
+<p>这里的 <code>read_file</code> 证明 <code>FilesystemBackend + skills</code> 配置已经生效。</p>
+<p><strong>配套测试</strong></p>
+<p><code>services/chat/test/chapter14-deepagent.spec.ts</code> 按第十三章的 Layer 1 / Layer 2 分层方式组织：</p>
+<table>
+<thead>
+<tr>
+<th>分层</th>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layer 1</td>
+<td>Python 工具 JSON in/out</td>
+<td><code>search_competitors</code> 返回多个竞品，<code>search_best_practices</code> 返回最佳实践</td>
+</tr>
+<tr>
+<td>Layer 1</td>
+<td><code>listSkills</code> 解析 frontmatter</td>
+<td>能解析 <code>competitor-research</code>、<code>requirement-analysis</code>，且 description 非空</td>
+</tr>
+<tr>
+<td>Layer 1</td>
+<td><code>createDeepAgent</code> 创建 Agent</td>
+<td>最小配置、<code>FilesystemBackend</code>、<code>skills</code> 配置均能创建可 invoke 的对象</td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>调研 Agent 端到端</td>
+<td>Agent 调用 <code>search_competitors</code>，输出包含“竞品/项目管理”，长度大于 300</td>
+</tr>
+</tbody>
+</table>
+<p>运行方式：</p>
+<pre><code class="language-bash">cd services/chat
+
+# Layer 1：零 LLM 依赖
+bun test test/chapter14-deepagent.spec.ts
+
+# Layer 2：调用真实模型
+RUN_LLM_DEEPAGENT_TESTS=1 bun test test/chapter14-deepagent.spec.ts
+</code></pre>
+<p>Layer 2 默认跳过，只有设置 <code>RUN_LLM_DEEPAGENT_TESTS=1</code> 时才调用真实模型，避免本地缺少模型权限导致测试失败。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6830ae73be174b38a7f1164f33a346e8~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1748&amp;h=1414&amp;s=750143&amp;e=png&amp;b=1f1f1f" alt="image.png" /></p>
+<hr />
+<h2 id="14-10-deepagent-换来了什么">14.10 DeepAgent 换来了什么</h2>
+<p>把第八章到第十三章的手写机制与 DeepAgent 内置能力对齐，可以得到下面这张表：</p>
+<table>
+<thead>
+<tr>
+<th>前面章节手写机制</th>
+<th>DeepAgent 内置能力</th>
+<th>是否仍需手写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plannerNode</code>  • <code>PlanStep[]</code>  • <code>currentStepIndex</code></td>
+<td><code>write_todos</code></td>
+<td>常规长任务不需要；需要强控制时仍可手写</td>
+</tr>
+<tr>
+<td><code>agentNode → ToolNode → agentNode</code> ReAct 循环</td>
+<td>内置 tool-calling loop</td>
+<td>不需要</td>
+</tr>
+<tr>
+<td>消息压缩逻辑</td>
+<td><code>SummarizationMiddleware</code></td>
+<td>不需要手写基础压缩</td>
+</tr>
+<tr>
+<td><code>createExpertSubGraph</code>  • Supervisor</td>
+<td><code>task</code>  • <code>SubAgent</code> 声明</td>
+<td>动态委托可不写；固定并行仍适合 LangGraph</td>
+</tr>
+<tr>
+<td><code>load_skill</code> 工具 + skill 索引</td>
+<td><code>SkillsMiddleware</code>  • <code>skills</code> 目录</td>
+<td>不需要手写加载工具；业务工具仍需注册</td>
+</tr>
+<tr>
+<td>Checkpointer 配置</td>
+<td><code>checkpointer: true</code> 等配置</td>
+<td>基础能力不需要手写</td>
+</tr>
+<tr>
+<td><code>interrupt()</code>  • <code>Command</code></td>
+<td><code>interruptOn</code> 声明式配置</td>
+<td>常规 HITL 不需要手写底层流程</td>
+</tr>
+<tr>
+<td><code>streamMode: &quot;updates&quot;</code> / <code>streamEvents</code></td>
+<td>继承 LangGraph 原生能力</td>
+<td>用法保持一致</td>
+</tr>
+</tbody>
+</table>
+<p><strong>边界声明</strong></p>
+<ul>
+<li>DeepAgent 不是新的图原语，而是预装中间件集合。</li>
+<li>DeepAgent 适合中等复杂度、需要规划和上下文管理的任务。</li>
+<li>如果业务需要精确控制节点、并行、汇合、重试和状态更新，LangGraph <code>StateGraph</code> 仍然是更合适的选择。</li>
+<li>DeepAgent 可以与 LangGraph 组合：外层用 DeepAgent 负责长任务编排，内层用 LangGraph 子图负责复杂业务流程。第十五章将展开这一点。</li>
+</ul>
+<hr />
+<h2 id="14-11-常见问题">14.11 常见问题</h2>
+<h3 id="q1-deepagent-和-langgraph-是什么关系">Q1：DeepAgent 和 LangGraph 是什么关系？</h3>
+<p><code>createDeepAgent</code> 返回的是编译后的 LangGraph 图。它可以继续使用 <code>invoke()</code>、<code>stream()</code>、<code>streamEvents()</code>、Checkpointer 和 LangSmith trace。DeepAgent 只是在 LangGraph 之上预装了一组长任务中间件。</p>
+<h3 id="q2-为什么-write_todos-有时候不会出现">Q2：为什么 <code>write_todos</code> 有时候不会出现？</h3>
+<p>常见原因有三类：</p>
+<ol>
+<li>任务过于简单，模型判断无需规划。</li>
+<li>业务 system prompt 与内置规划引导冲突。</li>
+<li>模型的 tool calling 能力不稳定或未正确配置。</li>
+</ol>
+<p>天气查询这类任务不出现 <code>write_todos</code> 是正常行为。调研、分析、报告生成等多步骤任务更容易触发规划。</p>
+<h3 id="q3-虚拟文件系统内容会自动进入-llm-上下文吗">Q3：虚拟文件系统内容会自动进入 LLM 上下文吗？</h3>
+<p>不会。文件内容只有在模型调用 <code>read_file</code> 时才会作为 ToolMessage 进入 messages。这个设计也是虚拟文件系统能降低上下文压力的原因：不用的文件不占上下文。</p>
+<h3 id="q4-能否把第八-九章的-langgraph-子图接入-deepagent">Q4：能否把第八、九章的 LangGraph 子图接入 DeepAgent？</h3>
+<p>可以。<code>createDeepAgent</code> 的 <code>subagents</code> 支持声明式子 Agent，也可以接入已编译的 LangGraph 图。第十五章会展示如何把 <code>createAnalysisGraph()</code> 作为 DeepAgent 的子 Agent 接入。</p>
+<h3 id="q5-deepagent-适合什么任务-不适合什么任务">Q5：DeepAgent 适合什么任务，不适合什么任务？</h3>
+<table>
+<thead>
+<tr>
+<th>适合</th>
+<th>不适合</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多步骤调研、报告、分析任务</td>
+<td>一问一答的简单查询</td>
+</tr>
+<tr>
+<td>中间产物多，需要暂存和读取的任务</td>
+<td>实时性要求极高的对话</td>
+</tr>
+<tr>
+<td>可以拆分子任务的复杂工作</td>
+<td>需要精确控制每个节点和并行逻辑的流程</td>
+</tr>
+<tr>
+<td>上下文可能持续增长的长任务</td>
+<td>token 成本极度敏感且流程很短的任务</td>
+</tr>
+</tbody>
+</table>
+<p>如果任务位于右侧，优先考虑 <code>createReactAgent</code> 或 LangGraph <code>StateGraph</code>。</p>
+<h3 id="q6-deepagents-的版本要求是什么">Q6：<code>deepagents</code> 的版本要求是什么？</h3>
+<p>本章基于 <code>deepagents@^1.10.2</code> 编写和验证。文中的 <code>createDeepAgent</code>、<code>FilesystemBackend</code>、<code>skills</code>、<code>write_todos</code>、虚拟文件系统和 <code>task</code> 行为均以该版本为准。升级依赖后，应先复跑 <code>services/chat/test/chapter14-deepagent.spec.ts</code>，再更新文档结论。</p>
+<h3 id="q7-工具或子-agent-出错-陷入循环时怎么办">Q7：工具或子 Agent 出错、陷入循环时怎么办？</h3>
+<p>DeepAgent 运行在 LangGraph 之上，因此沿用 LangGraph 的循环与终止机制：</p>
+<ol>
+<li><strong>工具失败</strong>：工具抛出的错误会作为 ToolMessage 回到模型，模型可据此重试或换路径；是否自动重试取决于工具实现和中间件配置。</li>
+<li><strong>子 Agent 失败</strong>：<code>task</code> 在独立上下文中执行，子 Agent 的失败以结果摘要的形式返回主 Agent，不会直接污染主上下文，主 Agent 可决定是否换策略。</li>
+<li><strong>循环上限</strong>：可通过 LangGraph 的 <code>recursionLimit</code> 限制最大步数，防止模型在工具调用上无限循环。生产环境应结合超时、预算和可观测性一起设置（详见第十五章）。</li>
+</ol>
+<hr />
+<h2 id="14-12-术语速查表">14.12 术语速查表</h2>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent Harness</td>
+<td>模型外部的运行环境，负责规划、工具调用、上下文管理、权限和观测等能力</td>
+</tr>
+<tr>
+<td><code>createDeepAgent</code></td>
+<td><code>deepagents</code> SDK 的核心入口，返回编译后的 LangGraph 图</td>
+</tr>
+<tr>
+<td><code>write_todos</code></td>
+<td>内置任务规划工具，模型用它拆解步骤并更新进度</td>
+</tr>
+<tr>
+<td>虚拟文件系统</td>
+<td>Agent 执行期间保存中间产物的文件系统</td>
+</tr>
+<tr>
+<td><code>task</code></td>
+<td>内置子 Agent 委托工具，用于把子任务交给独立上下文执行</td>
+</tr>
+<tr>
+<td><code>SubAgent</code></td>
+<td>声明式子 Agent 规格，定义 name、description、tools 和 systemPrompt</td>
+</tr>
+<tr>
+<td><code>SkillsMiddleware</code></td>
+<td>读取 <code>SKILL.md</code> 目录并注入 skill 索引的中间件</td>
+</tr>
+<tr>
+<td><code>SummarizationMiddleware</code></td>
+<td>消息超长时自动压缩历史的中间件</td>
+</tr>
+<tr>
+<td>Middleware</td>
+<td>DeepAgent 的扩展机制，可注入工具、状态字段和执行前后逻辑</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>虚拟文件系统的存储后端，默认是 <code>StateBackend</code>，可选 <code>FilesystemBackend</code> 等</td>
+</tr>
+<tr>
+<td><code>StateBackend</code></td>
+<td>默认内存态文件系统后端，文件随当前 Agent 执行存在</td>
+</tr>
+<tr>
+<td><code>FilesystemBackend</code></td>
+<td>基于真实文件系统的后端，用于读取磁盘上的 Skills 或工作目录文件</td>
+</tr>
+<tr>
+<td><code>MemoryMiddleware</code></td>
+<td>跨会话保留长期记忆的中间件，区别于只压缩当前会话历史的 <code>SummarizationMiddleware</code>（第十五章展开）</td>
+</tr>
+<tr>
+<td>todo <code>status</code></td>
+<td>任务状态，取值为 <code>pending</code> / <code>in_progress</code> / <code>completed</code></td>
+</tr>
+<tr>
+<td>frontmatter</td>
+<td><code>SKILL.md</code> 文件顶部的 YAML 元信息块，包含 <code>name</code>、<code>description</code>、<code>allowed-tools</code> 等字段</td>
+</tr>
+<tr>
+<td>ToolMessage</td>
+<td>工具执行结果回传给模型的消息类型，文件内容只有被 <code>read_file</code> 读取时才以它进入上下文</td>
+</tr>
+<tr>
+<td>LangSmith trace</td>
+<td>LangChain 的可观测性工具，可用于查看每轮 token、工具调用和执行链路</td>
+</tr>
+<tr>
+<td><code>recursionLimit</code></td>
+<td>LangGraph 的最大步数限制，用于防止 Agent 陷入无限工具调用循环</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-13-本章小结">14.13 本章小结</h2>
+<p>本章建立了 DeepAgent 的工程定位：</p>
+<ul>
+<li>第八、九章展示了如何用 LangGraph 原语从零构建 Agent 图，包括 State、Node、Edge、循环、子图和 Checkpointer。</li>
+<li>第十三章展示了如何把领域方法沉淀为 <code>SKILL.md</code> 资产。</li>
+<li>本章展示了如何用 <code>deepagents</code> SDK 直接获得任务规划、虚拟文件系统、子 Agent、上下文压缩和 Skills 接入。</li>
+</ul>
+<p>DeepAgent 的价值不在于引入新能力，而在于改变打包方式：把前面几章反复手写的运行时脚手架，收敛为一套默认中间件。</p>
+<p>同时需要保留边界意识：</p>
+<ul>
+<li>DeepAgent 不替代 LangGraph <code>StateGraph</code>。</li>
+<li>DeepAgent 适合中等复杂度、需要规划和上下文管理的长任务。</li>
+<li>需要强控制、固定并行、复杂汇合逻辑时，仍应使用 LangGraph 手写图。</li>
+<li>Skill 从磁盘加载时必须显式配置 <code>FilesystemBackend</code>。</li>
+<li>文件系统和子 Agent 是可用能力，不是强制流程；是否使用取决于任务和模型决策。</li>
+</ul>
+<p>可以用一句话收束：</p>
+<blockquote>
+<p>简单任务用 <code>createReactAgent</code>，强控制流程用 LangGraph <code>StateGraph</code>，需要规划、上下文管理和子任务隔离的长任务用 <code>createDeepAgent</code>。三者不是替代关系，而是复杂度阶梯。</p>
+</blockquote>
+<h3 id="后续章节预告">后续章节预告</h3>
+<p>第十五章进入 <strong>DeepAgent 长链任务与自主规划</strong>。本章只使用了默认配置，并采用独立的产品调研场景。下一章重点处理两个更接近生产环境的问题：</p>
+<ol>
+<li><strong>如何把 DeepAgent 接入已有业务系统</strong>：将第八、九章的 <code>createAnalysisGraph()</code> 作为子 Agent，让 DeepAgent 编排多工单联合分析。</li>
+<li><strong>如何处理生产级长链任务</strong>：持久化、Store、Disk backend、异步 subagent、HITL、权限控制和可观测性。</li>
+</ol>
+<h2 id="写在最后">写在最后 🧪</h2>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。不只聊概念，也尽量分享能直接上手、能够复用的经验。希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-15.html">← 第十三章：Skills——把最佳实践沉淀为能力资产</a>
+      <a class="next" href="ch-17.html">第十五章：DeepAgent——长链任务与自主规划 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#14-1-先看全景-agent-harness-谱系">14.1 先看全景：Agent Harness 谱系</a></li>
+      <li class="lv3"><a href="#14-1-1-harness-engineering-agent-model-harness">14.1.1 Harness Engineering：Agent = Model + Harness</a></li>
+      <li class="lv3"><a href="#14-1-2-三个-harness-横向对比">14.1.2 三个 Harness 横向对比</a></li>
+      <li class="lv3"><a href="#14-1-3-设计哲学光谱">14.1.3 设计哲学光谱</a></li>
+      <li class="lv2"><a href="#14-2-三个关键问题">14.2 三个关键问题</a></li>
+      <li class="lv3"><a href="#14-2-1-langchain-自身的演进路径">14.2.1 LangChain 自身的演进路径</a></li>
+      <li class="lv3"><a href="#14-2-2-为什么有了-claude-agent-sdk-pi-还需要-langchain">14.2.2 为什么有了 Claude Agent SDK / Pi，还需要 LangChain</a></li>
+      <li class="lv3"><a href="#14-2-3-有了-langchain-为什么还需要-deepagent">14.2.3 有了 LangChain，为什么还需要 DeepAgent</a></li>
+      <li class="lv2"><a href="#14-3-deepagent-的主要功能">14.3 DeepAgent 的主要功能</a></li>
+      <li class="lv3"><a href="#14-3-1-createdeepagent-参数速查">14.3.1 `createDeepAgent` 参数速查</a></li>
+      <li class="lv2"><a href="#14-4-最小-deepagent-30-行跑通">14.4 最小 DeepAgent：30 行跑通</a></li>
+      <li class="lv3"><a href="#14-4-1-安装依赖">14.4.1 安装依赖</a></li>
+      <li class="lv3"><a href="#14-4-2-hello-world">14.4.2 Hello World</a></li>
+      <li class="lv3"><a href="#14-4-3-这个最小示例说明了什么">14.4.3 这个最小示例说明了什么</a></li>
+      <li class="lv2"><a href="#14-5-第一个有用的-deepagent-产品调研-agent">14.5 第一个有用的 DeepAgent：产品调研 Agent</a></li>
+      <li class="lv3"><a href="#14-5-1-代码实现">14.5.1 代码实现</a></li>
+      <li class="lv3"><a href="#14-5-2-对比-createreactagent-vs-createdeepagent">14.5.2 对比：`createReactAgent` vs `createDeepAgent`</a></li>
+      <li class="lv2"><a href="#14-6-任务规划-write_todos">14.6 任务规划：`write_todos`</a></li>
+      <li class="lv3"><a href="#14-6-1-机制">14.6.1 机制</a></li>
+      <li class="lv3"><a href="#14-6-2-对照第九章-plannernode">14.6.2 对照第九章 `plannerNode`</a></li>
+      <li class="lv3"><a href="#14-6-3-验收方式">14.6.3 验收方式</a></li>
+      <li class="lv2"><a href="#14-7-虚拟文件系统-长任务的草稿纸">14.7 虚拟文件系统：长任务的草稿纸</a></li>
+      <li class="lv3"><a href="#14-7-1-为什么需要文件系统">14.7.1 为什么需要文件系统</a></li>
+      <li class="lv3"><a href="#14-7-2-六个内置工具">14.7.2 六个内置工具</a></li>
+      <li class="lv3"><a href="#14-7-3-默认后端-statebackend">14.7.3 默认后端：StateBackend</a></li>
+      <li class="lv3"><a href="#14-7-4-文件系统验收方式">14.7.4 文件系统验收方式</a></li>
+      <li class="lv3"><a href="#14-7-5-自动-summarization-与文件系统互补的上下文管理">14.7.5 自动 Summarization：与文件系统互补的上下文管理</a></li>
+      <li class="lv2"><a href="#14-8-subagent-task-工具">14.8 Subagent：`task` 工具</a></li>
+      <li class="lv3"><a href="#14-8-1-为什么需要子-agent">14.8.1 为什么需要子 Agent</a></li>
+      <li class="lv3"><a href="#14-8-2-两种子-agent-声明方式">14.8.2 两种子 Agent 声明方式</a></li>
+      <li class="lv3"><a href="#14-8-3-task-的验收方式">14.8.3 `task` 的验收方式</a></li>
+      <li class="lv3"><a href="#14-8-4-对照第九章-supervisor">14.8.4 对照第九章 Supervisor</a></li>
+      <li class="lv2"><a href="#14-9-把第十三章的-skills-接入-deepagent">14.9 把第十三章的 Skills 接入 DeepAgent</a></li>
+      <li class="lv3"><a href="#14-9-1-接入方式">14.9.1 接入方式</a></li>
+      <li class="lv3"><a href="#14-9-2-对照第十三章">14.9.2 对照第十三章</a></li>
+      <li class="lv3"><a href="#14-9-3-完整调研-agent-含-skills">14.9.3 完整调研 Agent（含 Skills）</a></li>
+      <li class="lv2"><a href="#14-10-deepagent-换来了什么">14.10 DeepAgent 换来了什么</a></li>
+      <li class="lv2"><a href="#14-11-常见问题">14.11 常见问题</a></li>
+      <li class="lv3"><a href="#q1-deepagent-和-langgraph-是什么关系">Q1：DeepAgent 和 LangGraph 是什么关系？</a></li>
+      <li class="lv3"><a href="#q2-为什么-write_todos-有时候不会出现">Q2：为什么 `write_todos` 有时候不会出现？</a></li>
+      <li class="lv3"><a href="#q3-虚拟文件系统内容会自动进入-llm-上下文吗">Q3：虚拟文件系统内容会自动进入 LLM 上下文吗？</a></li>
+      <li class="lv3"><a href="#q4-能否把第八-九章的-langgraph-子图接入-deepagent">Q4：能否把第八、九章的 LangGraph 子图接入 DeepAgent？</a></li>
+      <li class="lv3"><a href="#q5-deepagent-适合什么任务-不适合什么任务">Q5：DeepAgent 适合什么任务，不适合什么任务？</a></li>
+      <li class="lv3"><a href="#q6-deepagents-的版本要求是什么">Q6：`deepagents` 的版本要求是什么？</a></li>
+      <li class="lv3"><a href="#q7-工具或子-agent-出错-陷入循环时怎么办">Q7：工具或子 Agent 出错、陷入循环时怎么办？</a></li>
+      <li class="lv2"><a href="#14-12-术语速查表">14.12 术语速查表</a></li>
+      <li class="lv2"><a href="#14-13-本章小结">14.13 本章小结</a></li>
+      <li class="lv3"><a href="#后续章节预告">后续章节预告</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后 🧪</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

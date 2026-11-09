@@ -1,0 +1,2950 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>第十二章：MCP——工具调用的操作系统 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li class="active"><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>第十二章：MCP——工具调用的操作系统</h1>
+<p><strong>本章demo地址</strong>：<a href="https://github.com/Cookieboty/autix-demo/tree/feat/mcp">feat/mcp</a></p>
+<p>上一章解决的是“让模型读懂业务知识库”：通过 RAG，Agent 可以在回答前先检索文档，再基于资料生成结果。但读懂资料还不够，一个真正能落地的 Agent 还需要“动手”——查询项目管理系统、读取设计稿、查看代码仓库、搜索外部资料，甚至触发业务流程。</p>
+<p>回到第九章的 Multi-Agent 系统，当时的工具仍然写在代码里：<code>readFeatureSpecTool</code>、<code>loadPerfBaselineTool</code> 这些函数都固定在 <code>expert-tools.ts</code> 中，随着项目一起编译和部署。这种方式适合教学项目，也适合少量自有工具；但一旦进入真实业务，工具数量和外部系统会迅速增加：</p>
+<ul>
+<li><strong>项目管理</strong>：Jira、Linear、Asana 里的 backlog、issue、sprint 数据</li>
+<li><strong>文档协作</strong>：Confluence、Notion、飞书文档里的 PRD、技术方案、会议纪要</li>
+<li><strong>代码仓库</strong>：GitHub、GitLab 的目录结构、PR、commit history</li>
+<li><strong>设计工具</strong>：Figma 的设计稿、组件标注、交互说明</li>
+<li><strong>数据库</strong>：MySQL、PostgreSQL 中的数据模型、表结构、业务记录</li>
+<li><strong>网络搜索</strong>：竞品调研、行业最佳实践、公开技术方案</li>
+</ul>
+<p>每个系统都有自己的 API、认证方式、数据结构和错误模型。如果每接入一个系统，都要在业务代码里写一套专用 Tool，再重新发版，工程复杂度会很快失控。</p>
+<p>本章的主角 <strong>MCP（Model Context Protocol，模型上下文协议）</strong>，解决的正是这个问题。它不是一个新的大模型，也不是一个新的 Agent 框架，而是一套连接协议：让 AI 应用用统一方式发现、连接、调用外部工具和数据源。</p>
+<p>可以把 MCP 理解成“AI 工具调用的 USB-C 接口”。没有 MCP 时，每个外部服务都像一根专用线；有了 MCP，只要服务端按协议暴露能力，客户端就可以在运行时发现并调用它。对 Agent 系统来说，这意味着工具不再只能硬编码在项目里，而可以变成独立部署、跨项目复用、按需连接的外部能力。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2fc9e0022a34cd7950f059479729a16~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=623363&amp;e=jpg&amp;b=0a0731" alt="generated-image-1779534585624.png" /></p>
+<p>本章内容信息密度较高，会同时涉及协议设计、工程实现、LangChain 桥接、多 Server 编排、安全模型与生产可观测性。为了避免专业名词堆叠，正文会像第十一章一样，先解释概念，再进入代码实现。</p>
+<p>先给几个核心术语打底：</p>
+<ul>
+<li><strong>MCP Server</strong>：能力提供方。它对外暴露 Tools、Resources、Prompts，例如“需求完整性分析工具”“PRD 模板资源”“需求分析 Prompt 模板”。</li>
+<li><strong>MCP Client</strong>：能力调用方。它连接一个或多个 MCP Server，获取可用工具列表，并在需要时发起调用。</li>
+<li><strong>Host</strong>：运行 MCP Client 的应用，例如 IDE、桌面助手、LangGraph Agent 服务。</li>
+<li><strong>Tool</strong>：可执行操作，由模型决定是否调用，例如 <code>analyze_completeness</code>。</li>
+<li><strong>Resource</strong>：只读数据，由应用决定何时读取，例如 <code>requirement://templates/prd</code>。</li>
+<li><strong>Prompt</strong>：预定义提示词模板，由用户或应用选择使用。</li>
+<li><strong>Transport</strong>：Client 和 Server 的通信方式，常见有 <code>stdio</code>、<code>Streamable HTTP</code>、早期的 <code>SSE</code>。</li>
+</ul>
+<p><strong>本章验收点</strong></p>
+<ul>
+<li>理解 Function Calling 的局限，以及 MCP 解决的核心问题</li>
+<li>掌握 MCP 协议的设计本质：JSON-RPC 2.0、生命周期状态机、能力协商</li>
+<li>理解 Tool / Resource / Prompt 三种核心原语的控制模型</li>
+<li>从零搭建一个 MCP Server，暴露需求分析相关工具</li>
+<li>搭建第二个 MCP Server，提供网络搜索能力，用于竞品调研和方案参考</li>
+<li>掌握 MCP Client 的连接、调用，以及 MCP Tool → LangChain Tool 的桥接</li>
+<li>理解传输层选型：stdio / Streamable HTTP / SSE</li>
+<li>掌握多 Server 编排、命名隔离与降级策略</li>
+<li>掌握错误处理、韧性设计和基础安全模型</li>
+<li>把 MCP 集成到第九章的 LangGraph Agent，实现工具能力的“即插即用”</li>
+<li>每个阶段都配有可直接用于生成代码的 Prompt，正文只保留关键片段。</li>
+</ul>
+<hr />
+<h2 id="12-1-为什么-function-calling-不够用">12.1 为什么 Function Calling 不够用</h2>
+<h3 id="12-1-1-编译时绑定-vs-运行时发现">12.1.1 编译时绑定 vs 运行时发现</h3>
+<p>回顾第八章，我们用 Function Calling 让 LLM 调用工具：</p>
+<pre><code class="language-tsx">// 第八章模式：编译时绑定
+const tools = [
+  { name: 'analyze_requirement', description: '...', parameters: {...} },
+  { name: 'check_conflicts',     description: '...', parameters: {...} },
+];
+// 这些工具在代码里写死，要加新工具就要改代码、重新部署
+</code></pre>
+<p>这就是<strong>编译时绑定（compile-time binding）</strong>——工具清单在代码编写时就确定了。类比第十一章 11.1.2 讲的“没有 RAG 时会发生什么”：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Function Calling（编译时绑定）</th>
+<th>MCP（运行时发现）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新增工具</td>
+<td>改代码 → 编译 → 部署</td>
+<td>Server 加工具 → Client 自动发现</td>
+</tr>
+<tr>
+<td>跨项目复用</td>
+<td>复制粘贴代码</td>
+<td>同一个 MCP Server 被多个 Agent 连接</td>
+</tr>
+<tr>
+<td>第三方服务</td>
+<td>每个服务写一个适配器</td>
+<td>服务自己提供 MCP Server</td>
+</tr>
+<tr>
+<td>工具描述更新</td>
+<td>改代码重新部署</td>
+<td>Server 热更新，Client 下次 listTools 自动获取</td>
+</tr>
+<tr>
+<td>类比</td>
+<td>没有 USB，每个设备一根专用线</td>
+<td>USB-C：一根线连一切</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-1-2-连接外部服务的五大痛点">12.1.2 连接外部服务的五大痛点</h3>
+<ol>
+<li><strong>认证碎片化</strong>：Jira 用 API Token，GitHub 用 OAuth App，飞书用 App Secret，每个都要写认证逻辑</li>
+<li><strong>数据格式不统一</strong>：REST 返回 JSON、GraphQL 返回嵌套结构、gRPC 返回 Protobuf</li>
+<li><strong>错误处理不一致</strong>：有的用 HTTP 状态码，有的在 body 里放 error 字段</li>
+<li><strong>发现机制缺失</strong>：Agent 不知道“外面有哪些工具可用”，只能硬编码在代码里</li>
+<li><strong>生命周期无管理</strong>：连接什么时候建立、什么时候释放、崩溃了怎么重连</li>
+</ol>
+<h3 id="12-1-3-mcp-的定位">12.1.3 MCP 的定位</h3>
+<p>如果用操作系统做类比，MCP 提供的是工具调用所需的几层基础能力：</p>
+<div class="mermaid">graph TB
+  subgraph &quot;MCP 提供的五层能力&quot;
+    L1[&quot;1. 注册：Server 声明自己有哪些工具/资源&quot;]
+    L2[&quot;2. 发现：Client 动态获取可用工具列表&quot;]
+    L3[&quot;3. 调用：标准化的调用协议和返回格式&quot;]
+    L4[&quot;4. 权限：工具分级 + Human-in-the-Loop&quot;]
+    L5[&quot;5. 生命周期：连接管理 + 错误恢复&quot;]
+  end
+  L1 --&gt; L2 --&gt; L3 --&gt; L4 --&gt; L5
+</div>
+<h3 id="12-1-4-mcp-vs-function-calling-vs-langchain-tool">12.1.4 MCP vs Function Calling vs LangChain Tool</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>OpenAI Function Calling</th>
+<th>LangChain Tool</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本质</td>
+<td>LLM 输出格式约束</td>
+<td>代码里的工具抽象</td>
+<td>跨进程通信协议</td>
+</tr>
+<tr>
+<td>工具发现</td>
+<td>❌ 硬编码</td>
+<td>❌ 硬编码</td>
+<td>✅ 运行时 <code>tools/list</code></td>
+</tr>
+<tr>
+<td>跨语言</td>
+<td>❌ 取决于 SDK</td>
+<td>❌ Python/JS</td>
+<td>✅ JSON-RPC 语言无关</td>
+</tr>
+<tr>
+<td>独立部署</td>
+<td>❌ 打包在应用里</td>
+<td>❌ 打包在应用里</td>
+<td>✅ Server 独立进程/服务</td>
+</tr>
+<tr>
+<td>生态复用</td>
+<td>❌ 自己写</td>
+<td>⚠️ 社区贡献</td>
+<td>✅ 标准化生态</td>
+</tr>
+<tr>
+<td>版本兼容</td>
+<td>跟着 OpenAI API</td>
+<td>跟着 LangChain</td>
+<td>有明确版本协商</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键点</strong>：三者不是替代关系，而是分工不同——</p>
+<pre><code>LLM (Function Calling 格式) → LangChain Tool (本地抽象) → MCP Client (跨进程协议) → MCP Server
+</code></pre>
+<p>MCP 是最外层的「连接协议」，LangChain Tool 是应用内的「工具接口」，Function Calling 是 LLM 的「输出格式」。本章的目标就是把这三层串起来。</p>
+<hr />
+<h2 id="12-2-mcp-协议的设计本质">12.2 MCP 协议的设计本质</h2>
+<blockquote>
+<p>第十一章用一节解释了“向量为什么能表示语义”。这一节对应地解释 MCP 的协议本质：它到底靠什么完成跨进程、跨语言的工具调用。</p>
+</blockquote>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d3f241c79864f898128b9ce2c712303~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=432042&amp;e=jpg&amp;b=fdfcfc" alt="ai-edited-image.png" /></p>
+<h3 id="12-2-1-为什么选-json-rpc-2-0">12.2.1 为什么选 JSON-RPC 2.0</h3>
+<p>MCP 底层使用 <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a> 作为消息格式。这不是随意选择——JSON-RPC 恰好提供了 MCP 需要的三种消息模式：</p>
+<p><strong>1. Request（请求）</strong>：Client → Server，带 <code>id</code>，期待 Response</p>
+<pre><code class="language-json">{
+  &quot;jsonrpc&quot;: &quot;2.0&quot;,
+  &quot;id&quot;: 1,
+  &quot;method&quot;: &quot;tools/call&quot;,
+  &quot;params&quot;: {
+    &quot;name&quot;: &quot;analyze_completeness&quot;,
+    &quot;arguments&quot;: { &quot;requirementText&quot;: &quot;作为管理员...&quot; }
+  }
+}
+</code></pre>
+<p><strong>2. Response（响应）</strong>：Server → Client，匹配 <code>id</code></p>
+<pre><code class="language-json">{
+  &quot;jsonrpc&quot;: &quot;2.0&quot;,
+  &quot;id&quot;: 1,
+  &quot;result&quot;: {
+    &quot;content&quot;: [{ &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;{\&quot;completenessScore\&quot;: 67, ...}&quot; }]
+  }
+}
+</code></pre>
+<p><strong>3. Notification（通知）</strong>：单向消息，无 <code>id</code>，不期待回复</p>
+<pre><code class="language-json">{
+  &quot;jsonrpc&quot;: &quot;2.0&quot;,
+  &quot;method&quot;: &quot;notifications/tools/list_changed&quot;
+}
+</code></pre>
+<p>这里需要区分几个概念：</p>
+<ul>
+<li><strong>REST</strong> 更适合无状态的资源访问，例如 <code>GET /users/1</code>、<code>POST /orders</code>。它的核心是请求-响应，不擅长描述一条长期连接里的能力协商、状态通知和双向消息。</li>
+<li><strong>WebSocket</strong> 解决的是“全双工通信通道”，但它只规定了怎么传消息，并不规定消息内部的请求、响应、错误码、方法名应该如何组织。</li>
+<li><strong>JSON-RPC 2.0</strong> 解决的是“消息格式和调用语义”：哪个请求对应哪个响应、方法不存在怎么报错、参数错误怎么表达、通知消息是否需要回复。</li>
+</ul>
+<p>MCP 选择 JSON-RPC，是因为它需要的不只是传输通道，而是一套稳定的远程过程调用约定。传输层可以是 stdio，也可以是 HTTP；但消息语义保持一致，Client 和 Server 才能跨语言、跨进程协作。</p>
+<h3 id="12-2-2-mcp-生命周期状态机">12.2.2 MCP 生命周期状态机</h3>
+<div class="mermaid">stateDiagram-v2
+  [*] --&gt; Initializing: Client 发起连接
+  Initializing --&gt; Initialized: 能力协商完成
+  Initialized --&gt; Normal: 双方交换 initialized 通知
+  Normal --&gt; Normal: tools/list, tools/call, resources/read...
+  Normal --&gt; Shutdown: Client 或 Server 发起关闭
+  Shutdown --&gt; [*]: 连接释放
+</div>
+<p>每个阶段的实际报文：</p>
+<p><strong>阶段 1：initialize（能力协商）</strong></p>
+<pre><code class="language-json">// Client → Server
+{
+  &quot;jsonrpc&quot;: &quot;2.0&quot;,
+  &quot;id&quot;: 1,
+  &quot;method&quot;: &quot;initialize&quot;,
+  &quot;params&quot;: {
+    &quot;protocolVersion&quot;: &quot;2025-03-26&quot;,
+    &quot;capabilities&quot;: { &quot;roots&quot;: { &quot;listChanged&quot;: true } },
+    &quot;clientInfo&quot;: { &quot;name&quot;: &quot;autix-chat&quot;, &quot;version&quot;: &quot;1.0.0&quot; }
+  }
+}
+
+// Server → Client
+{
+  &quot;jsonrpc&quot;: &quot;2.0&quot;,
+  &quot;id&quot;: 1,
+  &quot;result&quot;: {
+    &quot;protocolVersion&quot;: &quot;2025-03-26&quot;,
+    &quot;capabilities&quot;: {
+      &quot;tools&quot;: { &quot;listChanged&quot;: true },
+      &quot;resources&quot;: { &quot;subscribe&quot;: true }
+    },
+    &quot;serverInfo&quot;: { &quot;name&quot;: &quot;requirement-analyzer&quot;, &quot;version&quot;: &quot;1.0.0&quot; }
+  }
+}
+</code></pre>
+<p><strong>为什么需要能力协商？</strong> Client 不知道 Server 支持什么（可能只有 Tools 没有 Resources），Server 也不知道 Client 支持什么（可能不支持 sampling）。协商确保双方只使用对方支持的功能。</p>
+<p><strong>阶段 2：initialized（通知）</strong></p>
+<pre><code class="language-json">// Client → Server（Notification，无 id）
+{ &quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;method&quot;: &quot;notifications/initialized&quot; }
+</code></pre>
+<p><strong>阶段 3：Normal（正常交互）</strong></p>
+<p>此时可以发起 <code>tools/list</code>、<code>tools/call</code>、<code>resources/list</code>、<code>resources/read</code> 等请求。</p>
+<p><strong>阶段 4：Shutdown</strong></p>
+<p>任意一方可以发起关闭。对于 stdio 传输，关闭 stdin 即可；对于 HTTP 传输，发送关闭请求或断开连接。</p>
+<h3 id="12-2-3-session-的两种模式">12.2.3 Session 的两种模式</h3>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+<th>传输</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>有状态</td>
+<td>Server 维护 session，记住协商结果</td>
+<td>stdio / Streamable HTTP with Mcp-Session-Id</td>
+<td>需要订阅、需要工具列表变更通知</td>
+</tr>
+<tr>
+<td>无状态</td>
+<td>每次请求独立，不保持上下文</td>
+<td>Streamable HTTP without session</td>
+<td>简单查询、Serverless 部署</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-2-4-版本演进">12.2.4 版本演进</h3>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>时间</th>
+<th>关键变化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024-11-05</td>
+<td>初始版本</td>
+<td>基础 Tools/Resources/Prompts</td>
+</tr>
+<tr>
+<td>2025-03-26</td>
+<td>截至写作时的稳定版</td>
+<td>新增 Streamable HTTP 传输、annotations、elicitation</td>
+</tr>
+<tr>
+<td>latest</td>
+<td>开发中</td>
+<td>OAuth 2.1 集成增强</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-3-三种核心原语的设计哲学">12.3 三种核心原语的设计哲学</h2>
+<blockquote>
+<p>理解 MCP，不能只看接口怎么写，还要看三种原语分别由谁控制。这个控制模型决定了工具、资料和 Prompt 在 Agent 系统中的边界。</p>
+</blockquote>
+<p>MCP 定义了三种核心原语（Primitive）。这里的“原语”可以理解为协议里最基础的能力单元：所有上层功能都由这些能力组合出来。</p>
+<p>三种原语的关键区别不在于“长得像不像工具”，而在于<strong>谁决定使用它</strong>：</p>
+<div class="mermaid">graph LR
+  subgraph &quot;谁控制调用？&quot;
+    T[&quot;🔧 Tools&lt;br/&gt;模型控制&quot;]
+    R[&quot;📄 Resources&lt;br/&gt;应用控制&quot;]
+    P[&quot;💬 Prompts&lt;br/&gt;用户控制&quot;]
+  end
+</div>
+<ul>
+<li><strong>Tools</strong>：模型在推理过程中决定是否调用，适合“执行一个动作”。</li>
+<li><strong>Resources</strong>：应用程序决定何时读取，适合“查阅一份资料”。</li>
+<li><strong>Prompts</strong>：用户或产品界面决定何时使用，适合“选择一套预定义工作流”。</li>
+</ul>
+<h3 id="12-3-1-tools-模型控制">12.3.1 Tools（模型控制）</h3>
+<p>Tools 是 MCP 最核心的原语——<strong>让 LLM 自主决定调用什么工具、传什么参数</strong>。</p>
+<p><strong>定义结构</strong>：</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;analyze_completeness&quot;,
+  &quot;description&quot;: &quot;分析需求描述的完整性...&quot;,
+  &quot;inputSchema&quot;: {
+    &quot;type&quot;: &quot;object&quot;,
+    &quot;properties&quot;: {
+      &quot;requirementText&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;需求描述文本&quot; }
+    },
+    &quot;required&quot;: [&quot;requirementText&quot;]
+  },
+  &quot;annotations&quot;: {
+    &quot;readOnlyHint&quot;: true,
+    &quot;destructiveHint&quot;: false,
+    &quot;openWorldHint&quot;: false
+  }
+}
+</code></pre>
+<p><strong>关键设计点</strong>：</p>
+<ul>
+<li><code>inputSchema</code>：标准 JSON Schema，LLM 用它来理解参数结构和约束</li>
+<li><code>annotations</code>：给 Client 的提示（只读？有破坏性？对外部世界有影响？）
+<ul>
+<li><code>readOnlyHint: true</code> → 工具不修改任何状态，可以安全自动调用</li>
+<li><code>destructiveHint: true</code> → 工具会修改/删除数据，应当请求用户确认</li>
+<li><code>openWorldHint: true</code> → 工具会访问外部网络（如搜索引擎）</li>
+<li>说明：以上描述的是各字段为 <code>true</code> 时的语义。示例中 <code>analyze_completeness</code> 的值为 <code>false</code>，因为该工具不访问外网也不修改数据</li>
+</ul>
+</li>
+<li>结果格式：<code>content[]</code> 数组，每个元素可以是 <code>text</code> / <code>image</code> / <code>embedded resource</code></li>
+</ul>
+<p><strong>结果示例</strong>：</p>
+<pre><code class="language-json">{
+  &quot;content&quot;: [
+    { &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;{\&quot;completenessScore\&quot;: 67, ...}&quot; }
+  ],
+  &quot;isError&quot;: false
+}
+</code></pre>
+<p><strong><code>isError</code> vs 协议错误</strong>：<code>isError: true</code> 表示工具执行失败（但协议通信正常），比如“输入的需求文本太短无法分析”。而 JSON-RPC error 表示协议层面的失败，比如“找不到这个工具”。</p>
+<h3 id="12-3-2-resources-应用控制">12.3.2 Resources（应用控制）</h3>
+<p>Resources 是<strong>只读数据源</strong>——由应用（而非 LLM）决定何时读取。</p>
+<pre><code class="language-json">{
+  &quot;uri&quot;: &quot;requirement://templates/prd&quot;,
+  &quot;name&quot;: &quot;PRD 标准模板&quot;,
+  &quot;mimeType&quot;: &quot;text/markdown&quot;
+}
+</code></pre>
+<p><strong>与 Tool 的本质区别</strong>：Tool 是“让模型决定是否执行一个动作”，Resource 是“让应用按自己的流程读取一份资料”。后文 12.3.4 会用一张综合表统一对比 Tool / Resource / Prompt，这里先记住控制者不同即可。</p>
+<p><strong>动态 Resource Templates</strong>：</p>
+<pre><code class="language-json">{
+  &quot;uriTemplate&quot;: &quot;requirement://projects/{projectId}/requirements&quot;,
+  &quot;name&quot;: &quot;项目需求列表&quot;,
+  &quot;mimeType&quot;: &quot;application/json&quot;
+}
+</code></pre>
+<p>URI 模板允许参数化资源路径，应用可以根据当前上下文填入 <code>projectId</code>。</p>
+<p><strong>订阅更新</strong>：Client 可以订阅 Resource 变更通知——当 PRD 模板更新时，Server 发出 <code>notifications/resources/updated</code>。</p>
+<h3 id="12-3-3-prompts-用户控制">12.3.3 Prompts（用户控制）</h3>
+<p>Prompts 是 Server 提供的<strong>预定义 Prompt 模板</strong>——由用户（通过 UI）选择使用。</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;analyze_requirement&quot;,
+  &quot;description&quot;: &quot;需求分析标准 Prompt&quot;,
+  &quot;arguments&quot;: [
+    { &quot;name&quot;: &quot;requirementText&quot;, &quot;description&quot;: &quot;需要分析的需求描述&quot;, &quot;required&quot;: true }
+  ]
+}
+</code></pre>
+<p>调用后返回一组预构建的消息：</p>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: { &quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;请对以下需求进行全面分析：\n...&quot; }
+    }
+  ]
+}
+</code></pre>
+<p><strong>使用场景</strong>：Server 作者是领域专家，他提供的 Prompt 模板比用户自己写的更专业——比如需求分析应该从哪些维度切入，竞品调研应该关注哪些点。</p>
+<h3 id="12-3-4-三者控制模型对比表">12.3.4 三者控制模型对比表</h3>
+<table>
+<thead>
+<tr>
+<th>原语</th>
+<th>谁发起</th>
+<th>谁决策</th>
+<th>谁确认</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tool</td>
+<td>LLM 在对话中决定</td>
+<td>模型自主</td>
+<td>可选 Human-in-the-Loop</td>
+<td>执行分析、搜索、写入</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>应用代码程序化读取</td>
+<td>应用逻辑</td>
+<td>不需要</td>
+<td>加载模板、读取配置</td>
+</tr>
+<tr>
+<td>Prompt</td>
+<td>用户在 UI 中选择</td>
+<td>用户手动</td>
+<td>用户自己就是确认者</td>
+<td>选择“深度分析”模板</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-4-从零搭建-mcp-server-需求分析工具">12.4 从零搭建 MCP Server：需求分析工具</h2>
+<blockquote>
+<p>前面先把概念讲清楚，从这一节开始进入实现：先写一个最小可运行的 MCP Server，再逐步增加工具、资源和 Prompt。</p>
+</blockquote>
+<h3 id="12-4-1-最小可运行版本-一个文件-一个-tool">12.4.1 最小可运行版本：一个文件、一个 Tool</h3>
+<p><strong>目标</strong>：10 分钟搭建一个最小 MCP Server，只暴露 <code>analyze_completeness</code> 一个工具。</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;@mcp-servers/requirement-analyzer&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;scripts&quot;: {
+    &quot;build&quot;: &quot;tsc&quot;,
+    &quot;start&quot;: &quot;node dist/index.js&quot;,
+    &quot;dev&quot;: &quot;tsx src/index.ts&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@modelcontextprotocol/sdk&quot;: &quot;^1.12.0&quot;,
+    &quot;zod&quot;: &quot;^3.24.0&quot;
+  }
+}
+</code></pre>
+<p>核心代码（完整实现在 <code>mcp-servers/requirement-analyzer/src/index.ts</code>）：</p>
+<pre><code class="language-tsx">server.tool(
+  'analyze_completeness',
+  '分析需求描述的完整性，检查是否缺少关键维度（用户角色、功能描述、验收标准、非功能需求等）',
+  {
+    requirementText: z.string().describe('需求描述文本'),
+  },
+  async ({ requirementText }) =&gt; {
+    const dimensions = [
+      { name: '用户角色', keywords: ['用户', '角色', '作为', 'PM', '开发', '管理员', '运营'], found: false },
+      { name: '功能描述', keywords: ['能够', '可以', '支持', '实现', '功能', '需要', '希望'], found: false },
+      { name: '验收标准', keywords: ['验收', '标准', '条件', '期望', '预期结果', '应该', '必须'], found: false },
+      { name: '优先级', keywords: ['优先', 'P0', 'P1', 'P2', '紧急', '重要', '高', '低'], found: false },
+      { name: '非功能需求', keywords: ['性能', '安全', '可用性', '并发', '响应时间', '可靠', '稳定'], found: false },
+      { name: '边界条件', keywords: ['边界', '异常', '限制', '最大', '最小', '超出', '错误', '失败'], found: false },
+    ];
+
+    for (const dim of dimensions) {
+      dim.found = dim.keywords.some((kw) =&gt; requirementText.includes(kw));
+    }
+
+    const missing = dimensions.filter((d) =&gt; !d.found).map((d) =&gt; d.name);
+    const covered = dimensions.filter((d) =&gt; d.found).map((d) =&gt; d.name);
+    const score = Math.round((covered.length / dimensions.length) * 100);
+
+    return {
+      content: [
+        {
+          type: 'text' as const,
+          text: JSON.stringify(
+            {
+              completenessScore: score,
+              totalDimensions: dimensions.length,
+              coveredDimensions: covered,
+              missingDimensions: missing,
+              suggestion:
+                missing.length &gt; 0
+                  ? `建议补充以下维度：${missing.join('、')}`
+                  : '需求描述较为完整',
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  },
+);
+</code></pre>
+<p><strong>启动和验证</strong>：</p>
+<pre><code class="language-bash">cd mcp-servers/requirement-analyzer
+bun install
+bun run dev
+</code></pre>
+<p>Server 通过 stdio 通信——它从 stdin 读取 JSON-RPC 消息，向 stdout 写入响应。你看不到交互式输出（那些诊断信息打到了 stderr）。</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8d6220efe5dc48a9a9cec7a6ef37ab23~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1378&amp;h=450&amp;s=83675&amp;e=png&amp;b=292d35" alt="image.png" /></p>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：最小 MCP Server</p>
+<pre><code>用 TypeScript + @modelcontextprotocol/sdk 创建一个最小的 MCP Server：
+
+1. 只暴露一个 tool: analyze_completeness
+2. 输入：requirementText (string)
+3. 逻辑：检查文本是否包含 6 个维度的关键词（用户角色、功能描述、验收标准、优先级、非功能需求、边界条件）
+4. 输出：completenessScore (0-100)、coveredDimensions、missingDimensions、suggestion
+5. 使用 stdio 传输
+6. 用 zod 定义 inputSchema
+
+文件结构：
+- package.json (type: module, 依赖 @modelcontextprotocol/sdk + zod)
+- tsconfig.json (ESNext, bundler resolution)
+- src/index.ts (全部代码)
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.4.1&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>返回标准 <code>{ content: [{ type: 'text', text: ... }] }</code> 结构</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>全维度覆盖时分数为 100</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/30b8959efd5348da899ddc6681777996~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1446&amp;h=692&amp;s=151982&amp;e=png&amp;b=292d35" alt="image 1.png" /></p>
+<h3 id="12-4-2-加入更多-tools">12.4.2 加入更多 Tools</h3>
+<p>在 <code>analyze_completeness</code> 的基础上，加入三个工具：</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>功能</th>
+<th>关键逻辑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>estimate_complexity</code></td>
+<td>估算复杂度</td>
+<td>正则匹配复杂因子，加权计分，映射 T-shirt size</td>
+</tr>
+<tr>
+<td><code>check_conflicts</code></td>
+<td>冲突检查</td>
+<td>提取关键词，计算与现有需求的重叠度</td>
+</tr>
+<tr>
+<td><code>generate_user_stories</code></td>
+<td>生成用户故事</td>
+<td>提取角色和动作，套用 User Story 模板</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-tsx">server.tool(
+  'estimate_complexity',
+  '估算需求的技术复杂度，返回 T-shirt size（S/M/L/XL）和估算依据',
+  {
+    requirementText: z.string().describe('需求描述文本'),
+    techStack: z.string().optional().describe('技术栈（可选，用于更精确的估算）'),
+  },
+  async ({ requirementText }) =&gt; {
+    let score = 0;
+    const factors: string[] = [];
+
+    if (/集成|对接|第三方|API|接口|外部/.test(requirementText)) {
+      score += 3;
+      factors.push('涉及外部系统集成');
+    }
+    if (/迁移|导入|导出|批量|同步|Excel|CSV/.test(requirementText)) {
+      score += 2;
+      factors.push('涉及数据处理/迁移');
+    }
+    if (/权限|角色|鉴权|审批|多租户/.test(requirementText)) {
+      score += 2;
+      factors.push('涉及权限体系');
+    }
+    if (/实时|推送|WebSocket|通知|消息/.test(requirementText)) {
+      score += 2;
+      factors.push('涉及实时通信');
+    }
+    if (/AI|智能|推荐|预测|模型|LLM/.test(requirementText)) {
+      score += 3;
+      factors.push('涉及 AI/ML 能力');
+    }
+    if (/加密|安全|合规|审计/.test(requirementText)) {
+      score += 1;
+      factors.push('有安全合规要求');
+    }
+    if (requirementText.length &gt; 500) {
+      score += 1;
+      factors.push('需求描述较长，可能涉及多个子功能');
+    }
+
+    const size = score &lt;= 2 ? 'S' : score &lt;= 4 ? 'M' : score &lt;= 6 ? 'L' : 'XL';
+    const estimatedDays = { S: '1-3天', M: '3-7天', L: '1-3周', XL: '3周以上' }[size];
+    // ...
+  },
+);
+</code></pre>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：完整 4 工具 Server</p>
+<pre><code>在已有的 MCP Server 基础上，新增三个 tool：
+
+1. estimate_complexity
+   - 输入：requirementText, techStack?(optional)
+   - 逻辑：正则匹配复杂因子（集成/权限/实时/AI/安全等），加权计分
+   - 输出：size (S/M/L/XL), estimatedDays, complexityScore, factors[]
+
+2. check_conflicts
+   - 输入：newRequirement, existingRequirements (array of {id, title, description})
+   - 逻辑：提取关键词，计算与每个现有需求的重叠度，重叠 ≥ 3 关键词则标记冲突
+   - 输出：hasConflicts, conflictCount, conflicts[], suggestion
+
+3. generate_user_stories
+   - 输入：requirementText, maxStories?(default 3)
+   - 逻辑：用正则提取角色(作为XX)和动作(能够XX)，生成 User Story 格式
+   - 输出：stories[] (id, story, acceptanceCriteria[], priority)
+
+所有工具都在同一个 src/index.ts 文件中。
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.4&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>estimate_complexity</code> 简单需求返回 S</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>estimate_complexity</code> 复杂需求返回 L 或 XL</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>check_conflicts</code> 关键词重叠 ≥ 3 时检出冲突</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>generate_user_stories</code> 生成符合格式的用户故事</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>tools/list</code> 返回 4 个工具</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/12d88f5b24744f898f70672df962845f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1446&amp;h=1150&amp;s=333503&amp;e=png&amp;b=292d35" alt="image 2.png" /></p>
+<h3 id="12-4-3-加入-resources">12.4.3 加入 Resources</h3>
+<p>在同一个 Server 中加入两个 Resource：</p>
+<pre><code class="language-tsx">server.resource('requirement://templates/prd', 'PRD（产品需求文档）标准模板', async () =&gt; ({
+  contents: [
+    {
+      uri: 'requirement://templates/prd',
+      mimeType: 'text/markdown',
+      text: `# PRD: [需求标题]
+
+## 1. 背景与目标
+- 业务背景：
+- 用户痛点：
+- 预期目标：
+
+## 2. 用户角色
+| 角色 | 描述 | 核心诉求 |
+|------|------|----------|
+
+## 3. 功能需求
+### 3.1 核心功能
+### 3.2 辅助功能
+
+## 4. 非功能需求
+- 性能：
+- 安全：
+- 可用性：
+
+## 5. 验收标准
+- Given [前置条件]
+- When [用户操作]
+- Then [预期结果]
+
+## 6. 排期与里程碑`,
+    },
+  ],
+}));
+</code></pre>
+<p>Resource 是<strong>只读的数据</strong>，应用可以在构建 Prompt 时主动拉取模板内容，而不是让 LLM 决定。</p>
+<h3 id="12-4-4-加入-prompts">12.4.4 加入 Prompts</h3>
+<pre><code class="language-tsx">server.prompt(
+  'analyze_requirement',
+  '需求分析的标准 Prompt 模板，引导 LLM 对一段需求做全面分析',
+  { requirementText: z.string().describe('需要分析的需求描述') },
+  async ({ requirementText }) =&gt; ({
+    messages: [
+      {
+        role: 'user' as const,
+        content: {
+          type: 'text' as const,
+          text: `请对以下需求进行全面分析：
+
+【需求描述】
+${requirementText}
+
+请从以下维度分析：
+1. 完整性：是否缺少用户角色、功能边界、验收标准、非功能需求？
+2. 可行性：技术复杂度如何？有哪些技术风险？
+3. 优先级建议：基于业务价值和技术成本给出 P0/P1/P2 建议
+4. 拆分建议：如果需求过大，建议如何拆分为可独立交付的子需求？
+5. 潜在风险：时间风险、技术风险、依赖风险`,
+        },
+      },
+    ],
+  }),
+);
+</code></pre>
+<p>Server 作者（需求分析领域专家）提供了“应该从哪几个维度分析需求”的标准 Prompt。用户在 UI 中选择后，这段专业 Prompt 会自动注入对话。</p>
+<h3 id="12-4-5-用-mcp-inspector-调试">12.4.5 用 MCP Inspector 调试</h3>
+<p>MCP 官方提供了 <a href="https://modelcontextprotocol.io/docs/tools/inspector">Inspector</a> 工具，可以可视化地与 Server 交互：</p>
+<pre><code class="language-bash">npx @modelcontextprotocol/inspector tsx mcp-servers/requirement-analyzer/src/index.ts
+</code></pre>
+<p>Inspector 会在浏览器中打开一个 UI，你可以：</p>
+<ul>
+<li>看到所有注册的 Tools / Resources / Prompts</li>
+<li>手动填入参数调用工具</li>
+<li>查看原始 JSON-RPC 消息往返</li>
+</ul>
+<p>Inspector 可以理解为 MCP Server 的调试台，作用类似 HTTP 开发中的 Postman：不用先写 Client 代码，就能查看工具列表、填写参数、观察返回结果和原始协议消息。</p>
+<hr />
+<h2 id="12-5-mcp-client-连接与调用">12.5 MCP Client：连接与调用</h2>
+<h3 id="12-5-1-client-生命周期">12.5.1 Client 生命周期</h3>
+<div class="mermaid">sequenceDiagram
+  participant C as MCP Client
+  participant S as MCP Server
+
+  C-&gt;&gt;S: connect (建立传输)
+  C-&gt;&gt;S: initialize (协商能力)
+  S-&gt;&gt;C: initialize result (Server 能力)
+  C-&gt;&gt;S: notifications/initialized
+  C-&gt;&gt;S: tools/list
+  S-&gt;&gt;C: tools (4 个工具)
+  C-&gt;&gt;S: tools/call (analyze_completeness)
+  S-&gt;&gt;C: result (completenessScore: 67)
+  C-&gt;&gt;S: close
+</div>
+<h3 id="12-5-2-最小-client-实现">12.5.2 最小 Client 实现</h3>
+<pre><code class="language-tsx">/**
+ * MCP Client Service
+ *
+ * 封装对单个 MCP Server 的连接、生命周期管理和工具调用。
+ * 生命周期：connect → initialize → listTools → callTool → close
+ */
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import type { Tool, CallToolResult } from '@modelcontextprotocol/sdk/types.js';
+
+export interface MCPClientConfig {
+  /** Server 可执行文件的命令 */
+  command: string;
+  /** 命令参数 */
+  args?: string[];
+  /** 环境变量 */
+  env?: Record&lt;string, string&gt;;
+  /** 连接超时（ms） */
+  timeout?: number;
+}
+
+export class MCPClientService {
+  private client: Client;
+  private transport: StdioClientTransport | null = null;
+  private connected = false;
+  private tools: Tool[] = [];
+  private readonly config: MCPClientConfig;
+
+  constructor(config: MCPClientConfig) {
+    this.config = config;
+    this.client = new Client(
+      { name: 'autix-chat-client', version: '1.0.0' },
+      { capabilities: {} },
+    );
+  }
+
+  async connect(): Promise&lt;void&gt; {
+    if (this.connected) return;
+
+    this.transport = new StdioClientTransport({
+      command: this.config.command,
+      args: this.config.args,
+      env: { ...process.env, ...this.config.env } as Record&lt;string, string&gt;,
+    });
+
+    await this.client.connect(this.transport);
+    this.connected = true;
+
+    const { tools } = await this.client.listTools();
+    this.tools = tools;
+  }
+</code></pre>
+<blockquote>
+<p>以上代码基于 @modelcontextprotocol/sdk v1.12.x。SDK 仍在快速迭代中，Client 构造函数签名可能随版本变化，建议以实际安装版本的类型定义为准。</p>
+</blockquote>
+<p><strong>关键设计</strong>：<code>connect()</code> 完成后立即 <code>listTools()</code> 缓存工具列表。后续调用直接查缓存，无需重复网络请求。</p>
+<h3 id="12-5-3-mcp-tool-langchain-tool-桥接器">12.5.3 MCP Tool → LangChain Tool 桥接器</h3>
+<p>这是本章最关键的适配层：把 MCP 里运行时发现的工具转换成 LangChain 的 <code>DynamicStructuredTool</code>，让 LangGraph Agent 可以像使用本地工具一样调用外部 MCP 工具。</p>
+<pre><code class="language-tsx">/**
+ * MCP Tool → LangChain Tool 桥接器
+ *
+ * 将 MCP Server 暴露的 Tools 动态转换为 LangChain 的 DynamicStructuredTool，
+ * 使其可被 LangGraph Agent 直接使用。
+ *
+ * 核心转换：JSON Schema → Zod Schema，MCP content[] → string
+ */
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { z, ZodObject, ZodRawShape, ZodTypeAny } from 'zod';
+import type { Tool as MCPTool } from '@modelcontextprotocol/sdk/types.js';
+import type { MCPClientService } from './mcp-client.service.js';
+
+/**
+ * 将 MCP Server 的所有工具转换为 LangChain Tools
+ * @param client - 已连接的 MCPClientService 实例
+ * @param prefix - 工具名前缀（用于多 Server 去重），如 &quot;req_&quot;
+ */
+export function bridgeMCPToLangChain(
+  client: MCPClientService,
+  prefix = '',
+): DynamicStructuredTool[] {
+  const mcpTools = client.getTools();
+  return mcpTools.map((tool) =&gt; mcpToolToLangChain(tool, client, prefix));
+}
+
+function mcpToolToLangChain(
+  tool: MCPTool,
+  client: MCPClientService,
+  prefix: string,
+): DynamicStructuredTool {
+  const zodSchema = jsonSchemaToZod(tool.inputSchema as JsonSchemaObject);
+
+  return new DynamicStructuredTool({
+    name: `${prefix}${tool.name}`,
+    description: tool.description || tool.name,
+    schema: zodSchema,
+    func: async (args) =&gt; {
+      const result = await client.callTool(tool.name, args);
+      return serializeMCPContent(result.content as MCPContent[]);
+    },
+  });
+}
+</code></pre>
+<p><strong>桥接的三步转换</strong>：</p>
+<ol>
+<li><strong>JSON Schema → Zod</strong>：MCP 用 JSON Schema 描述参数，LangChain 用 Zod。需要运行时转换。</li>
+<li><strong>调用代理</strong>：LangChain 调用 <code>func(args)</code> → 内部转为 <code>client.callTool(name, args)</code></li>
+<li><strong>结果序列化</strong>：MCP 返回 <code>content[]</code> 数组 → 序列化为 LangChain 期望的 string</li>
+</ol>
+<p><strong>动态工具发现的意义</strong>：Server 新增工具后，Client 下次 <code>connect()</code> 自动获取新工具列表，<strong>无需改任何 Client 代码</strong>。这就是 MCP 相对于硬编码工具的核心价值。</p>
+<p>桥接层最容易卡在 Schema 转换和结果序列化。下面给出一个最小可用的 <code>jsonSchemaToZod</code> 递归转换片段；完整工程可以继续补充 <code>format</code>、<code>oneOf</code>、<code>anyOf</code>、<code>additionalProperties</code> 等边界类型：</p>
+<pre><code class="language-tsx">type JsonSchemaObject = {
+  type?: string;
+  properties?: Record&lt;string, JsonSchemaObject&gt;;
+  required?: string[];
+  items?: JsonSchemaObject;
+  enum?: unknown[];
+  description?: string;
+};
+
+function jsonSchemaToZod(schema: JsonSchemaObject): ZodTypeAny {
+  let zod: ZodTypeAny;
+
+  if (schema.enum?.length) {
+    const values = schema.enum.map(String);
+    zod = z.enum(values as [string, ...string[]]);
+  } else {
+    switch (schema.type) {
+      case 'string':
+        zod = z.string();
+        break;
+      case 'number':
+      case 'integer':
+        zod = z.number();
+        break;
+      case 'boolean':
+        zod = z.boolean();
+        break;
+      case 'array':
+        zod = z.array(jsonSchemaToZod(schema.items ?? {}));
+        break;
+      case 'object': {
+        const shape: ZodRawShape = {};
+        const required = new Set(schema.required ?? []);
+        for (const [key, child] of Object.entries(schema.properties ?? {})) {
+          const childZod = jsonSchemaToZod(child);
+          shape[key] = required.has(key) ? childZod : childZod.optional();
+        }
+        zod = z.object(shape);
+        break;
+      }
+      default:
+        zod = z.unknown();
+    }
+  }
+
+  return schema.description ? zod.describe(schema.description) : zod;
+}
+</code></pre>
+<p>工具结果也需要序列化：LangChain Tool 更适合返回字符串，而 MCP 原始结果是结构化的 <code>content[]</code>：</p>
+<pre><code class="language-tsx">function serializeMCPContent(content: MCPContent[]): string {
+  return content
+    .map((item) =&gt; {
+      if (item.type === 'text') return item.text;
+      if (item.type === 'image') return `[image: ${item.mimeType}]`;
+      if (item.type === 'resource') return `[resource: ${item.resource.uri}]`;
+      return `[unsupported content: ${item.type}]`;
+    })
+    .join('\n');
+}
+</code></pre>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：MCP Client + 桥接器</p>
+<pre><code>创建 MCP Client 服务和 LangChain 桥接器：
+
+文件 1: services/chat/src/mcp/mcp-client.service.ts
+- 封装 @modelcontextprotocol/sdk 的 Client
+- 接口 MCPClientConfig: { command, args?, env?, timeout? }
+- MCPClientService 类：connect(), getTools(), callTool(name, args), close(), isConnected()
+- connect 时自动 listTools 缓存
+
+文件 2: services/chat/src/mcp/mcp-to-langchain.ts
+- bridgeMCPToLangChain(client, prefix?) → DynamicStructuredTool[]
+- jsonSchemaToZod(schema) → ZodObject（处理 string/number/boolean/array/object/optional/enum）
+- 内部 serializeMCPContent：content[] → string（text 类型直接取 text，image 返回 [image: mimeType]）
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.5&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON Schema → Zod：string 类型正确</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>JSON Schema → Zod：number 类型正确</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>JSON Schema → Zod：optional 字段正确</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>JSON Schema → Zod：array 类型正确</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>JSON Schema → Zod：嵌套 object 正确</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>桥接后工具数量 = tools/list 数量</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d3f4b06d9d6e417587e503105cf032f5~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1442&amp;h=886&amp;s=209076&amp;e=png&amp;b=292d35" alt="image 3.png" /></p>
+<hr />
+<h2 id="12-6-传输层-从本地到远程">12.6 传输层：从本地到远程</h2>
+<h3 id="12-6-1-stdio-最简单的传输">12.6.1 stdio：最简单的传输</h3>
+<div class="mermaid">graph LR
+  Client[&quot;MCP Client&lt;br/&gt;(父进程)&quot;] -- stdin --&gt; Server[&quot;MCP Server&lt;br/&gt;(子进程)&quot;]
+  Server -- stdout --&gt; Client
+  Server -- stderr --&gt; Log[&quot;日志输出&quot;]
+</div>
+<p><strong>stdio（standard input / standard output）</strong> 指标准输入和标准输出。它不是网络协议，而是操作系统里最基础的进程通信方式：父进程把消息写入子进程的 stdin，子进程把响应写回 stdout。</p>
+<p>在 MCP 场景中，Client 会把 Server 启动成一个子进程，然后通过 stdin/stdout 发送 JSON-RPC 消息。诊断日志应写到 stderr，避免污染 stdout 里的协议消息。</p>
+<p><strong>优势</strong>：零网络配置、无端口冲突、进程隔离，适合本地开发和桌面应用。
+<strong>限制</strong>：只能本机使用，不适合多个 Client 共享同一个远程 Server。</p>
+<pre><code class="language-tsx">// Client 侧初始化 stdio 传输
+const transport = new StdioClientTransport({
+  command: 'tsx',
+  args: ['mcp-servers/requirement-analyzer/src/index.ts'],
+});
+await client.connect(transport);
+</code></pre>
+<h3 id="12-6-2-streamable-http-生产首选">12.6.2 Streamable HTTP：生产首选</h3>
+<div class="mermaid">graph LR
+  C1[&quot;Client 1&quot;] -- &quot;POST /mcp\n(Mcp-Session-Id: abc)&quot; --&gt; S[&quot;MCP Server\n(HTTP)&quot;]
+  C2[&quot;Client 2&quot;] -- &quot;POST /mcp\n(Mcp-Session-Id: def)&quot; --&gt; S
+  S -- &quot;SSE stream / JSON&quot; --&gt; C1
+  S -- &quot;SSE stream / JSON&quot; --&gt; C2
+</div>
+<p><strong>Streamable HTTP</strong> 是 MCP 当前推荐的远程传输方式。它仍然使用 HTTP 作为基础协议，但允许 Server 根据请求情况返回普通 JSON 响应，或返回一段可持续输出的事件流。</p>
+<p>这里的 <strong>SSE（Server-Sent Events）</strong> 可以理解为“服务器向客户端持续推送文本事件”的机制。它常用于长耗时任务、流式输出和服务端通知。</p>
+<p><strong>工作原理</strong>：</p>
+<ul>
+<li>Client 通过 HTTP POST 发送 JSON-RPC 请求</li>
+<li>Server 可以返回普通 JSON 响应（同步），也可以返回 SSE 流（异步 / 长耗时）</li>
+<li>通过 <code>Mcp-Session-Id</code> header 维持会话状态</li>
+<li>多个 Client 可以连接同一个远程 Server</li>
+</ul>
+<p><strong>有状态 vs 无状态模式</strong>：</p>
+<pre><code class="language-tsx">// 有状态：Server 维持 session，支持工具列表变更通知
+// 适用于长期运行的 Agent
+const transport = new StreamableHTTPClientTransport({
+  url: 'https://mcp.example.com/mcp',
+});
+
+// 无状态：每次请求独立，适合 Serverless
+// Server 不返回 Mcp-Session-Id header
+</code></pre>
+<p><strong>部署架构</strong>：</p>
+<div class="mermaid">graph TB
+  subgraph &quot;生产部署&quot;
+    LB[&quot;负载均衡&quot;] --&gt; S1[&quot;Server 实例 1&quot;]
+    LB --&gt; S2[&quot;Server 实例 2&quot;]
+    S1 --&gt; Redis[&quot;Redis (Session Store)&quot;]
+    S2 --&gt; Redis
+  end
+</div>
+<h3 id="12-6-3-sse-已过时">12.6.3 SSE（已过时）</h3>
+<p>早期 MCP 版本使用 Server-Sent Events 作为传输层：Client POST 发起，Server 通过 SSE 推送响应。已被 Streamable HTTP 取代，新项目不推荐使用。</p>
+<h3 id="12-6-4-streamable-http-server-端最小示例">12.6.4 Streamable HTTP Server 端最小示例</h3>
+<p>前面的 <code>requirement-analyzer</code> 使用的是 stdio。切到 Streamable HTTP 时，Client 侧只需要换 transport，但 Server 侧也要把 MCP Server 挂到 HTTP endpoint 上。下面是一个最小结构示例：</p>
+<pre><code class="language-tsx">import express from 'express';
+import { randomUUID } from 'node:crypto';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { z } from 'zod';
+
+function createRequirementServer() {
+  const server = new McpServer({
+    name: 'requirement-analyzer',
+    version: '1.0.0',
+  });
+
+  server.tool(
+    'analyze_completeness',
+    '分析需求描述的完整性',
+    { requirementText: z.string() },
+    async ({ requirementText }) =&gt; ({
+      content: [
+        {
+          type: 'text',
+          text: JSON.stringify({ length: requirementText.length }),
+        },
+      ],
+    }),
+  );
+
+  return server;
+}
+
+const app = express();
+app.use(express.json());
+
+app.post('/mcp', async (req, res) =&gt; {
+  const server = createRequirementServer();
+  const transport = new StreamableHTTPServerTransport({
+    sessionIdGenerator: () =&gt; randomUUID(),
+  });
+
+  await server.connect(transport);
+  await transport.handleRequest(req, res, req.body);
+});
+
+app.listen(3000, () =&gt; {
+  console.error('MCP HTTP server listening on http://localhost:3000/mcp');
+});
+</code></pre>
+<p>这段代码只展示最小结构：HTTP endpoint 负责接收 JSON-RPC 请求，<code>StreamableHTTPServerTransport</code> 负责把 HTTP 请求交给 MCP Server。生产环境还需要补充认证、session 存储、限流、超时和日志。</p>
+<h3 id="12-6-5-传输切换的代码改动">12.6.5 传输切换的代码改动</h3>
+<p>从 stdio 到 HTTP <strong>只需改 transport 初始化</strong>——其余业务代码完全不变：</p>
+<pre><code class="language-tsx">// 开发环境：stdio
+const transport = new StdioClientTransport({
+  command: 'tsx',
+  args: ['mcp-servers/requirement-analyzer/src/index.ts'],
+});
+
+// 生产环境：Streamable HTTP（只改这一处）
+const transport = new StreamableHTTPClientTransport({
+  url: process.env.MCP_REQUIREMENT_ANALYZER_URL,
+});
+
+// 后续代码完全相同
+await client.connect(transport);
+const { tools } = await client.listTools();
+await client.callTool({ name: 'analyze_completeness', arguments: {...} });
+</code></pre>
+<p>这是 MCP 传输层抽象的核心价值：<strong>业务逻辑与通信方式解耦</strong>。</p>
+<hr />
+<h2 id="12-7-第二个-mcp-server-网络搜索">12.7 第二个 MCP Server：网络搜索</h2>
+<h3 id="12-7-1-为什么需求分析需要搜索">12.7.1 为什么需求分析需要搜索</h3>
+<p>在实际需求分析工作中，以下场景需要外部信息：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>需要搜索什么</th>
+<th>对应工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>竞品调研</td>
+<td>竞品如何实现类似功能</td>
+<td><code>search_competitors</code></td>
+</tr>
+<tr>
+<td>方案参考</td>
+<td>行业最佳实践和设计模式</td>
+<td><code>search_best_practices</code></td>
+</tr>
+<tr>
+<td>工期估算</td>
+<td>类似技术方案的实施经验</td>
+<td><code>search_tech_stack</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>与第十一章 CRAG 的关联</strong>：回顾 11.9.3 CRAG（Corrective RAG），当 RAG 检索结果质量不够时，会 fallback 到 Web 搜索。这里的 Web Search MCP Server 就是 CRAG “Web 兜底” 路径的<strong>标准化封装</strong>——同样的搜索能力，MCP 化后可以被任意 Agent 复用，不再绑定在某一条 RAG pipeline 里。</p>
+<h3 id="12-7-2-搭建-web-search-mcp-server">12.7.2 搭建 Web Search MCP Server</h3>
+<p>完整代码在 <code>mcp-servers/web-search/src/index.ts</code>：</p>
+<pre><code class="language-tsx">server.tool(
+  'search_competitors',
+  '搜索竞品的相关功能实现，了解市场上类似产品的做法。适用于需求分析时调研竞品如何实现类似功能。',
+  {
+    query: z.string().describe('搜索关键词，如&quot;Jira 批量导入功能&quot;、&quot;Notion AI 写作助手&quot;'),
+    domain: z.string().optional().describe('限定搜索域名，如&quot;atlassian.com&quot;'),
+  },
+  async ({ query, domain }) =&gt; {
+    const searchQuery = `${query} product feature implementation`;
+    const results = await doSearch(searchQuery, domain);
+    return {
+      content: [
+        {
+          type: 'text' as const,
+          text: JSON.stringify(
+            {
+              query,
+              mode: IS_MOCK ? 'mock' : 'live',
+              results: results.map((r) =&gt; ({
+                title: r.title,
+                snippet: r.snippet,
+                url: r.url,
+              })),
+              summary: results.length &gt; 0
+                ? `找到${results.length} 个竞品参考，涵盖：${results.map((r) =&gt; r.title).join('、')}`
+                : '未找到相关竞品信息',
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  },
+);
+</code></pre>
+<h3 id="12-7-3-mock-模式设计">12.7.3 Mock 模式设计</h3>
+<pre><code class="language-tsx">const TAVILY_API_KEY = process.env.TAVILY_API_KEY;
+const IS_MOCK = !TAVILY_API_KEY;
+</code></pre>
+<p><strong>设计原则</strong>：无 API Key 时自动降级为 Mock 模式，返回预置结果，让读者无需注册第三方服务也能跑通完整流程。Mock 数据覆盖批量导入、权限设计、实时通信等常见场景，保证测试和学习过程不依赖外部网络。</p>
+<p>生产环境配置 <code>TAVILY_API_KEY</code> 后自动切换为真实搜索。</p>
+<h3 id="12-7-4-底层搜索实现">12.7.4 底层搜索实现</h3>
+<pre><code class="language-tsx">async function tavilySearch(query: string, domain?: string): Promise&lt;SearchResult[]&gt; {
+  const body: Record&lt;string, unknown&gt; = {
+    query,
+    max_results: 5,
+    search_depth: 'basic',
+  };
+  if (domain) {
+    body.include_domains = [domain];
+  }
+
+  const res = await fetch('https://api.tavily.com/search', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ ...body, api_key: TAVILY_API_KEY }),
+  });
+
+  if (!res.ok) {
+    // 降级到 mock
+    return getMockResults(query);
+  }
+  // ...
+}
+</code></pre>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：Web Search MCP Server</p>
+<pre><code>创建一个 Web Search MCP Server：
+
+位置：mcp-servers/web-search/
+结构：package.json + tsconfig.json + src/index.ts
+
+三个工具：
+1. search_competitors(query, domain?) - 搜索竞品功能
+2. search_best_practices(topic, industry?) - 搜索最佳实践
+3. search_tech_stack(technology, useCase?) - 搜索技术选型
+
+底层实现：
+- 有 TAVILY_API_KEY 环境变量时调用 Tavily Search API
+- 无 API Key 时自动降级为 Mock 模式，返回预置结果
+- Mock 数据覆盖：批量导入、权限设计、实时通信三个场景
+- 每个 mock 结果包含 title, snippet, url
+
+使用 stdio 传输，依赖 @modelcontextprotocol/sdk + zod。
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.7&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mock 模式返回预置结果</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>search_competitors</code> 批量导入查询返回 Jira/Linear 参考</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>search_best_practices</code> 权限设计返回 RBAC 参考</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>search_tech_stack</code> WebSocket 返回技术对比</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>tools/list</code> 返回 3 个工具</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e0399e0ba9f64551bbe7317654a32baa~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1434&amp;h=734&amp;s=176219&amp;e=png&amp;b=292d35" alt="image 4.png" /></p>
+<hr />
+<h2 id="12-8-多-server-编排与协同">12.8 多 Server 编排与协同</h2>
+<h3 id="12-8-1-mcpmanager">12.8.1 MCPManager</h3>
+<p>一个真实 Agent 往往不会只连接一个 MCP Server。需求分析 Server 负责业务分析，Web Search Server 负责外部搜索，后续还可能接入 Jira、GitHub、数据库或内部 RAG 服务。</p>
+<p>这时就需要一个统一管理层。本文把它称为 <strong>MCPManager</strong>：它不是 MCP 官方协议的一部分，而是本项目为了管理多个 Server 连接而实现的工程组件。</p>
+<pre><code class="language-tsx">/**
+ * MCP Manager
+ *
+ * 统一管理多个 MCP Server 连接，提供：
+ * - 工具命名空间隔离（前缀策略）
+ * - 按需连接 / 启动时预连接
+ * - 降级策略：Server 不可用时回退本地工具
+ * - 所有工具的聚合列表
+ */
+import { DynamicStructuredTool } from '@langchain/core/tools';
+import { MCPClientService, MCPClientConfig } from './mcp-client.service.js';
+import { bridgeMCPToLangChain } from './mcp-to-langchain.js';
+
+export interface ServerRegistration {
+  id: string;
+  config: MCPClientConfig;
+  prefix?: string;
+  /** 连接失败时的降级工具 */
+  fallbackTools?: DynamicStructuredTool[];
+}
+
+export class MCPManager {
+  private servers = new Map&lt;string, MCPClientService&gt;();
+  private registrations: ServerRegistration[] = [];
+  private tools: DynamicStructuredTool[] = [];
+
+  register(registration: ServerRegistration): void {
+    this.registrations.push(registration);
+  }
+
+  async connectAll(): Promise&lt;void&gt; {
+    const results = await Promise.allSettled(
+      this.registrations.map((reg) =&gt; this.connectOne(reg)),
+    );
+    // 连接失败的 Server 使用 fallbackTools 降级...
+  }
+</code></pre>
+<h3 id="12-8-2-工具命名空间策略">12.8.2 工具命名空间策略</h3>
+<p>当多个 Server 有同名工具时（比如两个 Server 都有 <code>search</code>），需要命名隔离：</p>
+<pre><code class="language-tsx">manager.register({
+  id: 'requirement',
+  config: { command: 'tsx', args: ['mcp-servers/requirement-analyzer/src/index.ts'] },
+  prefix: 'req_',  // → req_analyze_completeness, req_estimate_complexity
+});
+
+manager.register({
+  id: 'websearch',
+  config: { command: 'tsx', args: ['mcp-servers/web-search/src/index.ts'] },
+  prefix: 'ws_',   // → ws_search_competitors, ws_search_best_practices
+});
+</code></pre>
+<p><strong>前缀策略</strong>保证了：</p>
+<ul>
+<li>LLM 看到的工具名全局唯一</li>
+<li>工具名携带来源信息，方便调试</li>
+<li>不同 Server 可以独立命名，互不干扰</li>
+</ul>
+<h3 id="12-8-3-实战组合-三-server-协同">12.8.3 实战组合：三 Server 协同</h3>
+<div class="mermaid">graph TB
+  Agent[&quot;LangGraph Agent&quot;] --&gt; Manager[&quot;MCPManager&quot;]
+  Manager --&gt; S1[&quot;requirement-analyzer&lt;br/&gt;需求分析 4 工具&quot;]
+  Manager --&gt; S2[&quot;web-search&lt;br/&gt;网络搜索 3 工具&quot;]
+  Manager --&gt; S3[&quot;RAG Server&lt;br/&gt;知识库检索&quot;]
+
+  subgraph &quot;协同场景&quot;
+    A[&quot;需求完整性不够&quot;] --&gt; B[&quot;搜索竞品补充&quot;]
+    C[&quot;知识库无结果&quot;] --&gt; D[&quot;Web 搜索兜底&quot;]
+    E[&quot;复杂度估算&quot;] --&gt; F[&quot;搜索类似方案参考工期&quot;]
+  end
+</div>
+<p><strong>典型协同流程</strong>：</p>
+<ol>
+<li>用户提交需求 → Agent 调用 <code>req_analyze_completeness</code> → 发现缺少“验收标准”</li>
+<li>Agent 调用 <code>ws_search_competitors</code> → 搜索竞品如何定义类似功能的验收标准</li>
+<li>Agent 调用 <code>req_estimate_complexity</code> → 结合搜索结果给出复杂度评估</li>
+</ol>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.8&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>两个 Server 工具列表正确合并</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>合计 7 个工具（4 + 3）</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b14ca730b7024738a6462c97de787143~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1442&amp;h=578&amp;s=104781&amp;e=png&amp;b=282c34" alt="image 5.png" /></p>
+<hr />
+<h2 id="12-9-错误处理与韧性">12.9 错误处理与韧性</h2>
+<p>MCP 把工具调用从“本地函数调用”变成了“跨进程 / 跨网络调用”。这意味着故障类型会变多：Server 可能启动失败，连接可能断开，参数可能不合法，工具执行可能超时，远程服务也可能返回 500。</p>
+<p>这里的 <strong>韧性（resilience）</strong>，指系统在部分组件失败时仍能继续工作的能力。对 MCP 来说，韧性主要包括三件事：错误可分类、调用可重试、服务不可用时可降级。</p>
+<h3 id="12-9-1-json-rpc-标准错误码">12.9.1 JSON-RPC 标准错误码</h3>
+<table>
+<thead>
+<tr>
+<th>错误码</th>
+<th>含义</th>
+<th>常见原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-32700</td>
+<td>Parse error</td>
+<td>发送的不是合法 JSON</td>
+</tr>
+<tr>
+<td>-32600</td>
+<td>Invalid Request</td>
+<td>缺少 jsonrpc/method 字段</td>
+</tr>
+<tr>
+<td>-32601</td>
+<td>Method not found</td>
+<td>调用了不存在的方法</td>
+</tr>
+<tr>
+<td>-32602</td>
+<td>Invalid params</td>
+<td>参数类型/格式错误</td>
+</tr>
+<tr>
+<td>-32603</td>
+<td>Internal error</td>
+<td>Server 内部异常</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-9-2-client-重试策略">12.9.2 Client 重试策略</h3>
+<p>下面这段属于<strong>调用层</strong>：单次工具调用失败时，判断错误是否可重试，并用指数退避重试。</p>
+<pre><code class="language-tsx">async function callToolWithRetry(
+  client: MCPClientService,
+  name: string,
+  args: Record&lt;string, unknown&gt;,
+  options = { maxRetries: 3, baseDelay: 1000 }
+): Promise&lt;CallToolResult&gt; {
+  for (let attempt = 0; attempt &lt;= options.maxRetries; attempt++) {
+    try {
+      return await client.callTool(name, args);
+    } catch (err: any) {
+      if (attempt === options.maxRetries) throw err;
+      // 不可重试的错误
+      if (err.code === -32601 || err.code === -32602) throw err;
+      // 指数退避
+      const delay = options.baseDelay * Math.pow(2, attempt);
+      await new Promise((r) =&gt; setTimeout(r, delay));
+    }
+  }
+  throw new Error('unreachable');
+}
+</code></pre>
+<p><strong>重试策略要点</strong>：</p>
+<ul>
+<li><strong>不可重试</strong>：<code>Method not found</code>、<code>Invalid params</code>（参数错误重试不会好转）</li>
+<li><strong>可重试</strong>：<code>Internal error</code>、网络超时、连接断开</li>
+<li><strong>退避策略</strong>：指数退避（1s → 2s → 4s），避免雪崩</li>
+</ul>
+<h3 id="12-9-3-server-崩溃恢复">12.9.3 Server 崩溃恢复</h3>
+<p>下面这段属于<strong>连接管理层</strong>：不是重试某一次 <code>tools/call</code>，而是在 MCP Server 进程或连接断开后，由 <code>MCPManager</code> 负责重连或切换到 fallback 工具。</p>
+<pre><code class="language-tsx">// MCPManager 中的自动重连逻辑
+private async connectOne(reg: ServerRegistration): Promise&lt;void&gt; {
+  const client = new MCPClientService(reg.config);
+
+  client.onDisconnect(async () =&gt; {
+    console.error(`[MCPManager] Server &quot;${reg.id}&quot; disconnected, reconnecting...`);
+    try {
+      await client.connect();
+      console.error(`[MCPManager] Server &quot;${reg.id}&quot; reconnected`);
+    } catch {
+      console.error(`[MCPManager] Server &quot;${reg.id}&quot; reconnect failed, using fallback`);
+      // 切换到降级工具
+    }
+  });
+
+  await client.connect();
+}
+</code></pre>
+<h3 id="12-9-4-降级策略">12.9.4 降级策略</h3>
+<pre><code class="language-tsx">manager.register({
+  id: 'websearch',
+  config: { command: 'tsx', args: ['mcp-servers/web-search/src/index.ts'] },
+  prefix: 'ws_',
+  fallbackTools: [
+    // MCP Server 不可用时，使用本地硬编码的工具
+    new DynamicStructuredTool({
+      name: 'ws_search_competitors',
+      description: '搜索竞品（降级模式：返回提示信息）',
+      schema: z.object({ query: z.string() }),
+      func: async () =&gt; '搜索服务暂时不可用，建议稍后重试或手动搜索',
+    }),
+  ],
+});
+</code></pre>
+<p><strong>降级策略原则</strong>：MCP 不可用时，Agent 不应该卡死——应返回“服务暂时不可用”的清晰提示，让 LLM 可以跳过这个步骤继续分析。</p>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.9&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用不存在的工具返回错误（不崩溃）</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6ce8045eccc84062b555a04ae2a1217b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1446&amp;h=486&amp;s=89083&amp;e=png&amp;b=282c34" alt="image 6.png" /></p>
+<hr />
+<h2 id="12-10-安全模型">12.10 安全模型</h2>
+<p>工具一旦可以访问外部系统，就必须讨论安全。MCP Server 可能读取内部文档，也可能写入项目管理系统、调用数据库、触发审批流。协议本身提供了能力声明和 annotations，但真正的安全边界仍然要由 Host 和业务系统共同控制。</p>
+<p>本节会用三个概念组织安全模型：</p>
+<ul>
+<li><strong>信任边界</strong>：哪些组件可以信任，哪些组件只能有限信任。</li>
+<li><strong>Human-in-the-Loop</strong>：高风险操作前让用户确认，避免模型自动执行破坏性动作。</li>
+<li><strong>Prompt 注入防护</strong>：把外部返回内容当作不可信数据处理，避免它反向操控模型行为。</li>
+</ul>
+<h3 id="12-10-1-信任边界三层模型">12.10.1 信任边界三层模型</h3>
+<div class="mermaid">graph LR
+  subgraph &quot;信任边界&quot;
+    U[&quot;👤 User&quot;] --&gt;|完全信任| C[&quot;🖥️ Client (Host)&quot;]
+    C --&gt;|有限信任| S[&quot;⚙️ MCP Server&quot;]
+    S --&gt;|零信任| E[&quot;🌐 External Service&quot;]
+  end
+</div>
+<ul>
+<li><strong>User → Client</strong>：用户信任自己安装的应用</li>
+<li><strong>Client → Server</strong>：Client 不盲目执行 Server 返回的所有内容</li>
+<li><strong>Server → External</strong>：Server 应验证外部服务的响应</li>
+</ul>
+<h3 id="12-10-2-工具权限分级">12.10.2 工具权限分级</h3>
+<pre><code class="language-tsx">type PermissionLevel = 'read' | 'write' | 'admin';
+
+const toolPermissions: Record&lt;string, PermissionLevel&gt; = {
+  // 只读工具：可安全自动调用
+  analyze_completeness: 'read',
+  estimate_complexity: 'read',
+  check_conflicts: 'read',
+  search_competitors: 'read',
+  search_best_practices: 'read',
+
+  // 写入工具：需要用户确认
+  create_requirement: 'write',
+  update_requirement: 'write',
+
+  // 管理员工具：需要强确认
+  delete_requirement: 'admin',
+  purge_all_data: 'admin',
+};
+
+function requiresConfirmation(toolName: string): boolean {
+  const level = toolPermissions[toolName];
+  return level === 'write' || level === 'admin';
+}
+</code></pre>
+<h3 id="12-10-3-human-in-the-loop">12.10.3 Human-in-the-Loop</h3>
+<p>对于写操作，在 Agent 执行前请求用户确认：</p>
+<pre><code class="language-tsx">// LangGraph 中的 interrupt 机制（回顾第九章）
+if (requiresConfirmation(toolCall.name)) {
+  // 暂停 Agent，向用户展示即将执行的操作
+  return interrupt({
+    action: toolCall.name,
+    params: toolCall.args,
+    message: `即将执行${toolCall.name}，是否确认？`,
+  });
+}
+</code></pre>
+<h3 id="12-10-4-prompt-注入防护">12.10.4 Prompt 注入防护</h3>
+<p>Server 返回的内容可能被注入恶意指令。防护策略：</p>
+<ol>
+<li><strong>内容清洗</strong>：移除 Server 返回中的可疑指令（如 “ignore previous instructions”）</li>
+<li><strong>角色隔离</strong>：Server 返回内容标记为 <code>tool_result</code>，不混入 <code>system</code> role</li>
+<li><strong>输出长度限制</strong>：防止 Server 返回超长内容挤占上下文</li>
+</ol>
+<h3 id="12-10-5-oauth-2-1-授权流程-remote-server">12.10.5 OAuth 2.1 授权流程（Remote Server）</h3>
+<p>对于远程部署的 MCP Server（如公司内部的 Jira MCP Server），MCP 规范定义了 OAuth 2.1 授权流程：</p>
+<div class="mermaid">sequenceDiagram
+  participant U as User
+  participant C as MCP Client
+  participant AS as Auth Server
+  participant S as MCP Server
+
+  C-&gt;&gt;S: initialize (无 token)
+  S-&gt;&gt;C: 401 + WWW-Authenticate
+  C-&gt;&gt;U: 请求授权
+  U-&gt;&gt;AS: 浏览器授权
+  AS-&gt;&gt;C: authorization_code
+  C-&gt;&gt;AS: 换 access_token
+  C-&gt;&gt;S: initialize (Bearer token)
+  S-&gt;&gt;C: 200 OK
+</div>
+<blockquote>
+<p>以上流程简化为 HTTP 语义展示。实际实现中，MCP 远程 Server 的认证错误可能在 JSON-RPC 层面返回，具体需参考 MCP 授权规范。</p>
+</blockquote>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash">bun test test/chapter12-mcp.spec.ts -t &quot;12.10&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>read 工具不需要确认</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>write 工具需要确认</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>admin 工具需要确认</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ff36f1b6a46a4885a2704e2b385a0bc0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1440&amp;h=584&amp;s=111682&amp;e=png&amp;b=282c34" alt="image 7.png" /></p>
+<hr />
+<h2 id="12-11-测试策略">12.11 测试策略</h2>
+<h3 id="12-11-1-两层测试架构">12.11.1 两层测试架构</h3>
+<div class="mermaid">graph TB
+  subgraph &quot;Layer 1: 协议层单元测试&quot;
+    T1[&quot;InMemoryTransport&lt;br/&gt;零网络依赖&quot;]
+    T2[&quot;验证 tool 逻辑正确性&quot;]
+    T3[&quot;验证 JSON Schema 转换&quot;]
+    T4[&quot;验证错误处理&quot;]
+  end
+
+  subgraph &quot;Layer 2: LLM 集成测试&quot;
+    T5[&quot;真实 LLM 调用&quot;]
+    T6[&quot;验证 Agent 工具选择&quot;]
+    T7[&quot;验证多工具协同&quot;]
+  end
+
+  T1 --&gt; T2 --&gt; T3 --&gt; T4
+  T5 --&gt; T6 --&gt; T7
+</div>
+<h3 id="12-11-2-layer-1-inmemorytransport">12.11.2 Layer 1：InMemoryTransport</h3>
+<p>MCP SDK 提供 <code>InMemoryTransport.createLinkedPair()</code> 用于测试——创建一对互联的内存传输，Server 和 Client 在同一进程中通过内存通信：</p>
+<pre><code class="language-tsx">import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+
+const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+
+// Server 用 serverTransport
+await server.connect(serverTransport);
+
+// Client 用 clientTransport
+await client.connect(clientTransport);
+
+// 现在 client.callTool() 会通过内存直达 server
+</code></pre>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>无进程启动开销（毫秒级）</li>
+<li>无端口/网络依赖</li>
+<li>可以在 CI 中稳定运行</li>
+<li>方便验证纯逻辑（不混入传输层问题）</li>
+</ul>
+<h3 id="12-11-3-layer-2-llm-集成测试">12.11.3 Layer 2：LLM 集成测试</h3>
+<pre><code class="language-tsx">// chapter12-mcp-llm.spec.ts
+it('Agent 收到&quot;分析需求完整性&quot; → 选择 analyze_completeness', async () =&gt; {
+  const agent = createReactAgent({ llm, tools });
+  const result = await agent.invoke({
+    messages: [new HumanMessage('请分析这个需求的完整性：作为管理员...')],
+  });
+
+  const toolCalls = result.messages
+    .filter((m) =&gt; m.tool_calls?.length &gt; 0)
+    .flatMap((m) =&gt; m.tool_calls.map((tc) =&gt; tc.name));
+
+  expect(toolCalls).toContain('analyze_completeness');
+});
+</code></pre>
+<p><strong>运行方式</strong>：</p>
+<pre><code class="language-bash"># Layer 1：无需任何 API Key
+bun test test/chapter12-mcp.spec.ts
+
+# Layer 2：需要 OPENAI_API_KEY
+OPENAI_API_KEY=sk-... bun test test/chapter12-mcp-llm.spec.ts
+</code></pre>
+<h3 id="12-11-4-mcp-inspector-验证">12.11.4 MCP Inspector 验证</h3>
+<p>对于手动验证和探索性测试，MCP Inspector 比自动化测试更直观：</p>
+<pre><code class="language-bash"># 启动 Inspector 连接需求分析 Server
+npx @modelcontextprotocol/inspector tsx mcp-servers/requirement-analyzer/src/index.ts
+
+# 启动 Inspector 连接搜索 Server
+npx @modelcontextprotocol/inspector tsx mcp-servers/web-search/src/index.ts
+</code></pre>
+<p><img src="%E8%BD%AC%E5%AD%98%E5%A4%B1%E8%B4%A5%EF%BC%8C%E5%BB%BA%E8%AE%AE%E7%9B%B4%E6%8E%A5%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%96%87%E4%BB%B6%20%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%EF%BC%9AMCP%E2%80%94%E2%80%94%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E7%9A%84%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/image%208.png" alt="image.png转存失败，建议直接上传图片文件" /></p>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：测试文件</p>
+<pre><code>为第十二章创建两个测试文件：
+
+文件 1: services/chat/test/chapter12-mcp.spec.ts (Layer 1 协议层)
+- 用 InMemoryTransport 模拟 Server+Client
+- 按章节组织 describe (12.4, 12.5, 12.7, 12.8, 12.9, 12.10)
+- 测试工具逻辑、JSON Schema→Zod 转换、多 Server 合并、错误处理、权限分级
+- 零网络依赖，bun:test
+
+文件 2: services/chat/test/chapter12-mcp-llm.spec.ts (Layer 2 LLM 集成)
+- 需要 OPENAI_API_KEY，无 key 时 skip
+- 用 createReactAgent + 真实 LLM 验证
+- 测试：Agent 能否自主选择正确的 MCP 工具
+- 测试：多工具协同场景（analyze + search + estimate）
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>完整测试运行</strong></p>
+<pre><code class="language-bash"># 运行所有 Layer 1 测试
+bun test test/chapter12-mcp.spec.ts
+
+# 运行指定章节
+bun test test/chapter12-mcp.spec.ts -t &quot;12.4.1&quot;
+bun test test/chapter12-mcp.spec.ts -t &quot;12.5&quot;
+bun test test/chapter12-mcp.spec.ts -t &quot;12.7&quot;
+</code></pre>
+<hr />
+<h2 id="12-12-可观测性与-token-经济学">12.12 可观测性与 Token 经济学</h2>
+<p>第十章已经讨论过 Token 成本，第十一章也强调了 RAG Trace。本章接入 MCP 后，可观测性需要继续向工具调用层下沉：不仅要知道 LLM 花了多少 token，还要知道它调用了哪个 Server、哪个工具、耗时多久、是否失败、返回内容有多长。</p>
+<p>这里的 <strong>Trace</strong> 可以理解为一次调用的“流水账”。它不只是日志，更是后续排障、评估和成本优化的基础数据。</p>
+<h3 id="12-12-1-mcp-调用的-trace-结构">12.12.1 MCP 调用的 Trace 结构</h3>
+<p>每次 MCP 工具调用应产生一条 trace：</p>
+<pre><code class="language-tsx">interface MCPCallTrace {
+  traceId: string;
+  serverId: string;
+  toolName: string;
+  startTime: number;
+  endTime: number;
+  latencyMs: number;
+  inputArgs: Record&lt;string, unknown&gt;;
+  outputSize: number;      // 返回内容的字符数
+  isError: boolean;
+  errorCode?: number;
+  transport: 'stdio' | 'http';
+}
+</code></pre>
+<h3 id="12-12-2-与第十章-token-成本采集的协同">12.12.2 与第十章 Token 成本采集的协同</h3>
+<p>回顾第十章的 Token 经济学，MCP 工具调用影响成本的环节：</p>
+<table>
+<thead>
+<tr>
+<th>环节</th>
+<th>Token 消耗</th>
+<th>优化策略</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具描述（system prompt）</td>
+<td>每个工具 ~50-100 tokens</td>
+<td>只加载当前需要的 Server 的工具</td>
+</tr>
+<tr>
+<td>工具参数（LLM 输出）</td>
+<td>取决于参数复杂度</td>
+<td>简化 inputSchema 描述</td>
+</tr>
+<tr>
+<td>工具结果（注入上下文）</td>
+<td>取决于返回内容长度</td>
+<td>Server 端控制返回大小</td>
+</tr>
+</tbody>
+</table>
+<p><strong>实际计算</strong>：假设连接 3 个 Server 共 7 个工具，每个工具描述 ~80 tokens：</p>
+<ul>
+<li>工具描述开销：7 × 80 = 560 tokens/轮</li>
+<li>对比第十章预算：如果轮次预算 4000 tokens，工具描述占 14%</li>
+</ul>
+<p><strong>优化策略</strong>：</p>
+<ul>
+<li>按需连接：只连接当前对话主题相关的 Server</li>
+<li>描述压缩：tool description 用最精简的文字</li>
+<li>结果摘要：Server 返回过长时截断或摘要</li>
+</ul>
+<h3 id="12-12-3-监控指标">12.12.3 监控指标</h3>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>告警阈值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具调用延迟 P95</td>
+<td>&gt; 5s</td>
+<td>Server 响应慢</td>
+</tr>
+<tr>
+<td>工具错误率</td>
+<td>&gt; 5%</td>
+<td>Server 不稳定</td>
+</tr>
+<tr>
+<td>连接失败率</td>
+<td>&gt; 10%</td>
+<td>网络/Server 进程问题</td>
+</tr>
+<tr>
+<td>工具未使用率</td>
+<td>&gt; 80% 未被 LLM 选择</td>
+<td>工具描述不够清晰，LLM 不知道何时用</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-13-集成-langgraph-agent-完整实战">12.13 集成 LangGraph Agent（完整实战）</h2>
+<blockquote>
+<p>前面已经完成 Server、Client、桥接、多 Server 管理和安全策略。现在把这些部分接回第九章的 LangGraph Agent，形成一条完整链路。</p>
+</blockquote>
+<h3 id="12-13-1-目标架构">12.13.1 目标架构</h3>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0b34591715b7482d8ba588827cf57243~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=519139&amp;e=jpg&amp;b=2f475f" alt="generated-image-1779534585171.png" /></p>
+<div class="mermaid">graph TB
+  User[&quot;用户输入需求&quot;] --&gt; Agent[&quot;LangGraph Agent&lt;br/&gt;(Supervisor + 专家)&quot;]
+
+  Agent --&gt; MCPMgr[&quot;MCPManager&quot;]
+  MCPMgr --&gt; S1[&quot;requirement-analyzer&lt;br/&gt;4 tools&quot;]
+  MCPMgr --&gt; S2[&quot;web-search&lt;br/&gt;3 tools&quot;]
+  MCPMgr --&gt; S3[&quot;RAG Server&lt;br/&gt;(第11章能力)&quot;]
+
+  Agent --&gt; Budget[&quot;Token Budget&lt;br/&gt;(第10章)&quot;]
+
+  subgraph &quot;完整流水线&quot;
+    Step1[&quot;1. analyze_completeness&lt;br/&gt;评估需求完整性&quot;]
+    Step2[&quot;2. search_competitors&lt;br/&gt;搜索竞品参考&quot;]
+    Step3[&quot;3. search_knowledge_base&lt;br/&gt;查内部知识库&quot;]
+    Step4[&quot;4. estimate_complexity&lt;br/&gt;给出复杂度评估&quot;]
+    Step5[&quot;5. 综合输出分析报告&quot;]
+  end
+
+  Step1 --&gt; Step2 --&gt; Step3 --&gt; Step4 --&gt; Step5
+</div>
+<h3 id="12-13-2-注入-mcp-工具到专家系统">12.13.2 注入 MCP 工具到专家系统</h3>
+<p>回顾第九章的 Supervisor + 专家架构，现在用 MCP 替代硬编码工具。核心变化不是“换一个工具实现”，而是把工具来源从<strong>编译时固定</strong>改成<strong>运行时发现</strong>。</p>
+<p>在第九章里，功能专家拿到的是本地写死的 <code>readFeatureSpecTool</code>、<code>loadPerfBaselineTool</code>。这一章里，功能专家拿到的是 MCPManager 聚合后的工具列表。Agent 不需要知道工具来自哪个进程、哪个服务、哪种传输方式，只需要按 LangChain Tool 的接口调用即可。</p>
+<pre><code class="language-tsx">import { MCPManager } from '../mcp/mcp-manager.js';
+import { createReactAgent } from '@langchain/langgraph/prebuilt';
+
+// 初始化 MCPManager
+const manager = new MCPManager();
+
+manager.register({
+  id: 'requirement',
+  config: { command: 'tsx', args: ['mcp-servers/requirement-analyzer/src/index.ts'] },
+  prefix: 'req_',
+});
+
+manager.register({
+  id: 'websearch',
+  config: { command: 'tsx', args: ['mcp-servers/web-search/src/index.ts'] },
+  prefix: 'ws_',
+});
+
+await manager.connectAll();
+
+// 获取所有 MCP 工具
+const mcpTools = manager.getTools();
+
+// 创建功能专家 Agent，注入 MCP 工具
+const featureExpert = createReactAgent({
+  llm: model,
+  tools: mcpTools,
+  prompt: `你是一个需求分析专家。你可以使用以下工具：
+    - req_analyze_completeness: 分析需求完整性
+    - req_estimate_complexity: 估算复杂度
+    - req_check_conflicts: 检查冲突
+    - req_generate_user_stories: 生成用户故事
+    - ws_search_competitors: 搜索竞品
+    - ws_search_best_practices: 搜索最佳实践
+    - ws_search_tech_stack: 搜索技术方案参考
+    根据用户的需求，自主决定调用哪些工具，并给出完整的分析报告。`,
+});
+</code></pre>
+<p>这段代码需要关注三点：</p>
+<ol>
+<li><strong>工具注册前置到 MCPManager</strong>：Agent 不再直接依赖某个工具文件，而是依赖统一的工具管理层。</li>
+<li><strong>工具名前缀保持全局唯一</strong>：<code>req_</code> 表示需求分析 Server，<code>ws_</code> 表示 Web Search Server，避免多个 Server 都有 <code>search</code>、<code>analyze</code> 这类重名工具。</li>
+<li><strong>Agent 只感知 LangChain Tool</strong>：桥接层已经把 MCP Tool 转成 <code>DynamicStructuredTool</code>，所以 LangGraph 不需要理解 MCP 协议细节。</li>
+</ol>
+<p><strong>对比之前</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>第九章硬编码工具</th>
+<th>第十二章 MCP 工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具来源</td>
+<td>项目代码内</td>
+<td>独立 MCP Server</td>
+</tr>
+<tr>
+<td>新增工具</td>
+<td>改代码、重新部署 Agent</td>
+<td>Server 增加工具，Client 重新发现</td>
+</tr>
+<tr>
+<td>跨项目复用</td>
+<td>复制工具文件</td>
+<td>多个 Agent 连接同一个 Server</td>
+</tr>
+<tr>
+<td>故障隔离</td>
+<td>工具异常可能拖垮主进程</td>
+<td>Server 可独立降级、重连、替换</td>
+</tr>
+<tr>
+<td>团队边界</td>
+<td>所有工具跟着 Agent 团队维护</td>
+<td>工具 Server 可由业务团队独立维护</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-13-3-接入第九章专家工具池">12.13.3 接入第九章专家工具池</h3>
+<p>更贴近第九章项目结构的接入方式，是把 MCP 工具和原有专家工具合并到同一个工具池里。这样可以逐步迁移，而不是一次性替换掉所有本地工具。</p>
+<pre><code class="language-tsx">// services/chat/src/llm/graph/experts.ts（示例）
+export async function buildFunctionalExpertTools(deps: {
+  model: BaseChatModel;
+  userId: string;
+}) {
+  const manager = new MCPManager();
+
+  manager.register({
+    id: 'requirement',
+    config: {
+      command: 'tsx',
+      args: ['mcp-servers/requirement-analyzer/src/index.ts'],
+    },
+    prefix: 'req_',
+    fallbackTools: [localAnalyzeCompletenessTool],
+  });
+
+  manager.register({
+    id: 'websearch',
+    config: {
+      command: 'tsx',
+      args: ['mcp-servers/web-search/src/index.ts'],
+    },
+    prefix: 'ws_',
+    fallbackTools: [localSearchUnavailableTool],
+  });
+
+  await manager.connectAll();
+
+  return [
+    // 第九章已有本地工具
+    readRequirementTool,
+    checkExistingFeaturesTool,
+    loadPerfBaselineTool,
+
+    // 第十一章 RAG 工具
+    createRagTool({ model: deps.model, userId: deps.userId }),
+
+    // 第十二章 MCP 工具
+    ...manager.getTools(),
+  ];
+}
+</code></pre>
+<p>这种“本地工具 + RAG 工具 + MCP 工具”的混合模式，更适合真实项目迁移：</p>
+<ul>
+<li><strong>已有稳定工具</strong> 不必马上拆成 MCP Server</li>
+<li><strong>需要复用 / 独立部署的工具</strong> 优先 MCP 化</li>
+<li><strong>外部服务型能力</strong>（Jira、GitHub、Figma、搜索、数据库）优先用 MCP 封装</li>
+<li><strong>核心业务强依赖工具</strong> 可以保留本地 fallback，保证 MCP Server 不可用时系统仍能工作</li>
+</ul>
+<h3 id="12-13-4-三-server-协同场景">12.13.4 三 Server 协同场景</h3>
+<p>现在功能专家可以同时使用三个来源的能力：</p>
+<ol>
+<li><code>requirement-analyzer</code>：需求完整性、复杂度、冲突、用户故事</li>
+<li><code>web-search</code>：竞品、最佳实践、技术方案搜索</li>
+<li><code>rag-server</code>：内部知识库检索，也就是第十一章的 RAG 能力</li>
+</ol>
+<p>这三类工具的定位并不一样：</p>
+<table>
+<thead>
+<tr>
+<th>Server / 工具来源</th>
+<th>回答什么问题</th>
+<th>典型工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需求分析 Server</td>
+<td>“这条需求本身写得怎么样？”</td>
+<td><code>req_analyze_completeness</code>、<code>req_estimate_complexity</code></td>
+</tr>
+<tr>
+<td>Web Search Server</td>
+<td>“外部世界有没有参考做法？”</td>
+<td><code>ws_search_competitors</code>、<code>ws_search_best_practices</code></td>
+</tr>
+<tr>
+<td>RAG Server</td>
+<td>“我们内部已有资料怎么说？”</td>
+<td><code>search_knowledge_base</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>场景 1：需求完整性不够 → 搜索竞品补充</strong></p>
+<pre><code>用户：分析这个需求 “支持批量导入功能”
+
+Agent：
+  1. 调用 req_analyze_completeness
+     → 得分 33%，缺少验收标准、非功能需求、边界条件
+
+  2. 调用 ws_search_competitors(&quot;批量导入功能&quot;)
+     → 获得 Jira / Linear / Airtable 的批量导入实现参考
+
+  3. 调用 req_generate_user_stories
+     → 生成用户故事和验收条件草案
+
+  4. 综合输出：
+     - 当前需求缺口
+     - 竞品参考
+     - 建议补充的验收标准
+     - 可拆分的用户故事
+</code></pre>
+<p><strong>场景 2：内部知识库无结果 → Web 搜索兜底</strong></p>
+<pre><code>用户：我们的安全策略文档里有没有关于 API 限流的规范？
+
+Agent：
+  1. 调用 search_knowledge_base(&quot;API 限流 安全策略&quot;)
+     → 内部知识库无相关结果
+
+  2. 调用 ws_search_best_practices(&quot;API rate limiting&quot;)
+     → 获得行业最佳实践：令牌桶、漏桶、按用户/租户限流、429 返回等
+
+  3. 输出：
+     - 内部资料未命中
+     - 外部最佳实践参考
+     - 建议补充内部安全规范章节
+</code></pre>
+<p><strong>场景 3：复杂度估算 → 搜索类似方案参考工期</strong></p>
+<pre><code>用户：评估这个需求的复杂度 “对接第三方支付系统，支持微信/支付宝”
+
+Agent：
+  1. 调用 req_estimate_complexity
+     → XL（外部集成 + 安全合规 + 异常处理）
+
+  2. 调用 ws_search_tech_stack(&quot;第三方支付集成&quot;)
+     → 获得类似方案的常见工期和风险点
+
+  3. 调用 search_knowledge_base(&quot;支付系统 对接 经验&quot;)
+     → 查询内部历史项目有没有类似实现
+
+  4. 输出：
+     - 复杂度 T-shirt size
+     - 主要技术风险
+     - 内外部参考依据
+     - 初步排期建议
+</code></pre>
+<p><strong>场景 4：冲突检查 → 内部知识 + 现有需求比对</strong></p>
+<pre><code>用户：新增一个“管理员可批量删除用户”的需求，看看有没有冲突。
+
+Agent：
+  1. 调用 search_knowledge_base(&quot;用户删除 权限 审计&quot;)
+     → 找到内部安全规范：删除用户必须保留审计日志
+
+  2. 调用 req_check_conflicts
+     → 和现有“用户禁用 / 恢复”需求存在重叠
+
+  3. 输出：
+     - 与现有需求的重叠点
+     - 与安全规范的冲突点
+     - 建议改成“软删除 / 禁用”并保留审计链路
+</code></pre>
+<hr />
+<h2 id="12-14-rag-as-mcp-server-把第十一章能力服务化">12.14 RAG-as-MCP-Server：把第十一章能力服务化</h2>
+<p>第十一章实现的 RAG 能力，也可以从 LangChain Tool 进一步升级为 MCP Server。</p>
+<p>这样做的意义是：RAG 不再只是某个 Agent 内部的一个工具，而是一个可被多个客户端复用的标准服务。Cursor、Claude Desktop、内部运维 Agent、需求分析 Agent，都可以连接同一个 RAG MCP Server。</p>
+<pre><code class="language-tsx">// mcp-servers/rag-server/src/index.ts
+server.tool(
+  'search_knowledge_base',
+  '搜索内部知识库（基于 RAG），检索与问题相关的业务文档。适用于查询内部规范、产品文档、历史决策、技术方案。',
+  {
+    query: z.string().describe('搜索问题，应当是自然语言完整问句'),
+    topK: z.number().optional().describe('返回结果数量，默认 5'),
+  },
+  async ({ query, topK = 5 }) =&gt; {
+    const results = await ragPipeline.search(query, { topK });
+
+    return {
+      content: [
+        {
+          type: 'text' as const,
+          text: JSON.stringify(
+            {
+              query,
+              results: results.map((r) =&gt; ({
+                content: r.content,
+                source: r.metadata.source,
+                documentId: r.metadata.documentId,
+                chunkId: r.metadata.chunkId,
+                score: r.score,
+              })),
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  },
+);
+</code></pre>
+<p>进一步，也可以暴露一个生成式工具：</p>
+<pre><code class="language-tsx">server.tool(
+  'answer_with_knowledge_base',
+  '基于内部知识库回答问题，并返回引用来源。适用于需要按内部资料给出最终答案的场景。',
+  {
+    question: z.string().describe('用户问题'),
+    topK: z.number().optional().describe('检索结果数量，默认 5'),
+  },
+  async ({ question, topK = 5 }) =&gt; {
+    const result = await ragAsk({
+      question,
+      topK,
+      model,
+    });
+
+    return {
+      content: [
+        {
+          type: 'text' as const,
+          text: JSON.stringify(
+            {
+              answer: result.answer,
+              citations: result.citations,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  },
+);
+</code></pre>
+<p>这两个工具的职责不同：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>返回什么</th>
+<th>适合谁用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>search_knowledge_base</code></td>
+<td>检索到的 chunk + 元信息</td>
+<td>需要自己综合判断的 Agent</td>
+</tr>
+<tr>
+<td><code>answer_with_knowledge_base</code></td>
+<td>已经生成好的答案 + 引用</td>
+<td>只需要最终回答的客户端</td>
+</tr>
+</tbody>
+</table>
+<p>工程上推荐先暴露 <code>search_knowledge_base</code>，让上层 Agent 负责综合。因为多 Agent 系统往往需要把 RAG 结果和其他工具结果一起推理，如果 RAG Server 直接生成最终答案，反而可能让职责边界变模糊。</p>
+<hr />
+<h2 id="12-15-与预算-权限和可观测性的协同">12.15 与预算、权限和可观测性的协同</h2>
+<p>把 MCP 工具接入 Agent 后，不代表可以无条件调用。真实系统还要把第十章的 Token 预算、第十一章的 RAG 权限过滤，以及本章的 MCP trace 串起来。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5266a4bf24a24ac6b1bec7cb6a2e9e42~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=575918&amp;e=jpg&amp;b=e6f0fb" alt="generated-image-1779534584556.png" /></p>
+<p><strong>(1) 预算协同</strong></p>
+<p>MCP 工具本身不一定消耗 LLM Token，但它会影响 Agent 的上下文：</p>
+<ul>
+<li>工具描述会进入模型上下文</li>
+<li>工具参数由模型生成</li>
+<li>工具结果会作为上下文再喂回模型</li>
+<li>RAG-as-MCP-Server 内部可能再次调用 LLM</li>
+</ul>
+<p>因此，MCPManager 可以在返回工具列表前做按需裁剪。这里不再重复 12.12.2 的 Token 成本公式，只保留工程落点：</p>
+<pre><code class="language-tsx">function selectToolsForIntent(intent: string, allTools: DynamicStructuredTool[]) {
+  if (intent === 'requirement_review') {
+    return allTools.filter((t) =&gt;
+      t.name.startsWith('req_') ||
+      t.name.startsWith('ws_') ||
+      t.name === 'search_knowledge_base'
+    );
+  }
+
+  if (intent === 'smalltalk') {
+    return [];
+  }
+
+  return allTools;
+}
+</code></pre>
+<p>这样可以避免每轮对话都把全部工具描述塞进 system prompt，降低第十章提到的上下文膨胀问题。</p>
+<p><strong>(2) 权限协同</strong></p>
+<p>MCP Server 暴露能力，不等于所有用户都能调用。权限应分两层：</p>
+<ol>
+<li><strong>Host 层权限</strong>：当前用户是否允许使用某个 Server / Tool</li>
+<li><strong>业务数据权限</strong>：工具内部检索或操作数据时，是否按 <code>userId</code>、<code>workspaceId</code>、<code>teamId</code> 做过滤</li>
+</ol>
+<pre><code class="language-tsx">async function guardedCallTool(input: {
+  userId: string;
+  toolName: string;
+  args: Record&lt;string, unknown&gt;;
+}) {
+  const allowed = await permissionService.canUseTool(input.userId, input.toolName);
+  if (!allowed) {
+    return {
+      error: 'permission_denied',
+      message: `当前用户无权调用工具 ${input.toolName}`,
+    };
+  }
+
+  return manager.callTool(input.toolName, input.args);
+}
+</code></pre>
+<p>尤其是 RAG-as-MCP-Server，必须继承第十一章强调过的权限过滤原则：<strong>不能先检索全库，再让模型“不要回答无权限内容”</strong>。权限过滤必须发生在检索阶段。</p>
+<p><strong>(3) 可观测性协同</strong></p>
+<p>可观测性字段以 12.12 的 <code>MCPCallTrace</code> 为主，不在集成章节重新定义一套结构。Agent 层只需要把同一轮请求里的多次 MCP 调用串到同一个 <code>requestId / conversationId</code> 下，再与第十章的 token usage、十一章的 RAG trace 合并。</p>
+<p>有了这类 trace，后续才能回答三个生产问题：</p>
+<ul>
+<li>哪些工具经常被调用，但结果很少被最终答案采用？</li>
+<li>哪些 Server 延迟高、错误率高，拖慢整条 Agent 链路？</li>
+<li>哪些工具描述太模糊，导致模型经常误调用？</li>
+</ul>
+<hr />
+<h2 id="12-16-端到端全景图">12.16 端到端全景图</h2>
+<div class="mermaid">sequenceDiagram
+  participant U as User
+  participant S as Supervisor
+  participant FE as Feature Expert
+  participant MCPMgr as MCPManager
+  participant RA as requirement-analyzer
+  participant WS as web-search
+  participant RAG as rag-server
+
+  U-&gt;&gt;S: &quot;分析这个批量导入需求&quot;
+  S-&gt;&gt;FE: 路由到功能专家
+
+  FE-&gt;&gt;MCPMgr: callTool(req_analyze_completeness)
+  MCPMgr-&gt;&gt;RA: tools/call
+  RA-&gt;&gt;MCPMgr: {completenessScore: 33, missingDimensions: [...]}
+  MCPMgr-&gt;&gt;FE: 返回完整性分析
+
+  FE-&gt;&gt;MCPMgr: callTool(search_knowledge_base)
+  MCPMgr-&gt;&gt;RAG: tools/call
+  RAG-&gt;&gt;MCPMgr: {results: [内部导入规范, 历史需求]}
+  MCPMgr-&gt;&gt;FE: 返回内部知识
+
+  FE-&gt;&gt;MCPMgr: callTool(ws_search_competitors)
+  MCPMgr-&gt;&gt;WS: tools/call
+  WS-&gt;&gt;MCPMgr: {results: [Jira, Linear]}
+  MCPMgr-&gt;&gt;FE: 返回竞品参考
+
+  FE-&gt;&gt;MCPMgr: callTool(req_estimate_complexity)
+  MCPMgr-&gt;&gt;RA: tools/call
+  RA-&gt;&gt;MCPMgr: {size: 'M', estimatedDays: '3-7天'}
+  MCPMgr-&gt;&gt;FE: 返回复杂度估算
+
+  FE-&gt;&gt;S: 综合分析报告
+  S-&gt;&gt;U: 最终输出
+</div>
+<p>这张图把第九章、第十章、第十一章和本章串在一起：</p>
+<ul>
+<li>第九章提供 Multi-Agent 编排框架</li>
+<li>第十章提供 Token 预算与成本约束</li>
+<li>第十一章提供内部知识库检索能力</li>
+<li>第十二章把外部工具、搜索能力、RAG 服务统一接入</li>
+</ul>
+<p>到这里，Agent 不再只是“会推理的节点”，而是具备了可发现、可扩展、可复用工具生态的执行系统。</p>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：Agent 集成</p>
+<pre><code>将 MCP 工具集成到 LangGraph Agent：
+
+1. 初始化 MCPManager，注册三个 Server：
+   - requirement-analyzer (prefix: req_)
+   - web-search (prefix: ws_)
+   - rag-server (tool: search_knowledge_base)
+
+2. 调用 manager.connectAll()，获取 manager.getTools()
+
+3. 将 MCP 工具与第九章已有工具合并：
+   - readRequirementTool
+   - checkExistingFeaturesTool
+   - loadPerfBaselineTool
+   - ...manager.getTools()
+
+4. 用 createReactAgent 创建功能专家：
+   - llm: ChatOpenAI({ model: 'gpt-4o-mini' })
+   - tools: mergedTools
+   - prompt: 描述可用工具和使用场景
+
+5. 增加权限与预算保护：
+   - 调用前检查 canUseTool(userId, toolName)
+   - 根据 intent 裁剪工具列表，避免无关工具进入上下文
+   - 记录 AgentMCPTrace
+
+6. 测试完整场景：
+   - 输入一段需求
+   - 验证 analyze + rag search + web search + estimate 的协同调用
+   - 验证工具不可用时 fallbackTools 生效
+</code></pre>
+</li>
+</ul>
+<p>📋 <strong>本节配套用例</strong></p>
+<pre><code class="language-bash"># LLM 集成测试（需要 OPENAI_API_KEY）
+OPENAI_API_KEY=sk-... bun test test/chapter12-mcp-llm.spec.ts -t &quot;12.13&quot;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent 能拿到 MCPManager 聚合后的工具列表</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>功能专家可调用 req_ 与 ws_ 前缀工具</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>RAG-as-MCP-Server 可返回内部知识结果</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>三 Server 工具可在同一轮推理中协同</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Server 不可用时 fallbackTools 生效</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>最终输出包含完整性评分、内部知识、竞品参考、复杂度</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/763fc9c24aba4b75928369ed6b1a4b2f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1480&amp;h=1356&amp;s=215836&amp;e=png&amp;b=282c34" alt="image 9.png" /></p>
+<hr />
+<h2 id="12-17-全景回顾">12.17 全景回顾</h2>
+<p>走到这里，本章已经从“为什么需要 MCP”一路讲到“如何接入 LangGraph Agent”。回头看，MCP 解决的不是某一个工具怎么写，而是<strong>工具生态如何被发现、连接、调用、治理</strong>。</p>
+<h3 id="12-17-1-完整时序图">12.17.1 完整时序图</h3>
+<div class="mermaid">graph TB
+  subgraph &quot;本章构建的系统&quot;
+    direction TB
+    A[&quot;12.4-12.5&lt;br/&gt;单 Server + Client 基础&quot;] --&gt; B[&quot;12.6&lt;br/&gt;传输层抽象&quot;]
+    B --&gt; C[&quot;12.7&lt;br/&gt;第二个 Server：搜索&quot;]
+    C --&gt; D[&quot;12.8&lt;br/&gt;MCPManager 多 Server 编排&quot;]
+    D --&gt; E[&quot;12.9-12.10&lt;br/&gt;韧性 + 安全&quot;]
+    E --&gt; F[&quot;12.12&lt;br/&gt;可观测性 + Token 经济学&quot;]
+    F --&gt; G[&quot;12.13&lt;br/&gt;Agent 集成&quot;]
+    G --&gt; H[&quot;12.14&lt;br/&gt;RAG 服务化&quot;]
+    H --&gt; I[&quot;12.15&lt;br/&gt;预算 / 权限 / 可观测性&quot;]
+    I --&gt; J[&quot;12.16&lt;br/&gt;端到端全景图&quot;]
+  end
+</div>
+<h3 id="12-17-2-数据流维度">12.17.2 数据流维度</h3>
+<div class="mermaid">flowchart LR
+    subgraph MCP_Server [&quot;MCP Server 侧&quot;]
+        T1[&quot;Tools&lt;br/&gt;可执行动作&quot;]
+        R1[&quot;Resources&lt;br/&gt;只读资料&quot;]
+        P1[&quot;Prompts&lt;br/&gt;提示词模板&quot;]
+    end
+
+    subgraph MCP_Client [&quot;MCP Client / Manager 侧&quot;]
+        L1[&quot;connect&lt;br/&gt;建立传输&quot;]
+        L2[&quot;initialize&lt;br/&gt;能力协商&quot;]
+        L3[&quot;tools/list&lt;br/&gt;运行时发现&quot;]
+        L4[&quot;bridge&lt;br/&gt;转 LangChain Tool&quot;]
+    end
+
+    subgraph Agent [&quot;LangGraph Agent 侧&quot;]
+        A1[&quot;Supervisor&lt;br/&gt;选择专家&quot;]
+        A2[&quot;Expert&lt;br/&gt;选择工具&quot;]
+        A3[&quot;Tool Result&lt;br/&gt;进入上下文&quot;]
+        A4[&quot;Final Answer&lt;br/&gt;综合输出&quot;]
+    end
+
+    MCP_Server --&gt; MCP_Client --&gt; Agent
+</div>
+<p>从数据流角度看，本章有三条主线：</p>
+<ol>
+<li><strong>能力从 Server 暴露出来</strong>：Tools / Resources / Prompts</li>
+<li><strong>能力被 Client 发现和适配</strong>：connect / initialize / listTools / bridge</li>
+<li><strong>能力进入 Agent 推理闭环</strong>：工具描述进入上下文，工具结果回到模型，再生成最终答案</li>
+</ol>
+<h3 id="12-17-3-决策维度地图">12.17.3 决策维度地图</h3>
+<p>什么时候用 MCP？什么时候直接写 Tool？可以用下面这张表做判断：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方案</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具逻辑简单，只在一个 Agent 使用</td>
+<td>直接 LangChain Tool</td>
+<td>无需跨进程通信，开发成本最低</td>
+</tr>
+<tr>
+<td>工具需要被多个 Agent / 项目复用</td>
+<td>MCP Server</td>
+<td>一次实现，多处连接</td>
+</tr>
+<tr>
+<td>连接第三方服务（Jira / GitHub / Figma / Notion）</td>
+<td>MCP Server</td>
+<td>认证、API、错误处理都适合封装在独立服务里</td>
+</tr>
+<tr>
+<td>工具由另一个团队维护</td>
+<td>MCP Server</td>
+<td>边界清晰，团队可独立迭代</td>
+</tr>
+<tr>
+<td>工具需要独立扩缩容</td>
+<td>MCP Server + Streamable HTTP</td>
+<td>可单独部署和伸缩，不拖累 Agent 主服务</td>
+</tr>
+<tr>
+<td>需要本地桌面应用调用</td>
+<td>MCP Server + stdio</td>
+<td>零端口、零网络配置，适合本机进程</td>
+</tr>
+<tr>
+<td>快速原型 / 一次性脚本</td>
+<td>直接 Tool</td>
+<td>少写协议层样板代码</td>
+</tr>
+</tbody>
+</table>
+<p><strong>经验法则</strong>：</p>
+<ul>
+<li>如果一个工具只服务当前 Agent，先写成本地 Tool。</li>
+<li>如果一个工具要服务多个 Agent，或者要独立部署，优先 MCP。</li>
+<li>如果一个工具连接外部系统，优先 MCP。</li>
+<li>如果一个工具有写操作、高权限、复杂认证，优先 MCP，但必须加权限与确认机制。</li>
+</ul>
+<h3 id="12-17-4-成本与灵活性阶梯">12.17.4 成本与灵活性阶梯</h3>
+<pre><code>硬编码 Function → LangChain Tool → MCP (stdio) → MCP (HTTP)
+────────────────────────────────────────────────────────────→
+  开发成本低                                    灵活性高
+  部署简单                                      可独立扩展
+  无运行时开销                                   跨项目复用
+</code></pre>
+<p>这条阶梯不是说越右越好，而是要看场景：</p>
+<ul>
+<li><strong>硬编码 Function</strong>：适合教学、Demo、短期验证</li>
+<li><strong>LangChain Tool</strong>：适合单项目内稳定工具</li>
+<li><strong>MCP stdio</strong>：适合本地工具、桌面应用、IDE 集成</li>
+<li><strong>MCP HTTP</strong>：适合生产服务、多团队共享、远程调用</li>
+</ul>
+<h3 id="12-17-5-可观测性回扣">12.17.5 可观测性回扣</h3>
+<p>可观测性字段和监控指标已经统一放在 12.12，本节不再重复表格。上线时只需要记住一个原则：第十章的 Token Usage、十一章的 RAG Trace、十二章的 MCP Trace 应该合并到同一条请求链路里。否则你只能看到“最终回答慢”，却不知道慢在模型、检索、MCP Server，还是外部 API。</p>
+<hr />
+<h2 id="12-18-faq">12.18 FAQ</h2>
+<h3 id="q1-server-连接不上-连接超时">Q1：Server 连接不上 / 连接超时</h3>
+<p><strong>常见原因</strong>：</p>
+<ol>
+<li>Server 命令路径错误：检查 <code>command</code> 和 <code>args</code> 是否正确</li>
+<li>依赖未安装：Server 目录下执行 <code>bun install</code></li>
+<li>TypeScript 编译错误：先 <code>bun run build</code> 确认无报错</li>
+<li>环境变量缺失：某些 Server 需要特定环境变量</li>
+<li>Server 把日志写到了 stdout，污染了 JSON-RPC 协议输出</li>
+</ol>
+<p><strong>排查方式</strong>：</p>
+<pre><code class="language-bash"># 手动启动 Server，看 stderr 输出
+tsx mcp-servers/requirement-analyzer/src/index.ts 2&gt;&amp;1
+</code></pre>
+<p>如果使用 stdio，务必记住：<strong>stdout 只能写协议消息，日志写 stderr</strong>。这是最常见的连接失败原因之一。</p>
+<h3 id="q2-tools-list-返回空数组">Q2：<code>tools/list</code> 返回空数组</h3>
+<p><strong>常见原因</strong>：</p>
+<ol>
+<li>Server 代码中 <code>server.tool()</code> 注册有语法错误</li>
+<li>工具注册发生在 <code>server.connect()</code> 之后</li>
+<li>能力协商时 Server 没有声明 tools capability</li>
+<li>工具注册被条件判断跳过，例如缺少环境变量时直接不注册</li>
+</ol>
+<p><strong>排查方式</strong>：用 MCP Inspector 直接连接 Server，看工具列表是否存在。若 Inspector 能看到工具，但 Agent 看不到，问题通常在 Client / Manager 的桥接层。</p>
+<h3 id="q3-stdio-vs-streamable-http-怎么选">Q3：stdio vs Streamable HTTP 怎么选</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>选择</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地开发、单人使用</td>
+<td>stdio</td>
+<td>零配置、最简单</td>
+</tr>
+<tr>
+<td>桌面应用 / IDE 插件</td>
+<td>stdio</td>
+<td>本机进程隔离，无需开放端口</td>
+</tr>
+<tr>
+<td>多人 / 多 Agent 共享</td>
+<td>Streamable HTTP</td>
+<td>支持远程连接与多客户端访问</td>
+</tr>
+<tr>
+<td>Serverless 部署</td>
+<td>HTTP 无状态模式</td>
+<td>每次请求独立，不维护 session</td>
+</tr>
+<tr>
+<td>需要工具变更通知</td>
+<td>HTTP 有状态模式或 stdio</td>
+<td>需要保持会话</td>
+</tr>
+<tr>
+<td>CI/CD 中运行测试</td>
+<td>InMemoryTransport</td>
+<td>无进程、无网络，稳定可重复</td>
+</tr>
+</tbody>
+</table>
+<h3 id="q4-认证-token-过期后工具调用全部失败">Q4：认证 Token 过期后工具调用全部失败</h3>
+<p><strong>解法</strong>：</p>
+<ol>
+<li>Client 捕获 401 响应</li>
+<li>触发 token refresh 流程</li>
+<li>用新 token 重新 initialize</li>
+<li>重试失败的调用</li>
+</ol>
+<pre><code class="language-tsx">try {
+  await client.callTool(name, args);
+} catch (err) {
+  if (err.code === 401) {
+    const newToken = await refreshToken();
+    await client.reconnect({ token: newToken });
+    return client.callTool(name, args);
+  }
+  throw err;
+}
+</code></pre>
+<p>对于远程 MCP Server，认证失败不应该直接表现成“工具不可用”。更好的做法是返回明确错误，让 Host 引导用户重新授权。</p>
+<h3 id="q5-工具调用返回内容太长-导致后续回答变慢">Q5：工具调用返回内容太长，导致后续回答变慢</h3>
+<p>MCP 工具返回内容会进入 Agent 上下文。返回越长，后续 LLM 调用越贵。</p>
+<p><strong>解决方式</strong>：</p>
+<ul>
+<li>Server 端限制返回条数和长度</li>
+<li>对搜索结果只返回 title / snippet / url，不返回整页正文</li>
+<li>对 RAG 结果只返回 topK chunk，必要时做摘要</li>
+<li>对大结果返回 Resource URI，让应用按需读取</li>
+<li>在 MCPManager 层记录 <code>outputSize</code>，超过阈值报警</li>
+</ul>
+<h3 id="q6-模型总是不调用某个-mcp-工具">Q6：模型总是不调用某个 MCP 工具</h3>
+<p>常见原因不是协议问题，而是工具描述不清楚。</p>
+<p>检查三点：</p>
+<ol>
+<li><code>description</code> 是否说明了适用场景</li>
+<li><code>inputSchema</code> 的字段描述是否具体</li>
+<li>工具名是否可理解，例如 <code>req_analyze_completeness</code> 比 <code>tool_1</code> 更容易被模型选择</li>
+</ol>
+<p>好的工具描述应该同时写清：</p>
+<ul>
+<li>什么时候用</li>
+<li>输入是什么</li>
+<li>返回什么</li>
+<li>什么时候不要用</li>
+</ul>
+<h3 id="q7-mcp-与-openai-function-calling-langchain-tool-的区别和关系">Q7：MCP 与 OpenAI Function Calling / LangChain Tool 的区别和关系</h3>
+<p>三者的完整对比已经放在 12.1.4。这里用一句话回扣：Function Calling 解决“模型如何表达工具调用”，LangChain Tool 解决“应用内如何执行工具”，MCP 解决“外部工具如何被发现、连接和复用”。它们是分层关系，不是三选一。</p>
+<h3 id="q8-什么时候不要用-mcp">Q8：什么时候不要用 MCP</h3>
+<p>决策表已经放在 12.17.3。简单说：短小纯函数、只服务当前 Agent、对延迟极敏感、强依赖主进程内存状态、一次性 Demo，都不必急着 MCP 化。工程上可以先用 LangChain Tool 起步，等工具需要跨项目复用、独立部署或连接外部系统时，再升级为 MCP。</p>
+<hr />
+<h2 id="12-19-术语速查表">12.19 术语速查表</h2>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCP</td>
+<td>Model Context Protocol，AI 工具调用的标准协议</td>
+</tr>
+<tr>
+<td>MCP Server</td>
+<td>暴露 Tools/Resources/Prompts 的服务端</td>
+</tr>
+<tr>
+<td>MCP Client</td>
+<td>连接 Server 并调用工具的客户端</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>运行 MCP Client 的应用程序（如 IDE、Agent）</td>
+</tr>
+<tr>
+<td>Transport</td>
+<td>传输层实现（stdio / Streamable HTTP / SSE）</td>
+</tr>
+<tr>
+<td>Tool</td>
+<td>可执行操作，由模型控制调用</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>只读数据源，由应用控制读取</td>
+</tr>
+<tr>
+<td>Prompt</td>
+<td>预定义 Prompt 模板，由用户控制选择</td>
+</tr>
+<tr>
+<td>JSON-RPC 2.0</td>
+<td>MCP 底层消息格式标准</td>
+</tr>
+<tr>
+<td>Capability</td>
+<td>能力声明，用于 Client/Server 协商</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>一次 Client-Server 连接的完整生命周期</td>
+</tr>
+<tr>
+<td>InMemoryTransport</td>
+<td>测试用的内存传输，无需进程/网络</td>
+</tr>
+<tr>
+<td>Inspector</td>
+<td>MCP 官方调试工具</td>
+</tr>
+<tr>
+<td>Annotation</td>
+<td>工具的元信息提示（只读/破坏性/开放世界）</td>
+</tr>
+<tr>
+<td>Notification</td>
+<td>单向消息（无需响应）</td>
+</tr>
+<tr>
+<td>inputSchema</td>
+<td>工具的 JSON Schema 参数定义</td>
+</tr>
+<tr>
+<td>content[]</td>
+<td>MCP 工具返回格式（text/image/resource 数组）</td>
+</tr>
+<tr>
+<td>isError</td>
+<td>工具级错误标记（区别于协议级错误）</td>
+</tr>
+<tr>
+<td>listChanged</td>
+<td>工具列表变更通知</td>
+</tr>
+<tr>
+<td>Mcp-Session-Id</td>
+<td>HTTP 传输的会话标识 header</td>
+</tr>
+<tr>
+<td>Streamable HTTP</td>
+<td>MCP 当前推荐的 HTTP 传输方式</td>
+</tr>
+<tr>
+<td>MCPManager</td>
+<td>多 Server 统一管理器（本项目实现）</td>
+</tr>
+<tr>
+<td>Bridge</td>
+<td>MCP Tool → LangChain Tool 的转换层</td>
+</tr>
+<tr>
+<td>Namespace Prefix</td>
+<td>多 Server 工具名前缀策略</td>
+</tr>
+<tr>
+<td>Fallback</td>
+<td>Server 不可用时的降级工具</td>
+</tr>
+<tr>
+<td>Circuit Breaker</td>
+<td>断路器模式，连续失败后暂停调用</td>
+</tr>
+<tr>
+<td>Human-in-the-Loop</td>
+<td>高危操作前的用户确认机制</td>
+</tr>
+<tr>
+<td>Tavily</td>
+<td>Web 搜索 API 服务（本项目搜索 Server 底层）</td>
+</tr>
+<tr>
+<td>CRAG</td>
+<td>Corrective RAG，第十一章的 Web 搜索兜底模式</td>
+</tr>
+<tr>
+<td>T-shirt Size</td>
+<td>复杂度估算单位（S/M/L/XL）</td>
+</tr>
+<tr>
+<td>Primitive</td>
+<td>协议中的基础能力单元，本章指 Tool / Resource / Prompt</td>
+</tr>
+<tr>
+<td>Request</td>
+<td>带 <code>id</code> 的请求消息，期待对端返回响应</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>与请求 <code>id</code> 对应的响应消息</td>
+</tr>
+<tr>
+<td>Resilience</td>
+<td>韧性，系统在部分组件失败时继续工作的能力</td>
+</tr>
+<tr>
+<td>Prompt Injection</td>
+<td>提示词注入，外部内容试图影响模型行为的攻击方式</td>
+</tr>
+<tr>
+<td>OAuth 2.1</td>
+<td>远程 MCP Server 常用的授权流程</td>
+</tr>
+<tr>
+<td>RAG-as-MCP-Server</td>
+<td>把 RAG 检索能力封装成 MCP Server，供多个 Agent 复用</td>
+</tr>
+<tr>
+<td>PRD</td>
+<td>Product Requirement Document，产品需求文档</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-20-精简小结-后续章节预告">12.20 精简小结 + 后续章节预告</h2>
+<h3 id="本章要点">本章要点</h3>
+<p>前面已经完成全景回顾，这里只保留几个要点：</p>
+<ol>
+<li><strong>MCP 解决的是“连接与复用”问题</strong>：它不是替代 Function Calling，而是让工具可以独立开发、独立部署、跨 Agent 复用。</li>
+<li><strong>协议核心是 JSON-RPC 2.0 + 能力协商 + 三种原语</strong>：Tools、Resources、Prompts 的关键区别在于控制者不同。</li>
+<li><strong>桥接层决定能否进入现有 Agent 生态</strong>：JSON Schema → Zod、MCP <code>content[]</code> → string，是接入 LangChain / LangGraph 的关键适配点。</li>
+<li><strong>多 Server 编排要治理命名、降级和权限</strong>：前缀解决重名，fallback 解决不可用，Human-in-the-Loop 约束高风险操作。</li>
+<li><strong>RAG-as-MCP-Server 让知识库能力服务化</strong>：第十一章的检索能力不再绑定某个 Agent，而可以被多个客户端共享。</li>
+</ol>
+<h3 id="后续章节预告">后续章节预告</h3>
+<p>下一章进入 <strong>Skills</strong>：从“会写一段代码、会调用一个工具”，进一步走向“把一类任务沉淀成可复用资产”。我们会讨论如何把提示词、工具、脚本、模板、检查清单和领域知识组合成一个可迁移的 Skill，让 Agent 不只是临时完成任务，而是逐步积累稳定能力。</p>
+<p>一句话锚点：</p>
+<blockquote>
+<p>第十一章让模型<strong>读懂业务</strong>，第十二章让模型<strong>调用工具</strong>，第十三章会讨论如何把这些能力沉淀为可复用的 <strong>Skill 资产</strong>。</p>
+</blockquote>
+<h2 id="写在最后">写在最后 🧪</h2>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。不只聊概念，也尽量分享能直接上手、能够复用的经验。希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-13.html">← 第十一章：RAG——让AI更懂你的业务</a>
+      <a class="next" href="ch-15.html">第十三章：Skills——把最佳实践沉淀为能力资产 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#12-1-为什么-function-calling-不够用">12.1 为什么 Function Calling 不够用</a></li>
+      <li class="lv3"><a href="#12-1-1-编译时绑定-vs-运行时发现">12.1.1 编译时绑定 vs 运行时发现</a></li>
+      <li class="lv3"><a href="#12-1-2-连接外部服务的五大痛点">12.1.2 连接外部服务的五大痛点</a></li>
+      <li class="lv3"><a href="#12-1-3-mcp-的定位">12.1.3 MCP 的定位</a></li>
+      <li class="lv3"><a href="#12-1-4-mcp-vs-function-calling-vs-langchain-tool">12.1.4 MCP vs Function Calling vs LangChain Tool</a></li>
+      <li class="lv2"><a href="#12-2-mcp-协议的设计本质">12.2 MCP 协议的设计本质</a></li>
+      <li class="lv3"><a href="#12-2-1-为什么选-json-rpc-2-0">12.2.1 为什么选 JSON-RPC 2.0</a></li>
+      <li class="lv3"><a href="#12-2-2-mcp-生命周期状态机">12.2.2 MCP 生命周期状态机</a></li>
+      <li class="lv3"><a href="#12-2-3-session-的两种模式">12.2.3 Session 的两种模式</a></li>
+      <li class="lv3"><a href="#12-2-4-版本演进">12.2.4 版本演进</a></li>
+      <li class="lv2"><a href="#12-3-三种核心原语的设计哲学">12.3 三种核心原语的设计哲学</a></li>
+      <li class="lv3"><a href="#12-3-1-tools-模型控制">12.3.1 Tools（模型控制）</a></li>
+      <li class="lv3"><a href="#12-3-2-resources-应用控制">12.3.2 Resources（应用控制）</a></li>
+      <li class="lv3"><a href="#12-3-3-prompts-用户控制">12.3.3 Prompts（用户控制）</a></li>
+      <li class="lv3"><a href="#12-3-4-三者控制模型对比表">12.3.4 三者控制模型对比表</a></li>
+      <li class="lv2"><a href="#12-4-从零搭建-mcp-server-需求分析工具">12.4 从零搭建 MCP Server：需求分析工具</a></li>
+      <li class="lv3"><a href="#12-4-1-最小可运行版本-一个文件-一个-tool">12.4.1 最小可运行版本：一个文件、一个 Tool</a></li>
+      <li class="lv3"><a href="#12-4-2-加入更多-tools">12.4.2 加入更多 Tools</a></li>
+      <li class="lv3"><a href="#12-4-3-加入-resources">12.4.3 加入 Resources</a></li>
+      <li class="lv3"><a href="#12-4-4-加入-prompts">12.4.4 加入 Prompts</a></li>
+      <li class="lv3"><a href="#12-4-5-用-mcp-inspector-调试">12.4.5 用 MCP Inspector 调试</a></li>
+      <li class="lv2"><a href="#12-5-mcp-client-连接与调用">12.5 MCP Client：连接与调用</a></li>
+      <li class="lv3"><a href="#12-5-1-client-生命周期">12.5.1 Client 生命周期</a></li>
+      <li class="lv3"><a href="#12-5-2-最小-client-实现">12.5.2 最小 Client 实现</a></li>
+      <li class="lv3"><a href="#12-5-3-mcp-tool-langchain-tool-桥接器">12.5.3 MCP Tool → LangChain Tool 桥接器</a></li>
+      <li class="lv2"><a href="#12-6-传输层-从本地到远程">12.6 传输层：从本地到远程</a></li>
+      <li class="lv3"><a href="#12-6-1-stdio-最简单的传输">12.6.1 stdio：最简单的传输</a></li>
+      <li class="lv3"><a href="#12-6-2-streamable-http-生产首选">12.6.2 Streamable HTTP：生产首选</a></li>
+      <li class="lv3"><a href="#12-6-3-sse-已过时">12.6.3 SSE（已过时）</a></li>
+      <li class="lv3"><a href="#12-6-4-streamable-http-server-端最小示例">12.6.4 Streamable HTTP Server 端最小示例</a></li>
+      <li class="lv3"><a href="#12-6-5-传输切换的代码改动">12.6.5 传输切换的代码改动</a></li>
+      <li class="lv2"><a href="#12-7-第二个-mcp-server-网络搜索">12.7 第二个 MCP Server：网络搜索</a></li>
+      <li class="lv3"><a href="#12-7-1-为什么需求分析需要搜索">12.7.1 为什么需求分析需要搜索</a></li>
+      <li class="lv3"><a href="#12-7-2-搭建-web-search-mcp-server">12.7.2 搭建 Web Search MCP Server</a></li>
+      <li class="lv3"><a href="#12-7-3-mock-模式设计">12.7.3 Mock 模式设计</a></li>
+      <li class="lv3"><a href="#12-7-4-底层搜索实现">12.7.4 底层搜索实现</a></li>
+      <li class="lv2"><a href="#12-8-多-server-编排与协同">12.8 多 Server 编排与协同</a></li>
+      <li class="lv3"><a href="#12-8-1-mcpmanager">12.8.1 MCPManager</a></li>
+      <li class="lv3"><a href="#12-8-2-工具命名空间策略">12.8.2 工具命名空间策略</a></li>
+      <li class="lv3"><a href="#12-8-3-实战组合-三-server-协同">12.8.3 实战组合：三 Server 协同</a></li>
+      <li class="lv2"><a href="#12-9-错误处理与韧性">12.9 错误处理与韧性</a></li>
+      <li class="lv3"><a href="#12-9-1-json-rpc-标准错误码">12.9.1 JSON-RPC 标准错误码</a></li>
+      <li class="lv3"><a href="#12-9-2-client-重试策略">12.9.2 Client 重试策略</a></li>
+      <li class="lv3"><a href="#12-9-3-server-崩溃恢复">12.9.3 Server 崩溃恢复</a></li>
+      <li class="lv3"><a href="#12-9-4-降级策略">12.9.4 降级策略</a></li>
+      <li class="lv2"><a href="#12-10-安全模型">12.10 安全模型</a></li>
+      <li class="lv3"><a href="#12-10-1-信任边界三层模型">12.10.1 信任边界三层模型</a></li>
+      <li class="lv3"><a href="#12-10-2-工具权限分级">12.10.2 工具权限分级</a></li>
+      <li class="lv3"><a href="#12-10-3-human-in-the-loop">12.10.3 Human-in-the-Loop</a></li>
+      <li class="lv3"><a href="#12-10-4-prompt-注入防护">12.10.4 Prompt 注入防护</a></li>
+      <li class="lv3"><a href="#12-10-5-oauth-2-1-授权流程-remote-server">12.10.5 OAuth 2.1 授权流程（Remote Server）</a></li>
+      <li class="lv2"><a href="#12-11-测试策略">12.11 测试策略</a></li>
+      <li class="lv3"><a href="#12-11-1-两层测试架构">12.11.1 两层测试架构</a></li>
+      <li class="lv3"><a href="#12-11-2-layer-1-inmemorytransport">12.11.2 Layer 1：InMemoryTransport</a></li>
+      <li class="lv3"><a href="#12-11-3-layer-2-llm-集成测试">12.11.3 Layer 2：LLM 集成测试</a></li>
+      <li class="lv3"><a href="#12-11-4-mcp-inspector-验证">12.11.4 MCP Inspector 验证</a></li>
+      <li class="lv2"><a href="#12-12-可观测性与-token-经济学">12.12 可观测性与 Token 经济学</a></li>
+      <li class="lv3"><a href="#12-12-1-mcp-调用的-trace-结构">12.12.1 MCP 调用的 Trace 结构</a></li>
+      <li class="lv3"><a href="#12-12-2-与第十章-token-成本采集的协同">12.12.2 与第十章 Token 成本采集的协同</a></li>
+      <li class="lv3"><a href="#12-12-3-监控指标">12.12.3 监控指标</a></li>
+      <li class="lv2"><a href="#12-13-集成-langgraph-agent-完整实战">12.13 集成 LangGraph Agent（完整实战）</a></li>
+      <li class="lv3"><a href="#12-13-1-目标架构">12.13.1 目标架构</a></li>
+      <li class="lv3"><a href="#12-13-2-注入-mcp-工具到专家系统">12.13.2 注入 MCP 工具到专家系统</a></li>
+      <li class="lv3"><a href="#12-13-3-接入第九章专家工具池">12.13.3 接入第九章专家工具池</a></li>
+      <li class="lv3"><a href="#12-13-4-三-server-协同场景">12.13.4 三 Server 协同场景</a></li>
+      <li class="lv2"><a href="#12-14-rag-as-mcp-server-把第十一章能力服务化">12.14 RAG-as-MCP-Server：把第十一章能力服务化</a></li>
+      <li class="lv2"><a href="#12-15-与预算-权限和可观测性的协同">12.15 与预算、权限和可观测性的协同</a></li>
+      <li class="lv2"><a href="#12-16-端到端全景图">12.16 端到端全景图</a></li>
+      <li class="lv2"><a href="#12-17-全景回顾">12.17 全景回顾</a></li>
+      <li class="lv3"><a href="#12-17-1-完整时序图">12.17.1 完整时序图</a></li>
+      <li class="lv3"><a href="#12-17-2-数据流维度">12.17.2 数据流维度</a></li>
+      <li class="lv3"><a href="#12-17-3-决策维度地图">12.17.3 决策维度地图</a></li>
+      <li class="lv3"><a href="#12-17-4-成本与灵活性阶梯">12.17.4 成本与灵活性阶梯</a></li>
+      <li class="lv3"><a href="#12-17-5-可观测性回扣">12.17.5 可观测性回扣</a></li>
+      <li class="lv2"><a href="#12-18-faq">12.18 FAQ</a></li>
+      <li class="lv3"><a href="#q1-server-连接不上-连接超时">Q1：Server 连接不上 / 连接超时</a></li>
+      <li class="lv3"><a href="#q2-tools-list-返回空数组">Q2：`tools/list` 返回空数组</a></li>
+      <li class="lv3"><a href="#q3-stdio-vs-streamable-http-怎么选">Q3：stdio vs Streamable HTTP 怎么选</a></li>
+      <li class="lv3"><a href="#q4-认证-token-过期后工具调用全部失败">Q4：认证 Token 过期后工具调用全部失败</a></li>
+      <li class="lv3"><a href="#q5-工具调用返回内容太长-导致后续回答变慢">Q5：工具调用返回内容太长，导致后续回答变慢</a></li>
+      <li class="lv3"><a href="#q6-模型总是不调用某个-mcp-工具">Q6：模型总是不调用某个 MCP 工具</a></li>
+      <li class="lv3"><a href="#q7-mcp-与-openai-function-calling-langchain-tool-的区别和关系">Q7：MCP 与 OpenAI Function Calling / LangChain Tool 的区别和关系</a></li>
+      <li class="lv3"><a href="#q8-什么时候不要用-mcp">Q8：什么时候不要用 MCP</a></li>
+      <li class="lv2"><a href="#12-19-术语速查表">12.19 术语速查表</a></li>
+      <li class="lv2"><a href="#12-20-精简小结-后续章节预告">12.20 精简小结 + 后续章节预告</a></li>
+      <li class="lv3"><a href="#本章要点">本章要点</a></li>
+      <li class="lv3"><a href="#后续章节预告">后续章节预告</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后 🧪</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

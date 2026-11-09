@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>介绍 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li class="active"><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>介绍</h1>
+<h2 id="作者介绍">作者介绍</h2>
+<p><strong><a href="https://juejin.cn/user/2717648473821736">CookieBoty</a></strong>，AI全栈工程师，近十年专注于研发效能提升相关的工程化与低代码领域。同时，也是掘金小册《<a href="https://juejin.cn/book/6948353204648148995/section">基于 Node 的 DevOps 实战</a>》与 《<a href="https://juejin.cn/book/7065201654273933316">NestJs 实战</a>》的作者以及实体书《Vibe编程：探索AI时代编程新范式》的作者之一。</p>
+<h2 id="小册介绍">小册介绍</h2>
+<p>AI 会写代码，但它不知道该做什么。</p>
+<p>这本书要解决的，就是 <strong>“知道该做什么”</strong> 这件事。</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2a890b1c15784f3293cdf3a3def11a81~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=2752&amp;h=1536&amp;s=9860004&amp;e=png&amp;b=3c4d83" alt="cleaned-image.png" /></p>
+<p>我们正身处一个奇特的转折点。模型能力每隔几个月就跃升一次，工具链按周迭代，新框架、新协议、新范式层出不穷。多数开发者的应对方式，是追着新东西跑——今天学 LangChain，明天试 AutoGPT，后天又在看某个 Agent 框架，或者最新的 hermes。文章看了很多，东西也学了不少，却始终没能建立起属于自己的判断体系。</p>
+<p>🧱 <strong>这本书想做的事，是帮你停下来，把地基打扎实。</strong></p>
+<hr />
+<h4>你将经历什么？</h4>
+<p>全书将从一次普通的 API 调用出发，每章产品都往前走一步，每个概念都有代码落地，一步步构建一个真实的 AI 产品：</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3a1d377bedee4325a6853a7f1e941e8a~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=2816&amp;h=1536&amp;s=8441950&amp;e=png&amp;b=041342" alt="cleaned-image (2).png" /></p>
+<p>🏗️ <strong>第一阶段（第 1–5 章）：从模型调用到工程底座</strong></p>
+<ul>
+<li>把大模型从“随机发挥的黑盒”变成“稳定可控的软件模块”</li>
+<li>用 Bun + Turbo + Next.js + NestJS 搭建可扩展的 monorepo 工程骨架</li>
+<li>在 LangChain 中串通模型调用、提示模板、结构化输出、工具调用的完整链路</li>
+<li>引入 Memory、Embeddings、Multi-Agent，让系统能记住用户、读懂文件、拆解复杂任务</li>
+<li>把一切从 Mock 推进到 PostgreSQL + pgvector 的生产级数据层</li>
+</ul>
+<p>🧠 <strong>第二阶段（第 6–13 章）：核心能力的深度建设</strong></p>
+<ul>
+<li>让 AI 做更懂你的交互，掌握 Agent 推理的三种姿势</li>
+<li>用 LangGraph 状态机编排复杂工作流，实战 Multi-Agent 协作拓扑</li>
+<li>深入 Token 经济学——上下文窗口是稀缺资源，你需要学会管理它</li>
+<li>搭建生产级 RAG 全链路，让产品真正读懂你的业务</li>
+<li>通过 MCP 协议标准化接入外部能力，用 Skills 把团队经验封装成可复用资产</li>
+</ul>
+<p>🚀 <strong>第三阶段（第 14–20 章）：从能跑到能上线</strong></p>
+<ul>
+<li>DeepAgent 渐进式教程：长链任务与自主规划</li>
+<li>LangSmith 全链路可观测与评估体系——你不能优化你看不见的东西</li>
+<li>给 Agent 装质检线：评估流水线的系统化构建</li>
+<li>安全、沙箱与权限隔离——Prompt 注入是真实的攻击面</li>
+<li>AI 应用的 CI/CD 工程化交付</li>
+<li>满血版链路：所有能力汇聚，完成最终交付</li>
+</ul>
+<hr />
+<p>🤖 <strong>阅读建议</strong></p>
+<ul>
+<li><strong>不要手抄代码示例</strong>。文中会提供 prompt，你可以直接借助 AI 生成代码。</li>
+<li>遇到少量报错，也优先交给 AI 协助排查，而不是自己重复踩坑。</li>
+<li>文章中展示关键代码片段的目的，是帮助你理解必要细节，而不是让你做<strong>低价值的重复劳动</strong>。</li>
+<li>全书会把迭代过程控制在可预期的范围内。你需要学习的是系统架构，而不是按部就班地把代码抄一遍。</li>
+<li>虽然你仍然需要理解其中的细节、具体的方法，以及 API 的使用方式，但不要再把时间耗在具体的编码细节上。</li>
+</ul>
+<h4>这本书不是什么？</h4>
+<ul>
+<li>❌ 不是&quot;如何用 AI 提效&quot;的泛泛而谈</li>
+<li>❌ 不是 LangChain 的 API 使用手册</li>
+<li>❌ 不是一堆零散 Demo 的拼凑</li>
+</ul>
+<p><strong>它是一份完整的建造记录。</strong></p>
+<p>你会在书里看到一个产品是怎么从第一行代码长成一个完整系统的——架构怎么决策，抽象在哪里引入，性能瓶颈在哪里出现，安全边界在哪里划定，多个 Agent 怎么分工又怎么协调。</p>
+<p><strong>这些判断背后的思考过程，才是这本书真正想传递的东西。</strong></p>
+<hr />
+<h4>技术全景</h4>
+<p>你会接触到当下 AI 工程领域最核心的技术栈——不是逐一罗列介绍，而是在同一个产品里，按照真实的工程需求，一件一件装进去：</p>
+<table>
+<thead>
+<tr>
+<th>技术领域</th>
+<th>核心技术</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型调用</td>
+<td>Prompt Engineering / 结构化输出</td>
+<td>让模型稳定、可控、可复用</td>
+</tr>
+<tr>
+<td>工程底座</td>
+<td>Bun + Turbo + Next.js + NestJS + Docker</td>
+<td>可扩展的 monorepo 架构</td>
+</tr>
+<tr>
+<td>链式编排</td>
+<td>LangChain / LangGraph</td>
+<td>流程编排与状态机驱动</td>
+</tr>
+<tr>
+<td>知识检索</td>
+<td>RAG + pgvector + Embeddings</td>
+<td>让产品读懂你的业务数据</td>
+</tr>
+<tr>
+<td>工具接入</td>
+<td>Tool Calling / MCP 协议</td>
+<td>标准化连接外部能力</td>
+</tr>
+<tr>
+<td>能力沉淀</td>
+<td>Skills 封装与复用</td>
+<td>把经验变成可调用的资产</td>
+</tr>
+<tr>
+<td>多智能体</td>
+<td>Multi-Agent / Handoffs / DeepAgent</td>
+<td>复杂任务的角色分工与协作</td>
+</tr>
+<tr>
+<td>可观测性</td>
+<td>LangSmith Tracing + Evals</td>
+<td>全链路追踪与质量评估</td>
+</tr>
+<tr>
+<td>安全与交付</td>
+<td>沙箱隔离 / CI/CD</td>
+<td>从开发到上线的工程化闭环</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="这本书也不回避复杂性">⚠️ 这本书也不回避复杂性</h3>
+<ul>
+<li>上下文窗口是稀缺资源，你需要知道怎么管理它。</li>
+<li>记忆系统不是存数据库那么简单，你需要理解四种记忆类型的工程映射。</li>
+<li>多智能体协作会带来新的通信开销和一致性问题，你需要在设计时就把这些考虑进去。</li>
+<li>代码在沙箱里执行，权限需要隔离，Prompt 注入是真实的攻击面——安全不是上线前才想的事。</li>
+</ul>
+<p>这些内容，大多数 AI 教程会跳过，因为它们不够“酷”。<strong>但它们是一个产品能不能真正跑起来的关键。</strong></p>
+<hr />
+<h4>项目部分截图</h4>
+<p><strong>代码仓库</strong>：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2FCookieboty%2FAutix">Autix</a></p>
+<p><strong>项目访问地址</strong>：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fstudio.amux.ai%2F">studio.amux.ai/</a></p>
+<p><strong>demo仓库</strong>：<a href="https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2FCookieboty%2Fautix-demo">AutixDemo</a></p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09a924023d1045d891daafc162e966f2~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3018&amp;h=1724&amp;s=332448&amp;e=png&amp;b=fbf8f3" alt="image.png" /></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a9e3b838330a45b6b98c9d24ec44853c~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3016&amp;h=1722&amp;s=250532&amp;e=png&amp;b=211d1a" alt="image.png" /></p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e5d48098dfa34f1a8cab3e59403fa2b6~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3012&amp;h=1724&amp;s=635839&amp;e=png&amp;b=24201d" alt="image.png" /></p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ea60805312394af08b192498910049bb~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3004&amp;h=1710&amp;s=301279&amp;e=png&amp;b=24201d" alt="img_v3_02116_2c03f7c3-9ea5-4624-83f1-1dce0765a89g.png" /></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/408d6ff4172a4d259c02b93cf426c161~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=3018&amp;h=1716&amp;s=1410242&amp;e=png&amp;b=24201d" alt="img_v3_02116_d9f034f0-b325-4c6c-8165-82c6a5a2cb7g.png" /></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/33fe3b10dbb54502908fbfb10c4821fa~tplv-k3u1fbpfcp-jj-mark:3024:0:0:0:q75.awebp#?w=2928&amp;h=1720&amp;s=3169171&amp;e=png&amp;b=f4efee" alt="f5591404ee7b8b615dcaaede446ad64f.png" /></p>
+<h2 id="读完之后-你会拥有什么">读完之后，你会拥有什么？</h2>
+<ul>
+<li>🏭 <strong>一个跑得起来的产品</strong>——具备生产级骨架，可以真正对外运行的类 V0 代码生成平台</li>
+<li>🔄 <strong>一套可复用的工程节奏</strong>——从调用到交付的完整技术图谱</li>
+<li>🧭 <strong>一种新的思维方式</strong>——不再把 AI 当成聪明的补全工具，而是真正意义上的系统组件，可以被设计、被编排、被约束、被评估</li>
+</ul>
+<p>💡 <strong>这个转变，比学会任何一个框架都更值得。</strong></p>
+<h2 id="适宜人群">适宜人群</h2>
+<ul>
+<li>有后端或全栈基础，想系统性进入 AI 应用开发领域，而不是零散拼凑式学习的工程师</li>
+<li>已经在用 Cursor、Copilot 写代码，但感觉只是“让 AI 补全”，想真正理解 Agent 如何工作的开发者</li>
+<li>想独立做出 AI 原生产品的技术人，不满足于 CRUD，想了解“从想法到上线”的完整路径</li>
+<li>对 LangChain、LangGraph、RAG、MCP、Multi-Agent 等概念有印象，但缺少系统实践，想一次打通的人</li>
+<li>技术 Leader 或架构师，正在思考 AI 如何重塑研发流程，想建立第一手判断，而不是只听他人转述</li>
+</ul>
+<h2 id="购买须知">购买须知</h2>
+<ol>
+<li>本小册为图文形式内容服务，共计 20 节主章节以及后续的附章节；</li>
+<li>购买用户可享有小册永久的阅读权限；</li>
+<li>购买用户可进入小册微信群，与作者互动；</li>
+<li>掘金小册为虚拟内容服务，一经购买成功概不退款；</li>
+<li>掘金小册版权归北京北比信息技术有限公司所有，任何机构、媒体、网站或个人未经本网协议授权不得转载、链接、转贴或以其他方式复制发布/发表，违者将依法追究责任；</li>
+<li>在掘金小册阅读过程中，如有任何问题，请邮件联系 <a href="mailto:xiaoce@xitu.io">xiaoce@xitu.io</a></li>
+</ol>
+
+    </article>
+    <div class="pager">
+      
+      <a class="next" href="ch-1.html">序章：站在范式之变的十字路口 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#作者介绍">作者介绍</a></li>
+      <li class="lv2"><a href="#小册介绍">小册介绍</a></li>
+      <li class="lv3"><a href="#这本书也不回避复杂性">⚠️ 这本书也不回避复杂性</a></li>
+      <li class="lv2"><a href="#读完之后-你会拥有什么">读完之后，你会拥有什么？</a></li>
+      <li class="lv2"><a href="#适宜人群">适宜人群</a></li>
+      <li class="lv2"><a href="#购买须知">购买须知</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,2599 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>第九章：LangGraph Multi-Agent 实战 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li class="active"><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>第九章：LangGraph Multi-Agent 实战</h1>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d6fffffa22fe45a8921da6648b18f1ff~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=565138&amp;e=jpg&amp;b=19132d" alt="generated-image-1777800719324.png" /></p>
+<p>第八章把 Ch6 的五段式 Promise 链改造成了一张完整的单 Agent 图：classifier 分发意图、analysis 是一个 ReAct 子图、summary 是一个 Critic-Refine 子图，再加上 Checkpointer、HITL 与流式输出。前一章解决的是&quot;一个 Agent 内部怎么把流程跑通&quot;；本章要回答下一个问题：<strong>当一个 Agent 不够用时，怎么办？</strong></p>
+<p><strong>本章demo地址</strong>：<a href="https://github.com/Cookieboty/autix-demo/tree/feat/LangGraph">feat/LangGraph</a></p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e856d9a11c354ba0ba05519df0002c93~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=610679&amp;e=jpg&amp;b=041e31" alt="generated-image-1777800959922.png" /></p>
+<p>9.2 Supervisor + 多专家 Agent 集群</p>
+<aside>
+<p>📖 <strong>上段提到的几个术语</strong></p>
+<ul>
+<li><strong>ReAct</strong>（Reasoning + Acting）：让 LLM 交替进行&quot;推理&quot;和&quot;调用工具执行动作&quot;的循环模式，直到任务完成。结构：agent → tools → agent → …</li>
+<li><strong>Critic-Refine</strong>：局部修订模式。Critic 评价输出质量，不合格则交给 Refine 修改，循环直到达标。只在子图内部回旋。</li>
+<li><strong>Checkpointer</strong>：LangGraph 的状态持久化机制，在每个节点后自动保存 State 快照，支持断点恢复和回溯。可以理解为：每跑完一步就存一次档。</li>
+<li><strong>HITL</strong>（Human-in-the-Loop，人工介入）：在自动化流程的关键节点暂停执行，等人类审核或补充信息后再继续。</li>
+</ul>
+</aside>
+<p>继续在<strong>同一个文件</strong>上升级。当需求类型从”单纯的业务需求”扩展到”功能/性能/安全/合规”四大类时，8.6 的单 Agent ReAct 会开始出现三类症状：</p>
+<ol>
+<li>一个 Agent 带 15+ 工具 → 选错工具、参数传错</li>
+<li>系统提示堆叠所有领域知识 → 上下文爆炸、token（LLM 的计费单位，约等于 0.75 个英文单词或 1~2 个中文字符）成本失控</li>
+<li>想单独优化”安全评审”的质量 → 改动会波及所有领域的分析</li>
+</ol>
+<p>解决方案就是第四章提过、本章要正式落地的 <strong>Multi-Agent</strong>：把 analysis 拆成多个专业子图，用不同的编排模式组合起来。</p>
+<blockquote>
+<p><strong>你可以把这一章的内容复制到项目里（如下图所示），再借助 AI 阅读本章并配合 spec，这样确实更容易把项目跑通。但如果目的是学习，我不建议这么做：亲自摸索一遍会更有收获。你可以把 AI 当作辅助，但它无法替代完整的思考过程；只有自己学习、自己思考，才能把这些内容真正内化。</strong></p>
+</blockquote>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/35f82d95cc764776b7849209e364ca50~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1810&amp;h=1110&amp;s=296533&amp;e=png&amp;b=181818" alt="image.png" /></p>
+<aside>
+<p>🎯 <strong>本章继续在</strong> <code>requirement-analysis-graph.ts</code> <strong>上演进</strong></p>
+<ul>
+<li><strong>9.2 Supervisor</strong>：analysis 子图 → Supervisor + 4 个专家 ReAct 子图，替换 8.6 的 analysis 子图。</li>
+<li><strong>9.3 并行分发</strong>：Supervisor 内部多个专家<strong>同时</strong>执行；无依赖就并发，改写 9.2 的调度方式。</li>
+<li><strong>9.4 Handoff</strong>：去中心化交接，分诊 Agent ↔︎ 专家 Agent 直接传控制权，作为 Supervisor 的替代范式。</li>
+<li><strong>9.5 组合流水线</strong>：外层 Plan-and-Execute + 末端 Reflexion，包住 9.2~9.3，替换主图装配器。</li>
+<li><strong>9.6 生产化</strong>：错误降级 / UI 协议 / PostgresSaver / 成本控制，工程化补齐。</li>
+</ul>
+</aside>
+<aside>
+<p>📌 <strong>Multi-Agent 的本质是&quot;子图编排&quot;</strong></p>
+<p>第八章 8.6 已经给出了最关键的原语：<strong>子图作为节点</strong>。本章不引入新原语，只是把这个原语用到更大规模——每个专家 Agent 就是一张和 8.6 完全同构的 ReAct 子图，Multi-Agent 模式只是&quot;怎么编排这些子图&quot;。</p>
+</aside>
+<hr />
+<h2 id="9-1-从单-agent-到-multi-agent-问题在哪">9.1 从单 Agent 到 Multi-Agent：问题在哪</h2>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7bd7a3cfe47a42f78509655c55f1cd95~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=756329&amp;e=jpg&amp;b=0d2037" alt="generated-image-1777800878252.png" /></p>
+<p>9.1 从单 Agent 到 Multi-Agent：问题在哪</p>
+<p>第八章 8.6 的 analysis 子图结构：</p>
+<pre><code>analysis 子图
+  ├── agent（bindTools: [search_requirement, check_conflicts]）
+  └── tools（ToolNode）
+</code></pre>
+<p>扩展到四大类需求后，工具会膨胀成这样：</p>
+<pre><code>search_requirement, check_conflicts, check_performance_budget,
+load_perf_baseline, check_security_policy, list_auth_scenarios,
+check_compliance_matrix, check_data_residency, check_retention_policy,
+...
+</code></pre>
+<p>这会同时打破三件事：</p>
+<table>
+<thead>
+<tr>
+<th><strong>症状</strong></th>
+<th><strong>根因</strong></th>
+<th><strong>Multi-Agent 的对策</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模型经常选错工具</td>
+<td>工具 description 互相干扰，单 Agent 的 context 里 15+ 工具签名会让模型判断力下降</td>
+<td>每个领域的工具只暴露给对应专家 Agent</td>
+</tr>
+<tr>
+<td>system prompt 失控</td>
+<td>要同时讲”功能分析规范 / 性能基线 / 安全策略 / 合规矩阵”</td>
+<td>每个专家的 system prompt 只讲自己的领域</td>
+</tr>
+<tr>
+<td>质量改不动</td>
+<td>调优安全评审会影响功能分析的输出</td>
+<td>专家子图独立迭代、独立评估</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本章要把 8.6 的 analysis 子图替换成这样的结构</strong>：</p>
+<div class="mermaid">flowchart TD
+    AN_IN[&quot;analysis 子图入口&quot;] --&gt; SUP[&quot;supervisor&lt;br&gt;判断需要哪些专家&quot;]
+    SUP --&gt; FN[&quot;functional_expert&lt;br&gt;（ReAct 子图）&quot;]
+    SUP --&gt; PF[&quot;performance_expert&lt;br&gt;（ReAct 子图）&quot;]
+    SUP --&gt; SC[&quot;security_expert&lt;br&gt;（ReAct 子图）&quot;]
+    SUP --&gt; CP[&quot;compliance_expert&lt;br&gt;（ReAct 子图）&quot;]
+    FN --&gt; AGG[&quot;aggregator&lt;br&gt;汇合各专家结论&quot;]
+    PF --&gt; AGG
+    SC --&gt; AGG
+    CP --&gt; AGG
+    AGG --&gt; AN_OUT[&quot;analysis 子图出口&quot;]
+</div>
+<p>主图（triage → extract → clarify → <strong>analysis</strong> → risk → summary，9.4 之前入口节点叫 classifier）<strong>完全不用改</strong>——这是”子图作为节点”的复利：只要新子图的输入输出契约不变（读取 <code>state.clarified</code>、写入 <code>state.analysis</code>），主图对此无感。</p>
+<hr />
+<h2 id="9-2-把-analysis-子图升级为-supervisor-专家集群">9.2 把 analysis 子图升级为 Supervisor + 专家集群</h2>
+<aside>
+<p>📖 <strong>Supervisor（中心化调度模式）</strong>：一个&quot;调度员&quot;节点判断本次需要哪些专家参与，将任务分发下去，专家完成后结果汇合到聚合节点。可以理解为：先由一个调度角色分派任务，再把各方结论收回来统一整理。</p>
+</aside>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c957055151094e3499544373c6fed71a~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=1280140&amp;e=png&amp;b=05192f" alt="image 1.png" /></p>
+<h3 id="用-ai-生成本节代码">🤖 用 AI 生成本节代码</h3>
+<ul>
+<li>
+<p>点击展开完整 Prompt（可直接粘贴到 Cursor/Claude 执行）</p>
+<pre><code>我正在实现第九章 9.2 节：把单 Agent analysis 子图升级为 Supervisor + 多专家架构。
+
+**背景**：
+- 当前第八章的 requirement-analysis-graph.ts 已有完整的单 Agent ReAct 子图
+- 需要保持主图不变，只替换 analysis 子图内部实现
+
+**任务**：
+1. 在 services/chat/src/llm/graph/ 下创建 experts.ts
+2. 实现 createExpertSubGraph 工厂函数（参数化 model、tools、systemPrompt、outputField）
+3. 实现四个专家工厂：createFunctionalExpert、createPerformanceExpert、createSecurityExpert、createComplianceExpert
+4. 为每个专家配置正确的工具集和详细的 system prompt（参考文档中的完整版本）
+5. 实现 supervisorNode（使用 withStructuredOutput 判断需要哪些专家）
+6. 实现 createAnalysisSupervisorSubGraph（包含 supervisor、4 个专家节点、aggregator）
+7. 使用 START/END 常量替代字符串
+8. 所有需要 model 的节点都通过参数传递，不要调用 createChatModel()
+
+**关键约束**：
+- 专家子图内部可以使用 messages（用于工具调用），但只输出到各自的 outputField
+- aggregator 汇总时检查 state.activeExperts，只合并被选中的专家结论
+- 条件边 routeToExperts 返回数组以触发并行执行
+- 使用 @langchain/langgraph 的 START, END 常量
+
+**输出要求**：
+- 生成完整的 experts.ts 文件
+- 在 requirement-analysis-graph.ts 中增加 State 字段定义
+- 说明如何替换 createAnalysisGraph 中的 analysis 子图
+- 不要删除原有的 createAnalysisSubGraph，保留作为对比
+
+请按照第九章文档中的完整代码实现。
+</code></pre>
+</li>
+</ul>
+<p><strong>业务驱动</strong>：需求 REQ-20240315-001 是”批量导入 Excel 数据”——同时涉及功能（导入入口）、性能（大文件）、安全（数据权限）。单 Agent 很难一口气把三方面讲清楚；用 Supervisor 派给三个专家，每个专家只做自己那部分，汇总时自然形成结构化报告。</p>
+<aside>
+<p>⚠️ <strong>关于 model 参数的重要说明</strong></p>
+<p>在前面的章节中，我们已经将模型配置迁移到了数据库。当前项目中 <code>OrchestratorService</code> 通过 <code>ModelConfigService.getConfigForOrchestrator(modelConfigId)</code> 从数据库读取模型配置，然后调用 <code>createChatModelFromDbConfig(dbConfig)</code> 创建 <code>ChatOpenAI</code> 实例（详见 <code>services/chat/src/llm/model.factory.ts</code>）。</p>
+<p>因此本章所有的 <code>createExpertSubGraph(model)</code>、<code>supervisorNode(state, { model })</code> 等函数签名中，<code>model</code> 参数都是从 <code>OrchestratorService</code> 一路透传下来的，不是在图内部自己创建的。这保证了：</p>
+<ol>
+<li>所有专家共用同一个模型实例（或配置），行为一致</li>
+<li>模型切换只需修改数据库记录，无需改代码</li>
+<li>模型实例通过 <code>modelCache</code> 缓存，不会重复创建</li>
+</ol>
+<p>如果你在跟随本章动手实践但还没做模型数据库化，可以暂时用硬编码的方式创建 model：</p>
+<pre><code class="language-tsx">import { createChatModel } from '../model.factory';
+
+const model = createChatModel({
+  modelConfigId: 'default',
+  modelName: 'gpt-4',
+  temperature: 0.7,
+  apiKey: process.env.OPENAI_API_KEY,
+  baseUrl: process.env.OPENAI_BASE_URL,
+});
+</code></pre>
+</aside>
+<h3 id="9-2-1-专家子图-和-8-6-的-react-子图完全同构">9.2.1 专家子图：和 8.6 的 ReAct 子图完全同构</h3>
+<p>每个专家 Agent 就是一张 ReAct 子图，结构和 8.6 的 <code>createAnalysisSubGraph</code> 一模一样，只有三个变量不同：<strong>工具集、system prompt、写入的 state 字段</strong>。</p>
+<p>先在 State 里为每个专家预留一个字段：</p>
+<pre><code class="language-tsx">// RequirementAnalysisState 增量
+// （把 analysis: string 继续保留，但现在由 aggregator 填写；分专家的原始结论进入下面四个字段）
+functionalAnalysis: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+performanceAnalysis: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+securityAnalysis: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+complianceAnalysis: Annotation&lt;string&gt;({ default: () =&gt; '' }),
+activeExperts: Annotation&lt;string[]&gt;({
+  reducer: (_prev, next) =&gt; next,  // 每次由 supervisor 覆盖
+  default: () =&gt; [],
+}),
+</code></pre>
+<p>复用 8.6 的 ReAct 模板，抽成一个工厂函数：</p>
+<pre><code class="language-tsx">// services/chat/src/llm/graph/experts.ts
+import { ToolNode } from '@langchain/langgraph/prebuilt';
+import { START, END, StateGraph } from '@langchain/langgraph';
+import { BaseChatModel } from '@langchain/core/language_models/chat_models';
+import { RequirementAnalysisState } from './requirement-analysis-graph';
+
+type ExpertOptions = {
+  name: string;
+  model: BaseChatModel;
+  tools: any[];
+  systemPrompt: string;
+  outputField: 'functionalAnalysis' | 'performanceAnalysis' | 'securityAnalysis' | 'complianceAnalysis';
+  maxSteps?: number;
+};
+
+export function createExpertSubGraph(opts: ExpertOptions) {
+  const { model, tools, systemPrompt, outputField, maxSteps = 6 } = opts;
+
+  async function agentNode(state: typeof RequirementAnalysisState.State) {
+    const modelWithTools = model.bindTools(tools);
+    const response = await modelWithTools.invoke([
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: `已澄清的需求：${JSON.stringify(state.clarified)}\n\n原始输入：${state.input}` },
+    ]);
+    // ⚠️ 子图内部的 messages 用于工具调用循环（agent → tools → agent）
+    // 最终结论通过 finalizeNode 写入专家各自的 outputField，不会污染主图 messages
+    return { messages: [response] };
+  }
+
+  function shouldCallTools(state: typeof RequirementAnalysisState.State) {
+    const last = state.messages.at(-1) as any;
+    const toolRounds = state.messages.filter((m: any) =&gt; m._getType?.() === 'tool').length;
+    if (toolRounds &gt;= maxSteps) return END;
+    return last?.tool_calls?.length &gt; 0 ? 'tools' : 'finalize';
+  }
+
+  async function finalizeNode(state: typeof RequirementAnalysisState.State) {
+    // 9.6.1 错误降级：如果 agentNode 的 catch 已经写入&quot;暂不可用&quot;标记，直接保留
+    const existingOutput = (state as any)[outputField];
+    if (existingOutput &amp;&amp; existingOutput.includes('暂不可用')) {
+      return {};
+    }
+
+    const last = state.messages.at(-1);
+    const content = (last?.content as string) ?? '';
+    // 9.8.4 Q8 空内容兜底：模型偶尔返回空 content，给个明确占位避免 aggregator 收到空串
+    if (!content.trim()) {
+      return {
+        [outputField]: `[${opts.name} 专家未生成有效输出，请检查输入和工具配置]`,
+      };
+    }
+    // 只写入专家结论，不写入 messages
+    return { [outputField]: content };
+  }
+
+  return new StateGraph(RequirementAnalysisState)
+    .addNode('agent', agentNode)
+    .addNode('tools', new ToolNode(tools))
+    .addNode('finalize', finalizeNode)
+    .addEdge(START, 'agent')
+    .addConditionalEdges('agent', shouldCallTools, {
+      tools: 'tools',
+      finalize: 'finalize',
+    })
+    .addEdge('tools', 'agent')
+    .addEdge('finalize', END)
+    .compile();
+}
+</code></pre>
+<p>用这个工厂创建四个专家工厂函数（注意：需要传入 model）：</p>
+<pre><code class="language-tsx">import { searchRequirementTool, checkConflictsTool } from '../tools/analysis-tools';
+import {
+  readFeatureSpecTool,
+  loadPerfBaselineTool,
+  checkPerfBudgetTool,
+  checkSecurityPolicyTool,
+  listAuthScenariosTool,
+  checkComplianceMatrixTool,
+  checkDataResidencyTool,
+  checkRetentionPolicyTool,
+} from '../tools/expert-tools';
+
+export function createFunctionalExpert(model: BaseChatModel) {
+  return createExpertSubGraph({
+    name: 'functional',
+    model,
+    tools: [searchRequirementTool, checkConflictsTool, readFeatureSpecTool],
+    systemPrompt: `你是功能需求分析专家，专注评估需求的功能完整性、交互合理性和系统兼容性。
+
+**核心职责**：
+1. 功能分解：将需求拆解为具体、可实现的功能模块
+2. 交互分析：评估用户操作流程的合理性和一致性
+3. 冲突检测：识别与现有功能的重叠或矛盾之处
+
+**工具使用策略**：
+- 如需求提到具体编号（如 REQ-XXX），先用 search_requirement 查询详情
+- 如需求涉及已有功能模块，用 read_feature_spec 获取规范
+- 完成信息收集后，用 check_conflicts 检测潜在冲突
+
+**输出必需章节（使用 Markdown 二级标题）**：
+## 功能模块拆解
+- 列出 3-6 个主要功能模块
+- 每个模块说明核心职责和边界
+
+## 用户交互流程
+- 描述典型使用场景的完整流程
+- 标注关键交互点和用户决策点
+
+## 功能依赖关系
+- 列出前置功能或模块依赖
+- 说明与其他系统的集成点
+
+## 冲突与重叠分析
+- 明确指出与现有功能的冲突（如有）
+- 提供解决方案或替代设计`,
+    outputField: 'functionalAnalysis',
+  });
+}
+
+export function createPerformanceExpert(model: BaseChatModel) {
+  return createExpertSubGraph({
+    name: 'performance',
+    model,
+    tools: [loadPerfBaselineTool, checkPerfBudgetTool],
+    systemPrompt: `你是系统性能分析专家，专注评估需求对系统吞吐、延迟、资源占用的影响。
+
+**核心职责**：
+1. 负载评估：预估新需求的访问量、并发数和数据量
+2. 性能影响：分析对响应时间、吞吐量、资源使用的影响
+3. 瓶颈识别：找出可能的性能瓶颈和优化点
+
+**工具使用策略**：
+- 首先用 load_perf_baseline 获取相关服务的当前性能基线
+- 再用 check_perf_budget 评估新需求是否超出性能预算
+- 基于工具返回的数据给出量化的分析结论
+
+**输出必需章节（使用 Markdown 二级标题）**：
+## 负载特征评估
+- 预估 QPS / TPS / 并发连接数
+- 数据量级（单次请求、存储增长）
+- 访问模式（读多写少、突发流量等）
+
+## 性能影响分析
+- 对响应时间的影响（P50/P95/P99）
+- 对吞吐量的影响
+- CPU、内存、磁盘、网络资源消耗
+- 与当前性能基线的对比
+
+## 性能风险与瓶颈
+- 可能的性能瓶颈点（数据库、缓存、网络等）
+- 容量是否充足（需要扩容吗？）
+- 高并发场景下的风险
+
+## 优化建议
+- 架构层面优化（如异步处理、队列、缓存）
+- 具体实施建议（限流、分片、索引等）`,
+    outputField: 'performanceAnalysis',
+  });
+}
+
+export function createSecurityExpert(model: BaseChatModel) {
+  return createExpertSubGraph({
+    name: 'security',
+    model,
+    tools: [checkSecurityPolicyTool, listAuthScenariosTool],
+    systemPrompt: `你是信息安全分析专家，专注识别需求中的安全风险和合规要求。
+
+**核心职责**：
+1. 威胁建模：识别潜在的安全威胁（认证、授权、数据泄露等）
+2. 攻击面分析：评估新功能引入的攻击向量
+3. 安全策略验证：确保符合组织的安全规范
+
+**工具使用策略**：
+- 先用 check_security_policy 检查需求是否触发已知安全策略
+- 如涉及身份认证或授权，用 list_auth_scenarios 了解当前认证体系
+- 基于 OWASP Top 10 和行业最佳实践进行分析
+
+**输出必需章节（使用 Markdown 二级标题）**：
+## 威胁与风险识别
+- 列出主要安全威胁（如 SQL 注入、XSS、CSRF、越权访问）
+- 评估风险等级（高/中/低）和潜在影响
+
+## 认证与授权
+- 需求涉及的认证场景
+- 权限控制要求（RBAC / ABAC）
+- Session 或 Token 管理策略
+
+## 数据保护
+- 敏感数据识别（PII、凭证、密钥等）
+- 传输加密要求（HTTPS、TLS版本）
+- 存储加密要求（字段级加密、全盘加密）
+- 数据脱敏和访问日志
+
+## 安全实施要求
+- 必须遵循的安全编码规范
+- 需要的安全测试（渗透测试、SAST/DAST）
+- 上线前安全检查清单`,
+    outputField: 'securityAnalysis',
+  });
+}
+
+export function createComplianceExpert(model: BaseChatModel) {
+  return createExpertSubGraph({
+    name: 'compliance',
+    model,
+    tools: [checkComplianceMatrixTool, checkDataResidencyTool, checkRetentionPolicyTool],
+    systemPrompt: `你是数据合规与隐私保护专家，专注评估需求的法律合规性和监管风险。
+
+**核心职责**：
+1. 法律法规适用性：识别需求涉及的法律法规（如个人信息保护法、网络安全法）
+2. 数据合规：评估数据收集、处理、存储、跨境传输的合规性
+3. 行业监管：检查是否符合特定行业的监管要求（金融、医疗、教育等）
+
+**工具使用策略**：
+- 用 check_compliance_matrix 检查需求涉及的数据类型和行业要求
+- 如涉及跨境数据或特定地区用户，用 check_data_residency 验证数据驻留策略
+- 用 check_retention_policy 确认数据保留时长是否合规
+
+**输出必需章节（使用 Markdown 二级标题）**：
+## 适用法律法规
+- 列出适用的法律法规（中国：个人信息保护法、网络安全法；欧盟：GDPR等）
+- 说明触发这些法规的具体条款
+
+## 个人信息处理合规
+- 收集的个人信息类型和范围
+- 收集依据（用户同意、合同履行、法定义务等）
+- 告知义务（隐私政策更新点）
+- 用户权利（查询、更正、删除、撤回同意）
+
+## 数据跨境与驻留
+- 数据存储位置要求
+- 是否涉及跨境传输（需要的评估和审批）
+- 数据本地化要求
+
+## 数据生命周期管理
+- 数据保留期限
+- 删除或匿名化策略
+- 备份和归档要求
+
+## 合规风险与整改建议
+- 识别的合规风险点（高/中/低）
+- 需要的合规整改措施
+- 建议咨询法务部门确认的事项`,
+    outputField: 'complianceAnalysis',
+  });
+}
+</code></pre>
+<aside>
+<p>📌 <strong>复用 8.6 的关键动作</strong></p>
+<p>专家子图不是&quot;新概念&quot;，它就是 8.6 的 <code>createAnalysisSubGraph</code>，只是参数化了工具、prompt、输出字段。工厂函数 <code>createExpertSubGraph</code> 一次写好，四个专家只是调用。这就是为什么 8.6 的子图原语如此重要。</p>
+</aside>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.2.1&quot;</code>
+跑完会看到：State 4 个新字段一览、<code>createExpertSubGraph</code> 在专家抛错时如何降级输出”暂不可用：xxx”。</p>
+</blockquote>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8878eec4df7744d98f5619dca7a7bc8c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1620&amp;h=1078&amp;s=314330&amp;e=png&amp;b=282c34" alt="image 2.png" /></p>
+<h3 id="9-2-2-supervisor-决定这次请求需要哪些专家">9.2.2 Supervisor：决定这次请求需要哪些专家</h3>
+<p>不是所有需求都需要四个专家全上。“批量导入 Excel”可能只需要功能+性能+安全；“修改按钮文案”可能只需要功能。Supervisor 的职责就是读 <code>clarified</code>，通过 <code>withStructuredOutput</code>（📖 LangChain 提供的方法，让 LLM 按 Zod Schema 输出结构化 JSON 而非自由文本，确保返回值可靠可解析）判断<strong>本次需要哪些专家</strong>。</p>
+<pre><code class="language-tsx">import { z } from 'zod';
+
+async function supervisorNode(
+  state: typeof RequirementAnalysisState.State,
+  config: { model: BaseChatModel },
+) {
+  const { model } = config;
+  const structured = model.withStructuredOutput(
+    z.object({
+      experts: z
+        .array(
+          z.enum(['functional', 'performance', 'security', 'compliance']),
+        )
+        .min(1)
+        .describe(
+          '需要参与本次分析的专家列表。functional=功能分析, performance=性能分析, security=安全分析, compliance=合规分析',
+        ),
+      reason: z.string().describe('选择这些专家的理由'),
+    }),
+  );
+  const result = await structured.invoke([
+    {
+      role: 'system',
+      content: `你是需求分析调度员。根据已澄清的需求，判断本次需要哪些专家评审。
+
+可选专家：
+- functional：功能需求分析（任何需求都至少需要）
+- performance：性能分析（涉及批量操作、大文件、实时性、高并发时选择）
+- security：安全分析（涉及登录、权限、数据访问、文件上传时选择）
+- compliance：合规分析（涉及跨境、个人信息、行业监管、金融/医疗时选择）
+
+判断规则：
+- 涉及批量操作、大文件、实时性 → 必须包含 performance
+- 涉及登录、权限、数据访问 → 必须包含 security
+- 涉及跨境、个人信息、行业监管 → 必须包含 compliance
+- 任何需求都至少包含 functional
+
+至少选一个专家。`,
+    },
+    {
+      role: 'user',
+      content: `已澄清的需求信息：${JSON.stringify(state.clarified)}\n\n原始输入：${state.input}`,
+    },
+  ]);
+  return { activeExperts: result.experts };
+}
+</code></pre>
+<aside>
+<p>💡 <strong>Prompt 选型说明</strong></p>
+<p>早期版本只有&quot;可选 functional / performance / security / compliance。至少选一个&quot;这一句，调度结果偏保守（参见 9.8.1 Q1 排查）。落地版本把&quot;何时该选&quot;显式写进 prompt 并配上 <code>.describe()</code> 元信息，模型选择更稳定。</p>
+</aside>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.2.2&quot;</code>
+用 mock model 喂 3 类需求（文案修改 / 批量导入 / 综合场景），看 Supervisor 输出的 <code>activeExperts</code> 数组。</p>
+</blockquote>
+<h3 id="9-2-3-supervisor-子图装配">9.2.3 Supervisor 子图装配</h3>
+<pre><code class="language-tsx">function createAnalysisSupervisorSubGraph(model: BaseChatModel) {
+  // aggregator：把选中的专家结论合成 analysis 总输出
+  async function aggregatorNode(state: typeof RequirementAnalysisState.State) {
+    const parts: string[] = [];
+    if (state.activeExperts.includes('functional') &amp;&amp; state.functionalAnalysis) {
+      parts.push(`## 功能分析\n${state.functionalAnalysis}`);
+    }
+    if (state.activeExperts.includes('performance') &amp;&amp; state.performanceAnalysis) {
+      parts.push(`## 性能分析\n${state.performanceAnalysis}`);
+    }
+    if (state.activeExperts.includes('security') &amp;&amp; state.securityAnalysis) {
+      parts.push(`## 安全分析\n${state.securityAnalysis}`);
+    }
+    if (state.activeExperts.includes('compliance') &amp;&amp; state.complianceAnalysis) {
+      parts.push(`## 合规分析\n${state.complianceAnalysis}`);
+    }
+    return { analysisResult: parts.join('\n\n') };
+  }
+
+  // Supervisor 跑完后，按 activeExperts 动态决定走哪些分支
+  function routeToExperts(state: typeof RequirementAnalysisState.State) {
+    // 返回一个数组 → LangGraph 会并发触发这些节点
+    return state.activeExperts.map((e) =&gt; `${e}_expert`);
+  }
+
+  // 创建专家子图实例
+  const functionalExpert = createFunctionalExpert(model);
+  const performanceExpert = createPerformanceExpert(model);
+  const securityExpert = createSecurityExpert(model);
+  const complianceExpert = createComplianceExpert(model);
+
+  return new StateGraph(RequirementAnalysisState)
+    .addNode('supervisor', (state) =&gt; supervisorNode(state, { model }))
+    .addNode('functional_expert', functionalExpert)
+    .addNode('performance_expert', performanceExpert)
+    .addNode('security_expert', securityExpert)
+    .addNode('compliance_expert', complianceExpert)
+    .addNode('aggregator', aggregatorNode)
+    .addEdge(START, 'supervisor')
+    .addConditionalEdges('supervisor', routeToExperts, {
+      functional_expert: 'functional_expert',
+      performance_expert: 'performance_expert',
+      security_expert: 'security_expert',
+      compliance_expert: 'compliance_expert',
+    })
+    // 每个专家跑完都汇合到 aggregator（LangGraph 会自动等所有并发分支都到齐）
+    .addEdge('functional_expert', 'aggregator')
+    .addEdge('performance_expert', 'aggregator')
+    .addEdge('security_expert', 'aggregator')
+    .addEdge('compliance_expert', 'aggregator')
+    .addEdge('aggregator', END)
+    .compile();
+}
+</code></pre>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：</p>
+</blockquote>
+<ul>
+<li><code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.2.3&quot;</code> —— 看 <code>aggregatorNode</code> 如何把多专家输出合成报告，以及降级专家如何被标 ⚠️</li>
+</ul>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18cef7b25c3949439b95e2e61ee6c50a~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1574&amp;h=1064&amp;s=268312&amp;e=png&amp;b=292d35" alt="image 3.png" /></p>
+<ul>
+<li><code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.3&quot;</code> —— 看 <code>routeToExperts</code> 把 <code>activeExperts</code> 数组转成并发节点列表</li>
+</ul>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aacd75fbbdb34fc8a0cf0ab55b435f02~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1588&amp;h=928&amp;s=266385&amp;e=png&amp;b=282c34" alt="image 4.png" /></p>
+<h3 id="9-2-4-主图装配-只改一处">9.2.4 主图装配：只改一处</h3>
+<blockquote>
+<p>说明：本节展示的是**当前主图（已包含 9.4 Triage 改造）**的装配代码。如果想看 8.6 → 9.2 的”最小 diff”，关键就一行：<code>createAnalysisSubGraph(model)</code> 换成 <code>createAnalysisSupervisorSubGraph(model)</code>，主图其余部分一行不改。</p>
+</blockquote>
+<pre><code class="language-tsx">export function createAnalysisGraph(
+  model: BaseChatModel,
+  options?: {
+    checkpointer?: BaseCheckpointSaver;
+    interruptBefore?: string[];
+  },
+) {
+  // 9.2: Supervisor + 4 专家并行子图
+  const analysisSubGraph = createAnalysisSupervisorSubGraph(model);
+  // 8.7: Critic-Refine 子图不变
+  const summarySubGraph = createSummarySubGraph(model);
+
+  const graph = new StateGraph(RequirementAnalysisState)
+    // 9.4: Triage 替代原 classifier，简单问题在 triage 内直接回答
+    .addNode('triage', (state) =&gt; triageNode(state, { model }))
+    .addNode('extractStep', (state) =&gt; extractNode(state, { model }))
+    .addNode('clarifyStep', (state) =&gt; clarifyNode(state, { model }))
+    .addNode('analysisStep', analysisSubGraph)  // 🔑 子图作为节点，主图无感
+    .addNode('riskStep', (state) =&gt; riskNode(state, { model }))
+    .addNode('summaryStep', summarySubGraph)
+    .addNode('queryHandler', (state) =&gt; queryHandlerNode(state, { model }))
+
+    .addEdge(START, 'triage')
+    // triage 根据 intent 路由：analyze→extractStep / query→queryHandler / chat→END
+    .addConditionalEdges('triage', routeByIntent)
+    .addEdge('extractStep', 'clarifyStep')
+    // clarify 后条件路由：不需要澄清时并行触发 analysis + risk
+    .addConditionalEdges('clarifyStep', routeAfterClarify)
+    // analysis 和 risk 都汇聚到 summary
+    .addEdge('analysisStep', 'summaryStep')
+    .addEdge('riskStep', 'summaryStep')
+    .addEdge('summaryStep', END)
+    .addEdge('queryHandler', END);
+
+  return graph.compile({
+    checkpointer: options?.checkpointer,
+    interruptBefore: options?.interruptBefore as any,
+  });
+}
+</code></pre>
+<aside>
+<p>💡 <strong>几个被读者反复问的细节</strong></p>
+<ul>
+<li><code>clarifyStep</code> 后是 <code>routeAfterClarify</code> 条件边，不需要澄清时<strong>并行触发</strong> <code>analysisStep</code> 和 <code>riskStep</code>，两者都完成后才进入 <code>summaryStep</code>，比串行 <code>analysis → risk → summary</code> 快接近一倍。</li>
+<li>chat 意图直接由 <code>triage</code> 节点写入 <code>chatResponse</code>/<code>messages</code> 后路由到 <code>END</code>，不再经过额外的 <code>chatHandler</code>，省一次 LLM 调用——细节见 9.4.2。</li>
+<li><code>checkpointer</code> 和 <code>interruptBefore</code> 是可选参数；不传时图就是普通无状态版本，传了就启用 HITL（参见 9.6.2）。</li>
+</ul>
+</aside>
+<aside>
+<p>📌 <strong>&quot;子图作为节点&quot;的复利在这里兑现</strong></p>
+<p>主图的边、Checkpointer 配置、HITL 配置、流式推送、UI 映射——<strong>一行都不用改</strong>。这正是第八章坚持把 analysis 做成独立子图的原因：单 Agent → Multi-Agent 的迁移被收敛到了 analysis 子图内部。</p>
+</aside>
+<hr />
+<h2 id="9-3-并行分发-让多个专家同时工作">9.3 并行分发：让多个专家同时工作</h2>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/07fa497723b04ee79c739a1498247461~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=594261&amp;e=jpg&amp;b=072635" alt="generated-image-1777801046279.png" /></p>
+<p>9.3 LangGraph 多专家并行分发</p>
+<p>9.2 的 <code>routeToExperts</code> 返回<strong>数组</strong>而非单个字符串——这是关键。LangGraph 识别到条件边返回数组时，会<strong>并发触发</strong>所有目标节点，并等它们全部到达同一个汇合节点（aggregator）后再继续。</p>
+<p>这个机制天然替代了第四章的 <code>Promise.all</code>——不需要手动 <code>await Promise.all([...])</code>，图引擎自己处理并发、错误、汇合。</p>
+<h3 id="9-3-1-并行执行的时间线">9.3.1 并行执行的时间线</h3>
+<p>以”需要 functional + performance + security 三个专家”为例：</p>
+<pre><code>时间轴 →
+
+supervisor ─┬─▶ functional_expert ─────┐
+            ├─▶ performance_expert ────┼─▶ aggregator ─▶ ...
+            └─▶ security_expert ───────┘
+            (三条分支同时启动)           (所有分支到齐才继续)
+</code></pre>
+<p>假设三个专家各自平均耗时 4 秒：</p>
+<ul>
+<li>串行版（Supervisor 一次调一个）：≈ 12 秒</li>
+<li>并行版（9.2/9.3 的写法）：≈ 4 秒（取最慢的那个）</li>
+</ul>
+<h3 id="9-3-2-并发写入-state-的一个关键细节">9.3.2 并发写入 State 的一个关键细节</h3>
+<p>四个专家会<strong>同时</strong>往 State 写入：</p>
+<ul>
+<li><code>functional_expert</code> 写 <code>functionalAnalysis</code></li>
+<li><code>performance_expert</code> 写 <code>performanceAnalysis</code></li>
+<li><code>security_expert</code> 写 <code>securityAnalysis</code></li>
+<li><code>compliance_expert</code> 写 <code>complianceAnalysis</code></li>
+</ul>
+<p>因为<strong>每个专家写的是不同字段</strong>，默认的覆盖式 reducer（📖 State 字段的合并函数——当多个节点同时写入同一字段时，决定是覆盖、追加还是自定义合并）不会冲突。但如果你不小心让两个并发节点都去写同一个字段（比如都写 <code>analysis</code>），后者会覆盖前者——这是并发场景下最容易踩的坑。</p>
+<aside>
+<p>⚠️ <strong>并发写同一字段必须用追加/合并 reducer</strong></p>
+<p>如果确实需要多个并发节点写同一字段（比如都往 <code>messages</code> 追加），必须用追加 reducer：<code>reducer: (prev, next) =&gt; [...prev, ...next]</code>。否则并发写入会变成&quot;随机保留一个&quot;。</p>
+</aside>
+<h3 id="9-3-3-和第四章-promise-all-的对比">9.3.3 和第四章 Promise.all 的对比</h3>
+<table>
+<thead>
+<tr>
+<th><strong>维度</strong></th>
+<th><strong>第四章 Promise.all</strong></th>
+<th><strong>本章图原生并行</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>并发表达</td>
+<td><code>await Promise.all([a.invoke(), b.invoke()])</code></td>
+<td>条件边返回数组，引擎自动并发</td>
+</tr>
+<tr>
+<td>状态共享</td>
+<td>每个 Agent 的输出要手动合并</td>
+<td>State + reducer 自动合并</td>
+</tr>
+<tr>
+<td>错误处理</td>
+<td>一个失败全体失败，要自己 try-catch</td>
+<td>节点级失败可在图里单独处理（见 9.6）</td>
+</tr>
+<tr>
+<td>可观测性</td>
+<td>手工打日志</td>
+<td><code>streamEvents</code> 自动分别上报每个并发节点</td>
+</tr>
+<tr>
+<td>持久化</td>
+<td>中间状态要自己存</td>
+<td>Checkpointer 自动快照”已完成的并发分支”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Checkpointer 的部分尤其关键</strong>：如果 4 个专家并发中有 3 个完成、1 个超时挂起，断点恢复后图会<strong>只重跑未完成的那一个</strong>，不会重复消耗已完成专家的 token。这是 Promise.all 完全做不到的。</p>
+<h3 id="9-3-4-验证与测试">9.3.4 验证与测试</h3>
+<p>完成 9.2 和 9.3 的实现后，需要系统地验证 Supervisor 调度和并行执行是否正常工作。</p>
+<h3 id="测试脚本">测试脚本</h3>
+<p>创建 <code>services/chat/src/llm/graph/test-multi-agent.ts</code>：</p>
+<pre><code class="language-tsx">import { createAnalysisGraph } from './requirement-analysis-graph';
+import { createChatModel } from '../model.factory';
+
+async function testMultiAgent() {
+  const model = createChatModel({
+    modelConfigId: 'test-multi-agent',
+    modelName: process.env.OPENAI_MODEL || 'gpt-5.5',
+    temperature: 0,
+    apiKey: process.env.OPENAI_API_KEY,
+    baseUrl: process.env.OPENAI_BASE_URL,
+  });
+
+  const graph = createAnalysisGraph(model);
+
+  const testCases = [
+    {
+      name: '单专家场景：简单文案修改',
+      input: '需求：将登录页的&quot;登录&quot;按钮文案改为&quot;立即登录&quot;',
+      expectedExperts: ['functional'],
+    },
+    {
+      name: '双专家场景：功能+性能',
+      input: '需求 REQ-20240315-001：支持批量导入 Excel 用户数据，单次最多 10000 行',
+      expectedExperts: ['functional', 'performance'],
+    },
+    {
+      name: '三专家场景：功能+性能+安全',
+      input: '需求：新增用户敏感数据导出功能，支持导出用户手机号和身份证信息',
+      expectedExperts: ['functional', 'performance', 'security'],
+    },
+    {
+      name: '四专家全开：复杂的金融场景',
+      input: '需求：开发跨境支付功能，支持欧盟和中国用户，涉及个人金融信息处理',
+      expectedExperts: ['functional', 'performance', 'security', 'compliance'],
+    },
+    {
+      name: '边界场景：模糊需求',
+      input: '需求：优化系统',
+      expectedExperts: [], // 期望 supervisor 至少选一个
+    },
+  ];
+
+  for (const testCase of testCases) {
+    console.log(`\n${'='.repeat(60)}`);
+    console.log(`测试用例：${testCase.name}`);
+    console.log(`输入：${testCase.input}`);
+    console.log(`期望专家：${testCase.expectedExperts.join(', ') || '至少一个'}`);
+    console.log(`${'='.repeat(60)}\n`);
+
+    const startTime = Date.now();
+
+    try {
+      const result = await graph.invoke(
+        {
+          input: testCase.input,
+          messages: [],
+        },
+      );
+
+      const elapsedTime = Date.now() - startTime;
+
+      console.log(`\n✓ 执行成功 (耗时:${elapsedTime}ms)`);
+      console.log(`实际选中的专家：${result.activeExperts?.join(', ') || '无'}`);
+
+      // 检查每个专家的输出
+      if (result.activeExperts) {
+        for (const expert of result.activeExperts) {
+          const outputField = `${expert}Analysis`;
+          const output = (result as any)[outputField];
+          console.log(`\n【${expert} 专家输出】（${output?.length || 0} 字符）`);
+          console.log(output?.substring(0, 200) + (output?.length &gt; 200 ? '...' : ''));
+        }
+      }
+
+      // 检查汇总结果
+      console.log(`\n【汇总结果】（${result.analysisResult?.length || 0} 字符）`);
+      console.log(result.analysisResult?.substring(0, 300) + '...');
+
+      // 验证并行执行（如果有多个专家）
+      if (result.activeExperts &amp;&amp; result.activeExperts.length &gt; 1) {
+        const avgTimePerExpert = elapsedTime / result.activeExperts.length;
+        console.log(`\n⚡ 并行效果：平均每专家${avgTimePerExpert.toFixed(0)}ms`);
+        console.log(`   （串行预估：${(elapsedTime / result.activeExperts.length * result.activeExperts.length).toFixed(0)}ms）`);
+      }
+
+    } catch (error: unknown) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      console.error(`\n✗ 执行失败：${err.message}`);
+      console.error(err.stack);
+    }
+  }
+}
+
+testMultiAgent().catch(console.error);
+</code></pre>
+<h3 id="执行测试">执行测试</h3>
+<pre><code class="language-bash">cd services/chat
+bun run src/llm/graph/test-multi-agent.ts
+</code></pre>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/12b0a597f5184c0da947504e71dd69d9~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1604&amp;h=1352&amp;s=389885&amp;e=png&amp;b=282c34" alt="image 5.png" /></p>
+<h3 id="验收标准">验收标准</h3>
+<ol>
+<li><strong>Supervisor 调度正确性</strong>
+<ul>
+<li>简单需求（文案修改）只调用 functional 专家</li>
+<li>批量导入场景调用 functional + performance</li>
+<li>敏感数据导出调用 functional + performance + security</li>
+<li>跨境金融场景调用全部 4 个专家</li>
+</ul>
+</li>
+<li><strong>并行执行验证</strong>
+<ul>
+<li>多专家场景的总耗时接近单个最慢的专家（而非总和）</li>
+<li>查看日志确认专家节点的 timestamp 接近（并发启动）</li>
+</ul>
+</li>
+<li><strong>专家输出完整性</strong>
+<ul>
+<li>每个被调用的专家都有对应的 <code>${expert}Analysis</code> 输出</li>
+<li>aggregator 的 <code>analysisResult</code> 正确合成了所有专家的结论</li>
+<li>每个专家的输出包含了 prompt 要求的必需章节（如”功能模块拆解”）</li>
+</ul>
+</li>
+<li><strong>错误处理</strong>
+<ul>
+<li>模糊需求不会导致 activeExperts 为空（至少选一个）</li>
+<li>单个专家失败不影响其他专家执行（见 9.6.1 错误降级）</li>
+</ul>
+</li>
+<li><strong>工具调用验证</strong>
+<ul>
+<li>functional 专家调用了 search_requirement / check_conflicts</li>
+<li>performance 专家调用了 load_perf_baseline / check_perf_budget</li>
+<li>security 专家调用了 check_security_policy</li>
+<li>工具调用次数在 maxSteps=6 限制内</li>
+</ul>
+</li>
+</ol>
+<h3 id="前端集成验证">前端集成验证</h3>
+<p>启动完整系统并在前端测试：</p>
+<pre><code class="language-bash"># 启动全服务
+bun run dev
+</code></pre>
+<p>在前端 Chat 界面输入：</p>
+<pre><code>支持批量导入 Excel 用户数据，单次最多 10000 行
+</code></pre>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8bda6196600d43a68fa7d2f2749fc193~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1522&amp;h=782&amp;s=52542&amp;e=png&amp;b=26221f" alt="image 6.png" /></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a3f6088fc53e43fd902edf884956c695~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=3014&amp;h=1714&amp;s=811858&amp;e=png&amp;b=24201d" alt="image 7.png" /></p>
+<p><strong>期望行为</strong>：</p>
+<ul>
+<li>主进度条显示：triage → extract → clarify → 多维度分析 → risk → summary</li>
+<li>“并行执行”面板里 functional_expert 和 performance_expert 同时进入 “running” 状态</li>
+<li>两个专家完成后并行面板里同时变为 “completed”</li>
+<li>最终的分析报告包含”功能分析”和”性能分析”两个章节</li>
+</ul>
+<blockquote>
+<p>注意：你的输入会直接影响最终结果。我提供的测试用例也可能受到模型幻觉影响，因此需要根据实际情况进行 prompt 微调与适配；同时，不同的 LLM 也可能产生不同的结果倾向。</p>
+</blockquote>
+<h3 id="常见问题排查">常见问题排查</h3>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>可能原因</th>
+<th>排查方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>activeExperts 始终为 [‘functional’]</td>
+<td>supervisorNode 的 prompt 太保守，总是只选功能专家</td>
+<td>检查 supervisor 的 system prompt，增强专家选择的判断逻辑</td>
+</tr>
+<tr>
+<td>并行耗时和串行一样</td>
+<td>条件边没有返回数组</td>
+<td>确认 routeToExperts 返回的是数组（如 <code>['functional_expert', 'performance_expert']</code>）</td>
+</tr>
+<tr>
+<td>aggregatorNode 收到空的专家输出</td>
+<td>专家子图的 finalizeNode 没有正确写入 outputField</td>
+<td>检查 createExpertSubGraph 中 finalizeNode 的返回值</td>
+</tr>
+<tr>
+<td>messages 字段出现多个专家的对话混杂</td>
+<td>专家 agentNode 写入了 messages</td>
+<td>确认专家只写 outputField，不写 messages</td>
+</tr>
+</tbody>
+</table>
+<h3 id="自动化回归-推荐每次改动-supervisor-experts-时都跑">自动化回归（推荐每次改动 supervisor/experts 时都跑）</h3>
+<pre><code class="language-bash">cd services/chat
+bun test test/chapter9-multi-agent.spec.ts
+# 49 个 mock 用例（无需 API key）+ 8 个集成用例（设置 OPENAI_API_KEY 后启用）
+</code></pre>
+<p>mock 用例在 ~150ms 内跑完，覆盖了上面”验收标准”清单里大部分逻辑分支，并按章节组织（<code>-t &quot;9.2.1&quot;</code> / <code>-t &quot;9.5.5&quot;</code> 等可单独跑）；集成用例则对应”前端集成验证”那一节描述的 LLM 实测，包含 supervisor 调度准确性、triage 意图识别、runPipeline 端到端等。</p>
+<hr />
+<h2 id="9-4-handoff-去中心化交接作为-supervisor-的替代范式">9.4 Handoff：去中心化交接作为 Supervisor 的替代范式</h2>
+<h3 id="用-ai-生成本节代码-1">🤖 用 AI 生成本节代码</h3>
+<aside>
+<p>✅ <strong>本节已落地</strong></p>
+<p>下面的 Prompt 记录的是 classifier → triage 的改造路径，保留它是为了方便回看重构思路；如果只关心当前实现，直接看 9.4.2 即可。</p>
+</aside>
+<ul>
+<li>
+<p>点击展开完整 Prompt（可直接粘贴到 Cursor/Claude 执行）</p>
+<pre><code>我正在实现第九章 9.4 节：用 Handoff 模式升级 classifier 为 triageNode。
+
+**背景**：
+- 当前的 classifierNode 只做意图分类（analyze / query / chat）
+- 需要升级为具有更灵活交接能力的 triageNode
+
+**任务**：
+1. 在 requirement-analysis-graph.ts 中定义 triageSchema（zod schema）
+   - action: 'answer' | 'handoff_to_analysis' | 'handoff_to_risk'
+   - response: 用于 action='answer' 时直接回复用户
+   - reason: 交接理由（可选）
+2. 实现 triageNode 函数
+   - 接收 state 和 { model } config
+   - 使用 model.withStructuredOutput 进行结构化输出
+   - 返回 messages（包含分诊结果）、intent、handoffReason
+3. 在 State 中新增字段：
+   - handoffReason: Annotation&lt;string&gt;
+4. 更新主图的 classifier 节点为 triage（可选，作为演示）
+
+**关键约束**：
+- triageNode 需要接收 config: { model } 参数
+- 使用 AIMessage 构造消息
+- intent 映射：handoff_to_analysis → 'analyze'，handoff_to_risk → 'risk_only'，answer → 'chat'
+
+**输出要求**：
+- 完整的 triageNode 实现
+- triageSchema 定义
+- State 增量定义
+- 说明如何在主图中替换 classifierNode
+
+本节是可选升级，也可以保留原 classifierNode，将 triage 作为概念演示。
+</code></pre>
+</li>
+</ul>
+<p>Supervisor 是<strong>中心化调度</strong>：所有专家都必须经过 Supervisor 才能进入/退出。Handoff 是<strong>去中心化交接</strong>：Agent 之间直接传递控制权，没有中心调度者。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/201ccd88bcee44478bc82e599c05c262~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=1197658&amp;e=png&amp;b=12092c" alt="image 8.png" /></p>
+<h3 id="9-4-1-什么时候需要-handoff-而不是-supervisor">9.4.1 什么时候需要 Handoff 而不是 Supervisor</h3>
+<table>
+<thead>
+<tr>
+<th><strong>场景</strong></th>
+<th><strong>选择</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一个请求明确涉及多个独立维度（功能+性能+安全）</td>
+<td>Supervisor（9.2）</td>
+</tr>
+<tr>
+<td>分诊场景：先粗判，简单问题直接回，复杂问题转专家，专家处理完可能还要回分诊收尾</td>
+<td>Handoff（本节）</td>
+</tr>
+<tr>
+<td>对话连续性重要：希望前一个 Agent 把自己的上下文”交接”给下一个</td>
+<td>Handoff</td>
+</tr>
+</tbody>
+</table>
+<p>在当前系统里，Handoff 最自然的落点是<strong>把 classifier 升级成分诊 Agent</strong>——原本 classifier 只是意图分类，简单问题（闲聊/问候）也要走完整的”分类 → chatHandler”两步。Handoff 把”简单问题直接答”和”复杂问题交接专家”合并到一个节点里，闲聊场景节省一次 LLM 调用。</p>
+<h3 id="9-4-2-改造-用-handoff-替换-classifier-已落地">9.4.2 改造：用 Handoff 替换 classifier（已落地）</h3>
+<aside>
+<p>✅ <strong>本节内容已落地</strong></p>
+<p><code>services/chat/src/llm/graph/requirement-analysis-graph.ts</code> 中，原 <code>classifierNode</code> 已被删除，主图入口节点 <code>triage</code> 在 <code>createAnalysisGraph</code> 里替代它；闲聊场景由 <code>triage</code> 直接回答并短路 END，不再走 <code>chatHandler</code>。</p>
+</aside>
+<pre><code class="language-tsx">import { AIMessage } from '@langchain/core/messages';
+
+// 把原 classifierNode 升级为 triageNode
+export const triageSchema = z.object({
+  action: z.enum(['answer', 'handoff_to_query', 'handoff_to_analysis']),
+  response: z.string().describe('当 action=answer 时直接回复用户的内容'),
+  reason: z.string().nullable().describe('交接理由，无理由时为 null'),
+});
+
+export async function triageNode(
+  state: typeof RequirementAnalysisState.State,
+  config: { model: BaseChatModel },
+): Promise&lt;Partial&lt;typeof RequirementAnalysisState.State&gt;&gt; {
+  const { model } = config;
+  const structured = model.withStructuredOutput(triageSchema);
+  const result = await structured.invoke([
+    {
+      role: 'system',
+      content: `你是需求分诊 Agent。判断用户意图，规则：
+- 闲聊、问候、术语解释 → action: answer（直接在 response 里回答用户）
+- 查询已有需求的状态/信息（含 REQ-编号） → action: handoff_to_query
+- 需要完整性/冲突/复杂度分析、需求评估 → action: handoff_to_analysis
+转交时给出简要理由。`,
+    },
+    ...state.messages,
+    { role: 'user', content: state.input },
+  ]);
+
+  if (result.action === 'answer') {
+    // chat 短路：triage 直接回答，主图随后路由到 END
+    return {
+      messages: [new AIMessage(result.response)],
+      intent: 'chat',
+      chatResponse: result.response,
+      summary: result.response,
+      handoffReason: '',
+    };
+  }
+
+  if (result.action === 'handoff_to_query') {
+    return { intent: 'query', handoffReason: result.reason || '' };
+  }
+
+  return { intent: 'analyze', handoffReason: result.reason || '' };
+}
+</code></pre>
+<p>主图装配只改一处：</p>
+<pre><code class="language-tsx">// createAnalysisGraph 入口
+.addNode('triage', (state) =&gt; triageNode(state, { model }))
+.addEdge(START, 'triage')
+.addConditionalEdges('triage', routeByIntent);
+
+// 路由规则
+function routeByIntent(state: typeof RequirementAnalysisState.State): string {
+  switch (state.intent) {
+    case 'query':   return 'queryHandler';
+    case 'chat':    return END;        // ⭐ triage 已直接回答
+    case 'analyze':
+    default:        return 'extractStep';
+  }
+}
+</code></pre>
+<blockquote>
+<p><strong>设计要点</strong>：</p>
+</blockquote>
+<ul>
+<li><code>intent</code> 类型仍然是 <code>'analyze' | 'query' | 'chat'</code> 三选一，前端 SSE/UI 协议无感知</li>
+<li>chat 走 END 而非 chatHandler，省一次 LLM 调用；<code>triage</code> 节点同时负责”分诊”和”闲聊回答”两个职责</li>
+<li><code>OrchestratorService</code> 的 <code>nodeToAgentMap</code> 同步把 <code>'classifier' → 'classifierAgent'</code> 改成 <code>'triage' → 'triageAgent'</code>，并在 <code>chat</code> 分支只 push <code>triageAgent</code></li>
+</ul>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.4&quot;</code>
+8 个用例覆盖：schema 接受 3 种合法 action / 拒绝旧 <code>handoff_to_risk</code> / <code>answer</code> 短路链路 / <code>handoff_to_query</code> / <code>handoff_to_analysis</code>。</p>
+</blockquote>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/814c2dc75d024b6a9e8db322554808ff~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1826&amp;h=1592&amp;s=508061&amp;e=png&amp;b=282c34" alt="image 9.png" /></p>
+<h3 id="9-4-3-supervisor-vs-handoff-结构对比">9.4.3 Supervisor vs Handoff：结构对比</h3>
+<div class="mermaid">flowchart TB
+    subgraph SUP[&quot;Supervisor（中心化）&quot;]
+        S1[&quot;supervisor&quot;] --&gt; E1[&quot;expert 1&quot;]
+        S1 --&gt; E2[&quot;expert 2&quot;]
+        E1 --&gt; S1
+        E2 --&gt; S1
+    end
+    subgraph HO[&quot;Handoff（去中心化）&quot;]
+        T1[&quot;triage&quot;] --&gt;|&quot;handoff&quot;| X1[&quot;expert A&quot;]
+        X1 --&gt;|&quot;handoff back&quot;| T1
+        X1 --&gt;|&quot;direct handoff&quot;| X2[&quot;expert B&quot;]
+    end
+</div>
+<aside>
+<p>📌 <strong>两种模式可以共存</strong></p>
+<p>实际生产系统里常见组合：外层 Handoff（分诊 ↔︎ 业务领域）+ 领域内 Supervisor（派发给该领域的多个专家）。本章的 <code>requirement-analysis-graph.ts</code> 里就是这样：classifier/triage 做 Handoff 级的粗分诊，analysis 子图内部用 Supervisor 派发专家。</p>
+</aside>
+<hr />
+<h2 id="9-5-组合流水线-plan-and-execute-supervisor-reflexion">9.5 组合流水线：Plan-and-Execute + Supervisor + Reflexion</h2>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2abf3b727a64135b0456504c575d1bc~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=1303487&amp;e=png&amp;b=041d3e" alt="image 10.png" /></p>
+<h3 id="用-ai-生成本节代码-2">🤖 用 AI 生成本节代码</h3>
+<blockquote>
+<p>✅ <strong>本节已落地</strong>。<code>pipeline.ts</code> 已经导出 <code>createPipelineGraph</code> / <code>runPipeline</code>，spec 也已覆盖端到端 mock + 真实 LLM。下面的 Prompt 主要用于回看改造过程，按它再生成一遍也可以拿来对比当前实现。</p>
+</blockquote>
+<ul>
+<li>
+<p>点击展开完整 Prompt（可直接粘贴到 Cursor/Claude 执行）</p>
+<pre><code>我正在实现第九章 9.5 节：Plan-and-Execute 外层流水线 + Reflexion。
+
+**背景**：
+- 已有 9.2 的 Supervisor + 专家子图，以及完整的主图（createAnalysisGraph）
+- 需要在外层包一个 Plan-and-Execute 流水线，用于处理跨工单的联合分析
+
+**任务**：
+1. 定义 PipelineState（使用 Annotation.Root）
+   - plan: 步骤计划数组（每项包含 id、description、done）
+   - currentStepIndex: 当前执行到第几步
+   - stepResults: 每步的执行结果（字典）
+   - reflections: 反思记录数组
+   - retryCount: 重试次数
+   - parentThreadId: 父线程 ID
+   - finalReport: 最终报告
+2. 实现 plannerNode（拆解大任务为步骤）
+   - 接收 state 和 { model } config
+   - 使用 LLM 生成步骤计划
+3. 实现 executorNode
+   - 读取 plan[currentStepIndex]
+   - 调用 createAnalysisGraph(model).invoke() 执行单步
+   - 使用 ${parentThreadId}:step-${index} 作为子 thread_id
+   - 更新 stepResults 和 currentStepIndex
+4. 实现 evaluatorNode（评估总报告质量）
+5. 实现 reflectorNode（反思并修订计划）
+   - 接收 state 和 { model } config
+   - 分析为什么不达标
+   - 返回修订后的 plan 和递增的 retryCount
+6. 装配外层图：planner → executor → evaluator → [通过/reflector → executor]
+7. 设置硬上限：retryCount &gt;= 1 时停止
+
+**关键约束**：
+- executor 调用的 analysisGraph 是 9.2/9.3 的完整图
+- 使用独立的 thread_id 实现子任务的独立持久化
+- Reflexion 回边指向 executor（整链重跑）
+- 所有节点接收 { model } config
+
+**输出要求**：
+- PipelineState 完整定义
+- 5 个节点的实现
+- 外层图的装配代码
+- 说明如何在实际项目中使用（何时用 pipeline 包住 analysis，何时直接用 analysis）
+
+注意：本节是高级扩展，可以作为概念演示，不强制集成到主流程。
+</code></pre>
+</li>
+</ul>
+<p>到 9.3 为止，系统结构是：</p>
+<pre><code>triage → extract → clarify → [Supervisor + 4 专家并发] → risk → [Critic-Refine]
+</code></pre>
+<p>它已经能处理绝大多数需求，但还有一类场景处理不好：<strong>跨多个工单的联合分析</strong>（比如”评估本季度三个新需求对核心系统的总体影响”）。这种任务需要</p>
+<ol>
+<li><strong>先规划</strong>：把大任务拆成”需求A分析→需求B分析→需求C分析→交叉影响评估→总报告”这样的步骤</li>
+<li><strong>再执行</strong>：逐步调用已有能力</li>
+<li><strong>最后复盘</strong>：如果总报告发现前面某步漏了，要能整体重跑</li>
+</ol>
+<p>这就是第七章 7.3.2 的 <strong>Plan-and-Execute</strong>（📖 先规划再执行的两阶段模式——Planner 将大任务拆解为步骤列表，Executor 逐步调用已有能力执行）+ 7.4.1 的 <strong>Reflexion</strong>（📖 反思-重跑机制——执行完成后评估质量，不达标则分析原因、修订计划，从头重跑整条链；与 Critic-Refine 的区别在于回边指向链起点）的组合。它们<strong>不替代 9.2/9.3</strong>，而是<strong>包在外层</strong>。</p>
+<h3 id="9-5-1-外层结构与-state-定义">9.5.1 外层结构与 State 定义</h3>
+<div class="mermaid">flowchart TD
+    A[&quot;__start__&quot;] --&gt; P[&quot;planner&lt;br&gt;拆任务&quot;]
+    P --&gt; EX[&quot;executor&lt;br&gt;跑当前步骤&quot;]
+    EX --&gt; CK{&quot;还有步骤？&quot;}
+    CK --&gt;|是| EX
+    CK --&gt;|否| EV[&quot;evaluator&lt;br&gt;整体评估&quot;]
+    EV --&gt;|通过| Z[&quot;__end__&quot;]
+    EV --&gt;|不通过 且 retryCount&lt;1| RF[&quot;reflector&lt;br&gt;反思并修订计划&quot;]
+    RF --&gt; EX
+    EV --&gt;|retryCount&gt;=1| Z
+</div>
+<p>首先定义 PipelineState：</p>
+<pre><code class="language-tsx">import { Annotation } from '@langchain/langgraph';
+import { BaseMessage } from '@langchain/core/messages';
+
+// 单个步骤的结构
+interface PlanStep {
+  id: string;
+  description: string;
+  done: boolean;
+}
+
+// Pipeline 外层的 State
+export const PipelineState = Annotation.Root({
+  // 继承基础消息字段
+  messages: Annotation&lt;BaseMessage[]&gt;({
+    reducer: (prev, next) =&gt; [...prev, ...next],
+    default: () =&gt; [],
+  }),
+
+  // 任务规划
+  plan: Annotation&lt;PlanStep[]&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; [],
+  }),
+
+  // 当前执行到第几步
+  currentStepIndex: Annotation&lt;number&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; 0,
+  }),
+
+  // 每步的执行结果（键为 step.id）
+  stepResults: Annotation&lt;Record&lt;string, string&gt;&gt;({
+    reducer: (prev, next) =&gt; ({ ...prev, ...next }),
+    default: () =&gt; ({}),
+  }),
+
+  // 反思记录
+  reflections: Annotation&lt;string[]&gt;({
+    reducer: (prev, next) =&gt; [...prev, ...next],
+    default: () =&gt; [],
+  }),
+
+  // 重试次数
+  retryCount: Annotation&lt;number&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; 0,
+  }),
+
+  // 父线程 ID（用于生成子 thread_id）
+  parentThreadId: Annotation&lt;string&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; '',
+  }),
+
+  // 最终报告
+  finalReport: Annotation&lt;string&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; '',
+  }),
+
+  // 评估是否通过
+  approved: Annotation&lt;boolean&gt;({
+    reducer: (_prev, next) =&gt; next,
+    default: () =&gt; false,
+  }),
+});
+</code></pre>
+<p><strong>planner 节点</strong>：拆解大任务为可执行步骤</p>
+<pre><code class="language-tsx">import { z } from 'zod';
+
+const planSchema = z.object({
+  steps: z.array(
+    z.object({
+      id: z.string(),
+      description: z.string(),
+    })
+  ).min(1).max(10),
+  reasoning: z.string(),
+});
+
+async function plannerNode(
+  state: typeof PipelineState.State,
+  config: { model: BaseChatModel },
+) {
+  const { model } = config;
+  const structured = model.withStructuredOutput(planSchema);
+
+  const userInput = state.messages[0]?.content || '';
+
+  const result = await structured.invoke([
+    {
+      role: 'system',
+      content: `你是任务规划专家。将复杂的跨工单分析任务拆解为可执行的步骤。
+
+**规则**：
+1. 每个步骤应该是独立的、可执行的子任务
+2. 步骤数量：最少 1 个，最多 10 个
+3. 每个步骤的 description 应该是完整的、可直接传给需求分析系统的输入
+4. 步骤之间应该有逻辑顺序（如先分析单个需求，再分析交叉影响）
+
+**输出格式**：
+- steps: 步骤数组，每项包含 id（唯一标识，如 &quot;step-1&quot;）和 description
+- reasoning: 拆解的理由（为什么这样拆，每步做什么）`,
+    },
+    {
+      role: 'user',
+      content: `请将以下任务拆解为步骤：\n\n${userInput}`,
+    },
+  ]);
+
+  const plan: PlanStep[] = result.steps.map((step) =&gt; ({
+    ...step,
+    done: false,
+  }));
+
+  console.log(`[Planner] 拆解为${plan.length} 个步骤：`);
+  plan.forEach((step, i) =&gt; {
+    console.log(`${i + 1}.${step.id}:${step.description.substring(0, 60)}...`);
+  });
+
+  return {
+    plan,
+    currentStepIndex: 0,
+    parentThreadId: state.parentThreadId || `pipeline-${Date.now()}`,
+  };
+}
+</code></pre>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5.1&quot;</code>
+跑完会看到 <code>[Planner] 拆解为 3 个步骤</code> 的日志，以及 <code>parentThreadId</code> 在新会话/续会话两种场景下的生成与保留。</p>
+</blockquote>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b93a242f7ae2491c9d2b09ff215d1f99~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1826&amp;h=1592&amp;s=314914&amp;e=png&amp;b=282c34" alt="image 11.png" /></p>
+<h3 id="9-5-2-executor-直接调用-9-2-9-3-的主图">9.5.2 executor 直接调用 9.2~9.3 的主图</h3>
+<p>关键点：executor 不是新写一个”分析”的逻辑，而是<strong>把 9.2~9.3 的整张图当成一个调用</strong>：</p>
+<pre><code class="language-tsx">const analysisGraph = createAnalysisGraph();  // 9.2 + 9.3 + 8.7 的完整图
+
+async function executorNode(state: typeof PipelineState.State) {
+  const step = state.plan[state.currentStepIndex];
+  if (!step) return {};
+
+  try {
+    // 🔑 复用 9.2/9.3 的 analysisGraph，把单个需求当一次子任务跑
+    const subResult = await analysisGraph.invoke(
+      { messages: [new HumanMessage(step.description)] },
+      { configurable: { thread_id: `${state.parentThreadId}:step-${state.currentStepIndex}` } },
+    );
+
+    const updatedPlan = [...state.plan];
+    updatedPlan[state.currentStepIndex] = { ...step, done: true };
+
+    return {
+      plan: updatedPlan,
+      stepResults: {
+        [step.id]: subResult.summary || subResult.analysisResult || '(无输出)',
+      },
+      currentStepIndex: state.currentStepIndex + 1,
+    };
+  } catch (error) {
+    // 步骤级错误降级：记录失败但继续推进，让 evaluator 看到&quot;完整图景&quot;再决定是否反思
+    console.error(`[Executor] 步骤 ${step.id} 执行失败:`, error);
+    const updatedPlan = [...state.plan];
+    updatedPlan[state.currentStepIndex] = { ...step, done: true };
+    return {
+      plan: updatedPlan,
+      stepResults: {
+        [step.id]: `[执行失败] ${error instanceof Error ? error.message : String(error)}`,
+      },
+      currentStepIndex: state.currentStepIndex + 1,
+    };
+  }
+}
+</code></pre>
+<p>注意 <code>thread_id</code> 的设计：<code>${parentThreadId}:step-${index}</code>——这样每一步的 Checkpointer 状态可以<strong>独立持久化、独立恢复</strong>，还天然具备”某步失败单独重跑”的能力。</p>
+<aside>
+<p>💡 <strong>错误降级的层次</strong></p>
+<p>与 9.6.1 专家级降级（<code>agentNode</code> try-catch）形成两层防护——专家级 catch 让 4 个并行专家中的一个失败不会拖垮 analysis 子图；executor 级 catch 让 N 个步骤中的一个失败不会拖垮 pipeline。两处兜底信息最终都汇聚到 <code>evaluator</code>，由 evaluator 决定要不要触发 Reflexion 重跑。</p>
+</aside>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5.2&quot;</code>
+三个用例分别覆盖：成功路径（<code>currentStepIndex</code> 推进 + <code>stepResults</code> 写入）、容错路径（子图抛错时 <code>[执行失败] xxx</code> 兜底）、防御性边界（plan 越界时直接返回空）。</p>
+</blockquote>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0201874a283d49c794b958a133db421b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1832&amp;h=1592&amp;s=420047&amp;e=png&amp;b=282c34" alt="image 12.png" /></p>
+<h3 id="9-5-3-reflector-reflexion-的图结构落地">9.5.3 reflector：Reflexion 的图结构落地</h3>
+<p>Reflexion 和 8.7 的 Critic-Refine 的关键差异：<strong>回边指向的不是 refine，而是整个执行链的起点</strong>。</p>
+<pre><code class="language-tsx">const reflectSchema = z.object({
+  revisedSteps: z.array(z.object({
+    id: z.string(),
+    description: z.string(),
+  })).min(1).max(10),
+  reflection: z.string(),
+});
+
+async function reflectorNode(
+  state: typeof PipelineState.State,
+  config: { model: BaseChatModel },
+) {
+  const { model } = config;
+  const structured = model.withStructuredOutput(reflectSchema);
+  const result = await structured.invoke([
+    {
+      role: 'system',
+      content: `分析为什么总报告不达标。如果是前面步骤信息不足，修订计划（补充新步骤或调整现有步骤）；如果只是表达问题，返回原计划不变。
+
+返回修订后的步骤列表和反思总结。`,
+    },
+    { role: 'user', content: `当前报告：\n${state.finalReport}\n\n当前计划：\n${JSON.stringify(state.plan, null, 2)}` },
+  ]);
+  const newPlan: PlanStep[] = result.revisedSteps.map((s) =&gt; ({ ...s, done: false }));
+  return {
+    plan: newPlan,
+    currentStepIndex: 0,  // 🔑 从头开始，但带着 reflections
+    reflections: [result.reflection],
+    retryCount: state.retryCount + 1,
+  };
+}
+</code></pre>
+<p>硬上限 <code>retryCount &gt;= 1</code>——Reflexion 代价很高（整链重跑），最多允许一次反思。</p>
+<p><strong>evaluator 节点</strong>：评估整体任务完成质量</p>
+<pre><code class="language-tsx">const evaluationSchema = z.object({
+  approved: z.boolean(),
+  score: z.number().min(0).max(100),
+  issues: z.array(z.string()),
+  suggestion: z.string(),
+});
+
+async function evaluatorNode(
+  state: typeof PipelineState.State,
+  config: { model: BaseChatModel },
+) {
+  const { model } = config;
+  const structured = model.withStructuredOutput(evaluationSchema);
+
+  // 汇总所有步骤的结果
+  const allResults = state.plan
+    .map((step, i) =&gt; {
+      const result = state.stepResults[step.id];
+      return `### 步骤${i + 1}:${step.description}\n结果：\n${result || '(未执行)'}`;
+    })
+    .join('\n\n---\n\n');
+
+  const finalReport = `# 联合分析报告\n\n${allResults}`;
+
+  const evaluation = await structured.invoke([
+    {
+      role: 'system',
+      content: `你是质量评估专家。评估跨工单联合分析报告的完整性和质量。
+
+**评分标准**（0-100分）：
+- 80-100分：所有工单都分析完整，交叉影响清晰，结论明确 → approved: true
+- 60-79分：基本完整但有遗漏，或部分结论不够深入 → approved: false
+- 0-59分：重大遗漏或逻辑错误 → approved: false
+
+**评估维度**：
+1. 每个子任务是否都有对应的分析结果
+2. 交叉影响分析是否充分（如有多个工单）
+3. 结论是否可操作、具体
+
+如果 approved 为 false，在 issues 中列出具体问题，在 suggestion 中给出改进建议。`,
+    },
+    {
+      role: 'user',
+      content: `请评估以下报告：\n\n${finalReport}`,
+    },
+  ]);
+
+  console.log(`[Evaluator] 评分：${evaluation.score}/100, 通过：${evaluation.approved}`);
+  if (!evaluation.approved) {
+    console.log(`[Evaluator] 问题：${evaluation.issues.join('; ')}`);
+  }
+
+  return {
+    finalReport,
+    approved: evaluation.approved,
+  };
+}
+</code></pre>
+<p><strong>路由函数</strong>：控制执行流程</p>
+<pre><code class="language-tsx">// executor 之后：判断是否还有步骤
+function shouldContinue(state: typeof PipelineState.State): string {
+  if (state.currentStepIndex &lt; state.plan.length) {
+    return 'executor'; // 继续执行下一步
+  }
+  return 'evaluator'; // 所有步骤完成，进入评估
+}
+
+// evaluator 之后：判断是否需要 Reflexion
+function shouldReflect(state: typeof PipelineState.State): string {
+  if (state.approved) {
+    return END; // 通过，结束
+  }
+
+  if (state.retryCount &gt;= 1) {
+    console.log('[Pipeline] 已达重试上限，强制结束');
+    return END; // 达到重试上限，强制结束
+  }
+
+  return 'reflector'; // 不通过且未达上限，进入反思
+}
+</code></pre>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5.3&quot;</code>
+看 <code>evaluatorNode</code> 在 approved=true / false 两种打分下的行为，以及 <code>reflectorNode</code> 修订计划后 <code>retryCount: 0 → 1</code> 的变化。</p>
+</blockquote>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/58566226695a4a0c91219c3eefc621e7~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1828&amp;h=1406&amp;s=331107&amp;e=png&amp;b=282c34" alt="image 13.png" /></p>
+<h3 id="9-5-4-完整的-pipeline-图装配">9.5.4 完整的 Pipeline 图装配</h3>
+<pre><code class="language-tsx">import { StateGraph, START, END } from '@langchain/langgraph';
+import { BaseChatModel } from '@langchain/core/language_models/chat_models';
+import { createAnalysisGraph } from './requirement-analysis-graph';
+
+export function createPipelineGraph(model: BaseChatModel) {
+  // 复用 9.2/9.3 的完整分析图
+  const analysisGraph = createAnalysisGraph(model);
+
+  return new StateGraph(PipelineState)
+    .addNode('planner', (state) =&gt; plannerNode(state, { model }))
+    .addNode('executor', async (state) =&gt; executorNode(state, { analysisGraph }))
+    .addNode('evaluator', (state) =&gt; evaluatorNode(state, { model }))
+    .addNode('reflector', (state) =&gt; reflectorNode(state, { model }))
+
+    // 流程编排
+    .addEdge(START, 'planner')
+    .addEdge('planner', 'executor')
+    .addConditionalEdges('executor', shouldContinue, {
+      executor: 'executor',
+      evaluator: 'evaluator',
+    })
+    .addConditionalEdges('evaluator', shouldReflect, {
+      reflector: 'reflector',
+      [END]: END,
+    })
+    .addEdge('reflector', 'executor') // Reflexion 回边
+
+    .compile();
+}
+</code></pre>
+<p><strong>使用示例</strong>：</p>
+<pre><code class="language-tsx">const model = createChatModel({ provider: 'openai', modelName: 'gpt-4' });
+const pipelineGraph = createPipelineGraph(model);
+
+const result = await pipelineGraph.invoke(
+  {
+    messages: [
+      new HumanMessage(
+        '评估本季度三个新需求 REQ-001、REQ-002、REQ-003 对核心系统的总体影响'
+      ),
+    ],
+    parentThreadId: `user-${userId}:pipeline-${sessionId}`,
+  },
+  {
+    configurable: {
+      thread_id: `user-${userId}:pipeline-${sessionId}`,
+    },
+  }
+);
+
+console.log('最终报告：', result.finalReport);
+console.log('是否通过：', result.approved);
+</code></pre>
+<p><strong>何时使用 Pipeline Graph</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>使用图</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单个需求分析</td>
+<td><code>createAnalysisGraph</code></td>
+<td>直接调用 9.2/9.3 的主图</td>
+</tr>
+<tr>
+<td>2-5 个相关需求的联合分析</td>
+<td><code>createPipelineGraph</code></td>
+<td>用 planner 拆解为步骤，executor 逐个调用主图</td>
+</tr>
+<tr>
+<td>跨模块影响评估</td>
+<td><code>createPipelineGraph</code></td>
+<td>先分析各模块，再汇总交叉影响</td>
+</tr>
+<tr>
+<td>季度/年度需求回顾</td>
+<td><code>createPipelineGraph</code>  • 外部聚合</td>
+<td>Pipeline 处理批次，外部做最终汇总</td>
+</tr>
+</tbody>
+</table>
+<aside>
+<p>⚠️ <strong>Pipeline 的适用边界</strong></p>
+<p>Plan-and-Execute + Reflexion 的组合适合“明确可拆解”的大任务。对于高度不确定的探索性任务，单次 Reflexion 可能不够，此时应该：</p>
+<ol>
+<li>缩小任务范围，拆成多个独立的 Pipeline 调用</li>
+<li>或者在 Pipeline 外层加人工审核环节，每轮反思后让人介入</li>
+</ol>
+</aside>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5.4&quot;</code>
+用纯函数测试覆盖 <code>shouldContinue</code> / <code>shouldReflect</code> 的全部分支：还有未做的步骤 → executor，全部完成 → evaluator，approved 通过 → END，retryCount=1 触发硬上限 → END。</p>
+</blockquote>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8a43c4c9e3b84435943c28d7f138ea68~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1824&amp;h=1096&amp;s=342340&amp;e=png&amp;b=282c34" alt="image 14.png" /></p>
+<h3 id="顶层实验入口-runpipeline">顶层实验入口：<code>runPipeline()</code></h3>
+<p><code>createPipelineGraph</code> 直接拼装的是图对象。为了让上游脚本/测试/未来的 batch 任务能够用一行代码跑通”输入 → 完整报告”，<code>pipeline.ts</code> 末尾导出了一个非流式的封装：</p>
+<pre><code class="language-tsx">export async function runPipeline(
+  input: string,
+  model: BaseChatModel,
+): Promise&lt;RunPipelineResult&gt; {
+  const graph = createPipelineGraph(model);
+  const result = (await graph.invoke({
+    messages: [new HumanMessage(input)],
+  })) as typeof PipelineState.State;
+
+  return {
+    finalReport: result.finalReport,
+    approved: result.approved,
+    retryCount: result.retryCount,
+    plan: result.plan,
+    stepResults: result.stepResults,
+    reflections: result.reflections,
+  };
+}
+</code></pre>
+<p>返回结构 <code>RunPipelineResult</code> 包含：最终报告、是否通过、重试次数、计划、各步骤产物、所有反思记录——便于断言、日志或离线对比。</p>
+<aside>
+<p>⚠️ <code>runPipeline</code> <strong>不接 chat 路由</strong>，仅供脚本、测试、batch 任务使用；用户对话仍走 9.4 主图（Triage → Analysis）。</p>
+</aside>
+<blockquote>
+<p>📋 <strong>本节配套用例（端到端）</strong>：</p>
+</blockquote>
+<ul>
+<li>纯 mock：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5.5&quot;</code>
+覆盖两条路径——一次通过（无 reflexion）和 reflexion 一轮后通过；通过自定义 <code>RoutedFakeChatModel</code> 按 prompt 内容路由响应，避开并行节点扰乱顺序消费的问题。</li>
+<li>真实 LLM（需要 <code>OPENAI_API_KEY</code>）：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.5 runPipeline&quot;</code>
+会真的调一次完整流水线（约 10+ 次 LLM 调用），用于在写完代码后做一次端到端冒烟。</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>mock 端到端的两个坑</strong>：</p>
+</blockquote>
+<ol>
+<li>流水线内部包含并行节点（<code>analysisStep || riskStep</code>），不能用 <code>FakeListChatModel({ responses: [...] })</code> 顺序消费——必须按 system prompt 关键字路由；</li>
+<li><code>FakeListChatModel.bindTools</code> 内部会 <code>new FakeListChatModel(...)</code>，导致子类的 <code>_generate</code> 重写丢失。子类化时必须同时重写 <code>bindTools</code> 返回 <code>this</code>，否则专家 ReAct 子图（用了 <code>bindTools</code>）会跳过 mock。</li>
+</ol>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d3cae8d7f66b4de5a3651b74f5149ed9~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1828&amp;h=1592&amp;s=380855&amp;e=png&amp;b=282c34" alt="image 15.png" /></p>
+<h3 id="9-5-5-三种推理模式在图中的位置总览-来自第七章的对照">9.5.5 三种推理模式在图中的位置总览（来自第七章的对照）</h3>
+<p>系统演进到这一步后，三种推理模式在图里各司其职：</p>
+<table>
+<thead>
+<tr>
+<th><strong>第七章模式</strong></th>
+<th><strong>在最终图中的位置</strong></th>
+<th><strong>回边指向</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Router（路由层）</td>
+<td>8.4 classifier + 9.4 triage</td>
+<td>无（一次性分发）</td>
+</tr>
+<tr>
+<td>ReAct（执行层·局部决策）</td>
+<td>8.6 / 9.2 的每个专家子图</td>
+<td>tools → agent</td>
+</tr>
+<tr>
+<td>Fixed Workflow（执行层）</td>
+<td>extract → clarify → analysis → risk → summary 这条主链</td>
+<td>无</td>
+</tr>
+<tr>
+<td>Plan-and-Execute（执行层·全局规划）</td>
+<td>9.5 最外层 planner → executor</td>
+<td>executor → executor（推进步骤）</td>
+</tr>
+<tr>
+<td>Critic-Refine（优化层·局部修订）</td>
+<td>8.7 summary 子图</td>
+<td>refine → critic</td>
+</tr>
+<tr>
+<td>Reflexion（优化层·整体重跑）</td>
+<td>9.5 evaluator → reflector → executor</td>
+<td>reflector → executor（链起点）</td>
+</tr>
+<tr>
+<td>Self-Consistency（优化层·并行投票）</td>
+<td>未采用（适用分类任务，不适合报告）</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-6-生产化要点">9.6 生产化要点</h2>
+<h3 id="用-ai-生成本节代码-3">🤖 用 AI 生成本节代码</h3>
+<aside>
+<p>✅ <strong>本节大部分已落地</strong></p>
+<p>错误降级在 <code>experts.ts:agentNode</code> 的 try-catch 里；HITL 用 <code>MemorySaver + interruptBefore</code>（见 9.6.2，PostgresSaver 替换是一行的事）；并行可视化链路在 9.6.3 已经写明。下面的 Prompt 保留为改造过程参考：其中“toUIResponse 动态 steps”已被 SSE <code>progress + parallel</code> 流式方案取代，实际实现以 9.6.3 为准。</p>
+</aside>
+<ul>
+<li>
+<p>点击展开完整 Prompt（可直接粘贴到 Cursor/Claude 执行）</p>
+<pre><code>我正在实现第九章 9.6 节：Multi-Agent 系统的生产化工程能力。
+
+**背景**：
+- 已有 9.2 的 Supervisor + 专家子图架构
+- 需要补充错误降级、PostgresSaver、UI 协议、成本控制等生产化能力
+
+**任务**：
+
+**1. 错误降级（在 experts.ts 的 createExpertSubGraph 中）**
+- 在 agentNode 中添加 try-catch
+- 捕获错误后返回降级输出到 outputField（而非抛错）
+- 降级消息格式：`[${opts.name} 专家暂不可用：${err}] 本项分析已跳过，建议人工补充。`
+- aggregatorNode 中识别降级标记，在报告里明确标出
+
+**2. PostgresSaver 配置**
+- 在 requirement-analysis-graph.ts 中引入 PostgresSaver
+- 从环境变量读取 DATABASE_URL
+- 调用 checkpointer.setup() 创建所需表
+- thread_id 命名规范：`user-{userId}:session-{sessionId}`
+
+**3. UI 协议升级（在 orchestrator.service.ts 的 toUIResponse 中）**
+- interrupted 时渲染 confirmation 组件（HITL）
+- steps 组件动态生成：从 state.activeExperts 读取并行专家
+- 为每个专家动态添加 step（label: `${expert}_expert`, status: completed/running）
+
+**4. 成本控制硬上限**
+- 专家子图：maxSteps = 6
+- Critic-Refine：maxRevises = 2
+- Reflexion：retryCount &lt;= 1
+- activeExperts 最多 4 个（zod schema 约束）
+
+**关键约束**：
+- PostgresSaver 与第五章的会话库共用同一个 PostgreSQL
+- 错误降级只在专家节点层面，不影响主图流转
+- UI 协议升级需要保持向后兼容
+
+**输出要求**：
+- experts.ts 中 agentNode 的 try-catch 实现
+- requirement-analysis-graph.ts 中 PostgresSaver 配置
+- orchestrator.service.ts 中 toUIResponse 的 steps 动态生成逻辑
+- 成本控制的各个硬上限配置代码片段
+
+请提供完整的代码实现，并说明如何测试错误降级（模拟专家失败）。
+</code></pre>
+</li>
+</ul>
+<p>系统结构定下来了，剩下是<strong>让它在生产环境能跑稳</strong>。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eb9ba96ad72b48faa83ec11365168626~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=1374182&amp;e=png&amp;b=0c144c" alt="image 16.png" /></p>
+<h3 id="9-6-1-错误降级-节点级失败的处理">9.6.1 错误降级：节点级失败的处理</h3>
+<p>并发专家中一个超时、一个抛错，不应该整体失败。在 <code>createExpertSubGraph</code> 工厂里加上 try-catch + 降级输出：</p>
+<pre><code class="language-tsx">async function agentNode(state) {
+  try {
+    // ... 原逻辑
+  } catch (err) {
+    // 返回一条标记失败的降级输出，而不是抛错
+    return {
+      [outputField]: `[${opts.name} 专家暂不可用：${String(err)}] 本项分析已跳过，建议人工补充。`,
+    };
+  }
+}
+</code></pre>
+<p>配合 aggregator 在合成最终 <code>analysis</code> 时识别降级标记，在报告里明确标出”本项缺失”。这样：</p>
+<ul>
+<li>用户拿到的是<strong>带缺口的完整报告</strong>，而不是 500 错误</li>
+<li><code>summary</code> 节点的 Critic-Refine 会看到缺口，可以在修订时补充说明</li>
+<li>运维侧从 <code>streamEvents</code> 的错误事件里能拿到哪个专家失败、为什么失败</li>
+</ul>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.6.1&quot;</code>
+同时跑一遍 9.2.1 工厂的降级用例（<code>-t &quot;9.2.1&quot;</code>）就能完整看到：专家抛错 → 子图 finalize 兜底 → aggregator 把”暂不可用”标成 ⚠️ 安全分析（降级）这条完整链路。</p>
+</blockquote>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/67edaa2f3c1240848f925216abb13458~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1828&amp;h=696&amp;s=190340&amp;e=png&amp;b=282c34" alt="image 17.png" /></p>
+<h3 id="9-6-2-checkpointer-hitl-在-clarifystep-前中断">9.6.2 Checkpointer + HITL：在 clarifyStep 前中断</h3>
+<aside>
+<p>📖 <strong>什么是 HITL（Human-in-the-Loop）？</strong></p>
+<p>即 Human-in-the-Loop（人工介入），指在自动化流水线的关键决策点<strong>暂停机器执行，等待人类介入</strong>后再继续。常见场景：需求澄清（本节）、敏感操作审批、输出质量把关。LangGraph 通过 <code>interruptBefore</code> 参数 + Checkpointer 快照实现：图跑到指定节点前自动暂停并持久化当前 State，人类通过 <code>updateState</code> 写入补充信息后调用 <code>invoke(null)</code> 从断点恢复。</p>
+</aside>
+<aside>
+<p>✅ <strong>本节内容已落地（后端层 + 测试）</strong></p>
+<p><code>createAnalysisGraph</code> 现在接收可选的 <code>checkpointer</code> / <code>interruptBefore</code> 参数；同文件提供 <code>createAnalysisGraphHITL</code> / <code>startAnalysisGraphHITL</code> / <code>resumeAnalysisGraphHITL</code> 三个 HITL API。当前用 <code>MemorySaver</code> 落地，生产替换为 <code>PostgresSaver</code> 只需要换 saver 实例。前端 HITL UI 协议尚未开通，留作下一步。</p>
+</aside>
+<h3 id="工厂签名扩展-向后兼容">工厂签名扩展（向后兼容）</h3>
+<pre><code class="language-tsx">import { MemorySaver, type BaseCheckpointSaver } from '@langchain/langgraph';
+
+export function createAnalysisGraph(
+  model: BaseChatModel,
+  options?: {
+    checkpointer?: BaseCheckpointSaver;
+    interruptBefore?: string[];
+  },
+) {
+  // ...同样的节点装配...
+  return graph.compile({
+    checkpointer: options?.checkpointer,
+    interruptBefore: options?.interruptBefore as any,
+  });
+}
+</code></pre>
+<p>不传 <code>options</code> 时行为与旧版完全一致（无 checkpoint，每次从头开始）。</p>
+<h3 id="hitl-三件套-start-update-resume">HITL 三件套：start / update / resume</h3>
+<pre><code class="language-tsx">// 共享 saver：同一个 thread_id 的 checkpoint 在多次调用之间保持
+export const hitlCheckpointer = new MemorySaver();
+
+export function createAnalysisGraphHITL(model: BaseChatModel) {
+  return createAnalysisGraph(model, {
+    checkpointer: hitlCheckpointer,
+    interruptBefore: ['clarifyStep'],
+  });
+}
+
+/** 第一次：跑到 clarifyStep 前暂停，返回 state 快照 */
+export async function startAnalysisGraphHITL(
+  threadId: string,
+  input: string,
+  model: BaseChatModel,
+) {
+  const graph = createAnalysisGraphHITL(model);
+  await graph.invoke(
+    { input, retrievedContext: '', messages: [] },
+    { configurable: { thread_id: threadId } },
+  );
+  return graph.getState({ configurable: { thread_id: threadId } });
+}
+
+/** 用户答完澄清问题后：updateState 写回 checkpoint，invoke(null) 从断点继续 */
+export async function resumeAnalysisGraphHITL(
+  threadId: string,
+  patch: Partial&lt;typeof RequirementAnalysisState.State&gt;,
+  model: BaseChatModel,
+) {
+  const graph = createAnalysisGraphHITL(model);
+  await graph.updateState(
+    { configurable: { thread_id: threadId } },
+    patch,
+  );
+  return graph.invoke(null, { configurable: { thread_id: threadId } });
+}
+</code></pre>
+<h3 id="行为规约">行为规约</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>第一阶段（start）</th>
+<th>第二阶段（resume）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>intent: 'analyze'</code></td>
+<td>跑到 clarifyStep 前停下，<code>snapshot.next === ['clarifyStep']</code></td>
+<td><code>updateState({ clarified: { needsClarification: false } })</code> 后 invoke(null) 继续</td>
+</tr>
+<tr>
+<td><code>intent: 'chat'</code></td>
+<td>triage 已直接答，主图短路 END，<code>snapshot.next === []</code></td>
+<td>不需要 resume</td>
+</tr>
+<tr>
+<td><code>intent: 'query'</code></td>
+<td>queryHandler 直接执行到底，无需中断</td>
+<td>不需要 resume</td>
+</tr>
+</tbody>
+</table>
+<h3 id="切换到-postgressaver">切换到 PostgresSaver</h3>
+<p>只需替换 saver 实例，HITL 逻辑代码不动：</p>
+<pre><code class="language-tsx">import { PostgresSaver } from '@langchain/langgraph-checkpoint-postgres';
+
+const pgSaver = PostgresSaver.fromConnString(process.env.DATABASE_URL!);
+await pgSaver.setup(); // 首次启动创建所需表
+
+// 替换上面的 hitlCheckpointer 即可
+export const hitlCheckpointer = pgSaver;
+</code></pre>
+<p>几点注意：</p>
+<ul>
+<li>和第五章的会话库<strong>共用同一个 PostgreSQL</strong>，不要为 Checkpointer 新起一套</li>
+<li><code>thread_id</code> 命名规范：<code>user-{userId}:session-{sessionId}</code>，方便排查和清理</li>
+<li>定期归档旧 thread：Checkpointer 会按 thread_id 累积快照，长期运行必须有清理策略</li>
+</ul>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.6.2&quot;</code>
+三个用例端到端验证：</p>
+</blockquote>
+<ol>
+<li>analyze 路径在 clarifyStep 前暂停，<code>extracted</code> 已写入 checkpoint</li>
+<li>chat 路径 triage 直答 → 不触发中断，<code>snapshot.next === []</code></li>
+<li><code>updateState({clarified: ...})</code> 后再 <code>getState</code> 能读到补丁</li>
+</ol>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/12a79bdfc0a9435587be46ad388e6d23~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1826&amp;h=1174&amp;s=290958&amp;e=png&amp;b=282c34" alt="image 18.png" /></p>
+<aside>
+<p>⚠️ <strong>测试 mock 要点</strong></p>
+<p>必须用 <code>FakeListChatModel</code>（来自 <code>@langchain/core/utils/testing</code>）作为模型，<strong>不能</strong>用 ad-hoc plain object mock —— 后者不是合法的 Runnable 子类，<code>prompt.pipe(model).pipe(parser)</code> 链式调用时会陷入 RunnableLambda 递归卡死。</p>
+</aside>
+<h3 id="9-6-3-与-orchestratorservice-的完整对接">9.6.3 与 OrchestratorService 的完整对接</h3>
+<p><code>OrchestratorService</code> 的”非流式” <code>orchestrate()</code> 方法主要服务 UI 状态机和兜底场景；真正承担用户对话的是 <code>streamOrchestrate()</code>。它消费 <code>streamAnalysisGraph</code> 推出的图事件，对外输出适合 SSE（📖 Server-Sent Events，一种让服务端持续向客户端推送事件流的 HTTP 协议）传输的 <code>OrchestratorStreamEvent</code>。9.2 引入专家子图后，这一层的关键改动是<strong>区分”主图节点”和”子图节点”</strong>：前者推进进度条，后者打 <code>parallel</code> 旗标，让前端把它们渲染到并行面板中。</p>
+<h3 id="9-6-3-1-streamorchestrate-双映射区分主图与子图">9.6.3.1 streamOrchestrate：双映射区分主图与子图</h3>
+<pre><code class="language-tsx">// services/chat/src/llm/agents/orchestrator.service.ts
+async *streamOrchestrate(
+  input: string,
+  retrievedContext: string,
+  modelConfigId?: string,
+  uiContext?: UIContext,
+): AsyncGenerator&lt;OrchestratorStreamEvent&gt; {
+  let currentStep = 0;
+
+  // ① 主图节点 → Agent 名（参与 step 计数）
+  const nodeToAgentMap: Record&lt;string, string&gt; = {
+    triage:        'triageAgent',
+    extractStep:   'extractAgent',
+    clarifyStep:   'clarifyAgent',
+    analysisStep:  'analysisAgent',
+    riskStep:      'riskAgent',
+    summaryStep:   'summaryAgent',
+    queryHandler:  'queryAgent',
+  };
+
+  // ② 9.2 专家子图节点 → Agent 名（不参与 step 计数，标记 parallel）
+  const expertSubgraphMap: Record&lt;string, string&gt; = {
+    supervisor:         'supervisorAgent',
+    functional_expert:  'functionalExpert',
+    performance_expert: 'performanceExpert',
+    security_expert:    'securityExpert',
+    compliance_expert:  'complianceExpert',
+    aggregator:         'aggregatorAgent',
+  };
+
+  // 进度条只用主链上的 6 个 agent 算分母
+  const agentOrder = [
+    'triageAgent', 'extractAgent', 'clarifyAgent',
+    'analysisAgent', 'riskAgent', 'summaryAgent',
+  ];
+
+  const { model } = await this.createAgents(modelConfigId);
+  const { streamAnalysisGraph } = await import('../graph/requirement-analysis-graph');
+
+  for await (const event of streamAnalysisGraph({ input, retrievedContext, model })) {
+    if (event.type === 'node_start') {
+      // 子图节点：沿用父 step，加 parallel 旗标
+      if (event.node in expertSubgraphMap) {
+        yield {
+          type: 'agent_start',
+          agent: expertSubgraphMap[event.node],
+          step: currentStep,
+          totalSteps: agentOrder.length,
+          parallel: true,
+        };
+      } else {
+        // 主图节点：推进 currentStep
+        const agentName = nodeToAgentMap[event.node] || event.node;
+        const idx = agentOrder.indexOf(agentName);
+        currentStep = idx &gt;= 0 ? idx + 1 : currentStep + 1;
+        yield { type: 'agent_start', agent: agentName, step: currentStep, totalSteps: agentOrder.length };
+      }
+    }
+    // node_end / token / log / complete 同理（详见源码）
+  }
+}
+</code></pre>
+<p><strong>为什么要双映射</strong>？因为 9.3 把 analysis 子图变成”supervisor → 4 个专家并发 → aggregator”后：</p>
+<ul>
+<li>子图内部 <code>supervisor</code>、<code>functional_expert</code> 这些节点也会触发 <code>node_start/end</code> 事件</li>
+<li>它们和主链上的 <code>analysisStep</code> 是<strong>父子关系</strong>，不能再加到 <code>agentOrder</code> 里——否则进度条会从”6 步”膨胀成”12 步”，回退一次还会出现”step 3 → step 9 → step 4”的诡异跳变</li>
+<li><code>parallel: true</code> 是<strong>唯一</strong>告诉前端”这是个并行子任务”的信号；进度条照常按主链推进，专家事件被路由到独立面板</li>
+</ul>
+<h3 id="9-6-3-2-streamanalysisgraph-推出的事件类型">9.6.3.2 streamAnalysisGraph 推出的事件类型</h3>
+<p><code>streamAnalysisGraph</code> 是 <code>requirement-analysis-graph.ts</code> 在 <code>graph.compile().streamEvents(..., { version: 'v2' })</code> 之上的薄封装，把 LangGraph 原生事件抽象成四种”业务事件”：</p>
+<table>
+<thead>
+<tr>
+<th>事件 type</th>
+<th>触发时机</th>
+<th>orchestrator 处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>node_start</code>/<code>node_end</code></td>
+<td>主图节点或专家子图节点进入/离开</td>
+<td>上面的双映射 + parallel 旗标</td>
+</tr>
+<tr>
+<td><code>token</code></td>
+<td>LLM 输出文本 chunk（仅在 markdown 类节点上转发）</td>
+<td>透传到前端实时渲染</td>
+</tr>
+<tr>
+<td><code>log</code></td>
+<td>节点内 <code>console.log</code> / 自定义打点</td>
+<td>透传到 controller 落本地日志</td>
+</tr>
+<tr>
+<td><code>complete</code></td>
+<td>整图执行完毕</td>
+<td>用 final state 拼出 <code>OrchestratorResult</code>，再 yield 一个 <code>final</code> 事件</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>实现细节：内部用 <code>jsonNodes</code>（默认 <code>['triage', 'extractStep', 'clarifyStep']</code>）过滤掉那些只生产 JSON 的节点的 <code>token</code> 事件，避免给前端推半截 JSON。专家子图内部的 ReAct 循环（<code>agent</code> / <code>tools</code> / <code>finalize</code>）也被过滤掉，外层只暴露专家本身的 <code>node_start/end</code>，这样前端只需要关注专家级别的开始/结束事件。</p>
+</blockquote>
+<h3 id="9-6-3-3-controller-把-orchestratorstreamevent-转成-sse">9.6.3.3 Controller：把 OrchestratorStreamEvent 转成 SSE</h3>
+<p><code>ConversationController.streamMessage</code> 消费 orchestrator 的 async generator，把 <code>agent_start</code> / <code>agent_end</code> 翻译成 <code>progress</code> 类 SSE 包，并完整保留 <code>parallel</code> 旗标：</p>
+<pre><code class="language-tsx">// services/chat/src/conversation/conversation.controller.ts
+const AGENT_DISPLAY_NAMES: Record&lt;string, string&gt; = {
+  triageAgent: '需求分诊',
+  extractAgent: '需求提取',
+  clarifyAgent: '澄清判断',
+  analysisAgent: '多维度分析',
+  riskAgent: '风险评估',
+  summaryAgent: '综合报告',
+  queryAgent: '查询处理',
+  // 9.2 专家子图节点
+  supervisorAgent:    '需求调度',
+  functionalExpert:   '功能专家',
+  performanceExpert:  '性能专家',
+  securityExpert:     '安全专家',
+  complianceExpert:   '合规专家',
+  aggregatorAgent:    '结论汇总',
+};
+
+for await (const event of stream) {
+  if (event.type === 'agent_start') {
+    const progress: StreamMessage = {
+      messageType: 'progress',
+      timestamp: new Date().toISOString(),
+      payload: {
+        agent: event.agent,
+        agentDisplayName: AGENT_DISPLAY_NAMES[event.agent] || event.agent,
+        step: event.step,
+        totalSteps: event.totalSteps,
+        status: 'started',
+        parallel: event.parallel, // ⭐ 子图节点带 parallel:true，主图节点为 undefined
+      } as ProgressPayload,
+    };
+    res.write(formatSSE(progress));
+  }
+  // agent_end / token / log 同理
+}
+</code></pre>
+<p><code>ProgressPayload.parallel</code> 是 P3 在 <code>services/chat/src/llm/ui-protocol/ui-types.ts</code> 里加的可选字段，前端按它分流即可。</p>
+<h3 id="9-6-3-4-前端-parallelagents-独立面板">9.6.3.4 前端：parallelAgents 独立面板</h3>
+<p>前端在 <code>useAIUIStore</code>（<code>clients/chat-web/store/ai-ui.store.ts</code>）里维护了两个互斥的进度状态：</p>
+<pre><code class="language-tsx">interface AIUIStore {
+  currentProgress: ProgressInfo | null;          // 主链进度，只有一个
+  parallelAgents: Record&lt;string, ProgressInfo&gt;;  // 并行专家，按 agent 去重
+  setProgress: (info: ProgressInfo) =&gt; void;     // 顺手清空 parallelAgents
+  setParallelAgent: (info: ProgressInfo) =&gt; void;
+  clearParallelAgents: () =&gt; void;
+}
+</code></pre>
+<p><code>ChatView</code> 在 SSE handler 里按 <code>parallel</code> 旗标分发：</p>
+<pre><code class="language-tsx">// clients/chat-web/components/chat/ChatView.tsx
+case 'progress': {
+  const p = msg.payload as ProgressPayload;
+  const info = {
+    agent: p.agent,
+    agentDisplayName: p.agentDisplayName,
+    step: p.step,
+    totalSteps: p.totalSteps,
+    status: p.status,
+  };
+  if (p.parallel) {
+    setParallelAgent(info);   // 9.2 子图节点 → 并行面板
+  } else {
+    setProgress(info);        // 主链节点 → 进度条
+  }
+  break;
+}
+</code></pre>
+<p><code>ThinkingIndicator</code> 拿到 <code>parallelAgents</code> 后，<strong>只有非空时</strong>才渲染并行面板，避免对老链路（无并行）造成视觉干扰：</p>
+<pre><code class="language-tsx">// clients/chat-web/components/chat/ThinkingIndicator.tsx
+const parallelList = Object.values(parallelAgents || {});
+
+return (
+  &lt;div className=&quot;thinking&quot;&gt;
+    &lt;ProgressBar progress={progress} /&gt;
+    {parallelList.length &gt; 0 &amp;&amp; (
+      &lt;div className=&quot;parallel-panel&quot;&gt;
+        &lt;div className=&quot;label&quot;&gt;并行执行&lt;/div&gt;
+        {parallelList.map((item) =&gt; (
+          &lt;ParallelAgentRow key={item.agent} info={item} /&gt;
+        ))}
+      &lt;/div&gt;
+    )}
+  &lt;/div&gt;
+);
+</code></pre>
+<p><strong>实际跑一次的视觉效果</strong>（去掉样式只看结构）：</p>
+<pre><code>[主进度条] 多维度分析  4/6 步  67%
+└─ 并行执行
+   ✓ 需求调度
+   ⏳ 功能专家
+   ⏳ 性能专家
+   ✓ 安全专家
+</code></pre>
+<h3 id="9-6-4-成本控制的两条线">9.6.4 成本控制的两条线</h3>
+<p>Multi-Agent + Reflexion 的组合很容易让 token 成本失控。有两条必须的防线：</p>
+<ol>
+<li><strong>硬上限</strong>
+<ul>
+<li>每个专家子图：<code>maxSteps = 6</code>（8.6 就已经设了）</li>
+<li>Critic-Refine：<code>maxRevises = 2</code>（8.7）</li>
+<li>Reflexion：<code>retryCount &lt;= 1</code>（9.5.3）</li>
+<li>activeExperts 最多 4 个（Supervisor 的 zod schema 已约束）</li>
+</ul>
+</li>
+<li><strong>短路路由</strong>
+<ul>
+<li>triage 判断是 query → 直接路由到 queryHandler；判断是 chat → triage 直接回答并短路 END，完全不进入分析链</li>
+<li>Supervisor 判断只需要一个专家 → 跳过并发开销</li>
+<li>extract 阶段就能判断需求是简单（如文案修改）→ 只走 functional_expert，跳过其他专家</li>
+</ul>
+</li>
+</ol>
+<p>第十章（Token 经济学）会把这些防线系统化。</p>
+<blockquote>
+<p>📋 <strong>本节配套用例</strong>：<code>bun test test/chapter9-multi-agent.spec.ts -t &quot;9.6&quot;</code>
+验证三条硬上限是否在代码里真的生效：<code>createExpertSubGraph</code> 默认 maxSteps=6、<code>supervisorSchema</code> zod <code>.min(1)</code> 强制至少一个专家、<code>shouldReflect</code> 在 <code>retryCount&gt;=1</code> 时返回 END。</p>
+</blockquote>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d34872c232ed45faa2c367d663dbf784~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1828&amp;h=1412&amp;s=414469&amp;e=png&amp;b=282c34" alt="image 19.png" /></p>
+<hr />
+<h2 id="9-7-常见问题排查-multi-agent-faq">9.7 常见问题排查（Multi-Agent FAQ）</h2>
+<p>Multi-Agent 系统引入了并发执行、动态调度、子图嵌套等复杂性，这一节汇总最常见的问题和排查方法。</p>
+<h3 id="9-7-1-supervisor-调度问题">9.7.1 Supervisor 调度问题</h3>
+<h4>Q1: Supervisor 总是只选择 functional 专家，其他专家从不执行</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>不管什么需求，<code>state.activeExperts</code> 始终是 <code>['functional']</code></li>
+<li>性能/安全/合规专家从未被调用</li>
+</ul>
+<p><strong>可能原因</strong>：</p>
+<ol>
+<li>supervisorNode 的 prompt 太保守，缺少明确的选择标准</li>
+<li>withStructuredOutput 的 schema 没有给出足够的选项说明</li>
+<li>模型温度太低（temperature=0），倾向选择”最安全”的选项</li>
+</ol>
+<p><strong>排查方法</strong>：</p>
+<pre><code class="language-tsx">// 在 supervisorNode 中添加调试日志
+async function supervisorNode(state, config) {
+  const { model } = config;
+  const structured = model.withStructuredOutput(schema);
+
+  const result = await structured.invoke([...]);
+
+  console.log('[Supervisor Debug]');
+  console.log('输入需求：', JSON.stringify(state.clarified).substring(0, 200));
+  console.log('选中的专家：', result.experts);
+  console.log('选择理由：', result.reason);
+
+  return { activeExperts: result.experts };
+}
+</code></pre>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>强化 supervisor 的 system prompt，增加判断逻辑示例：
+<code>判断规则：    - 涉及批量操作、大文件、实时性 → 必须包含 performance    - 涉及登录、权限、数据访问 → 必须包含 security    - 涉及跨境、个人信息、行业监管 → 必须包含 compliance    - 任何需求都至少包含 functional</code></li>
+<li>提高模型温度到 0.3-0.5（在 createChatModel 时设置）</li>
+<li>在 zod schema 的 experts 字段添加 <code>.describe()</code> 说明每个专家的职责</li>
+</ol>
+<h4>Q2: activeExperts 为空，导致 routeToExperts 返回空数组，图卡住</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>图执行到 supervisor 后停止，没有进入任何专家节点</li>
+<li>日志显示 <code>routeToExperts returned []</code></li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>supervisorNode 没有设置 <code>min(1)</code> 约束，LLM 返回了空数组</li>
+<li>或者 supervisor 判断需求”太简单”不需要专家</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<pre><code class="language-tsx">const supervisorSchema = z.object({
+  experts: z.array(
+    z.enum(['functional', 'performance', 'security', 'compliance'])
+  ).min(1), // ✓ 必须至少选一个
+  reason: z.string(),
+});
+</code></pre>
+<p>如果需求确实太简单（如”查询 REQ-001 的状态”），应该在 triage 层面就路由到 queryHandler（或者闲聊场景由 triage 直接回答短路 END），不进入 analysis 子图。</p>
+<h3 id="9-7-2-并行执行问题">9.7.2 并行执行问题</h3>
+<h4>Q3: 多个专家的执行时间和串行一样，没有加速效果</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>4 个专家各耗时 5 秒，总耗时 20 秒（预期应该是 ~5 秒）</li>
+<li>日志显示专家节点的 timestamp 是递增的（而非接近）</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li><code>routeToExperts</code> 没有返回数组，或者条件边的配置不正确</li>
+<li>LangGraph 没有识别到这是并发场景</li>
+</ul>
+<p><strong>排查方法</strong>：</p>
+<pre><code class="language-tsx">function routeToExperts(state) {
+  const result = state.activeExperts.map((e) =&gt; `${e}_expert`);
+  console.log('[Route Debug] 返回的分支：', result); // 应该是数组，如 ['functional_expert', 'performance_expert']
+  return result;
+}
+</code></pre>
+<p><strong>解决方案</strong>：
+确认条件边配置正确：</p>
+<pre><code class="language-tsx">.addConditionalEdges('supervisor', routeToExperts, {
+  functional_expert: 'functional_expert',
+  performance_expert: 'performance_expert',
+  security_expert: 'security_expert',
+  compliance_expert: 'compliance_expert',
+})
+</code></pre>
+<p>如果 <code>routeToExperts</code> 返回 <code>['functional_expert', 'performance_expert']</code>，LangGraph 会并发触发这两个节点。</p>
+<h4>Q4: 专家并发执行时，messages 字段出现多个专家的对话混杂</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>functional 专家的工具调用消息出现在 performance 专家的上下文中</li>
+<li>aggregator 看到的 messages 有 4 个专家的所有对话历史交织</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>这是 9.2.1 提到的最严重问题：4 个专家同时往追加型 <code>messages</code> 写入</li>
+<li><code>MessagesAnnotation.spec</code> 的 reducer 是追加的，并发写入会交叉污染</li>
+</ul>
+<p><strong>解决方案</strong>：
+专家的 <code>agentNode</code> 不应写入 <code>messages</code>，只写各自的 <code>outputField</code>：</p>
+<pre><code class="language-tsx">// ✗ 错误：会污染共享 messages
+async function agentNode(state) {
+  const response = await model.invoke([...]);
+  return { messages: [response] }; // ✗ 多个专家并发写入
+}
+
+// ✓ 正确：只写自己的输出字段
+async function finalizeNode(state) {
+  const last = state.messages.at(-1);
+  return { [outputField]: last?.content ?? '' }; // ✓ 隔离输出
+}
+</code></pre>
+<p>如果专家子图内部需要 messages（用于工具调用），应该在子图内部维护局部上下文，不回传给主图。</p>
+<h3 id="9-7-3-专家输出与工具调用问题">9.7.3 专家输出与工具调用问题</h3>
+<h4>Q5: 专家的 outputField 始终为空</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>aggregatorNode 收到的 <code>state.functionalAnalysis</code> 是空字符串</li>
+<li>但日志显示 functional_expert 节点确实执行了</li>
+</ul>
+<p><strong>可能原因</strong>：</p>
+<ol>
+<li>finalizeNode 没有正确写入 outputField</li>
+<li>专家子图的 <code>addEdge('finalize', END)</code> 缺失，finalizeNode 没执行</li>
+<li>outputField 的字段名拼写错误（如写成 <code>functionalAnalysis</code> 但 State 定义的是 <code>functionalAnalysisResult</code>）</li>
+</ol>
+<p><strong>排查方法</strong>：</p>
+<pre><code class="language-tsx">async function finalizeNode(state) {
+  const last = state.messages.at(-1);
+  const content = last?.content ?? '';
+  console.log(`[Finalize${opts.name}] 输出字段:${outputField}, 内容长度:${content.length}`);
+  return { [outputField]: content };
+}
+</code></pre>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>确认 State 定义中有对应的字段：
+<code>typescript    functionalAnalysis: Annotation&lt;string&gt;({ default: () =&gt; '' }),</code></li>
+<li>确认专家子图装配了 finalize 节点和边：
+<code>typescript    .addNode('finalize', finalizeNode)    .addEdge('finalize', END)</code></li>
+</ol>
+<h4>Q6: 专家调用工具次数过多，超出 maxSteps 限制</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>专家执行了 10+ 轮工具调用，最终输出被截断</li>
+<li>日志显示 <code>toolRounds &gt;= maxSteps, forcing end</code></li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>专家的 prompt 没有明确说明”何时停止工具调用”</li>
+<li>工具返回的信息不足，专家陷入”反复查询”的循环</li>
+<li>maxSteps 设置过大（&gt;10）或过小（&lt;3）</li>
+</ul>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>在专家 prompt 中增加工具使用策略：
+<code>工具使用策略：    - 首先用 search_requirement 查询需求详情（如需）    - 再用领域工具获取必要信息（最多 2-3 次）    - 信息充足后直接输出分析结论，不要反复调用相同工具</code></li>
+<li>改进工具的 mock 实现，确保返回足够详细的信息</li>
+<li>设置合理的 maxSteps（建议 5-8）</li>
+</ol>
+<h3 id="9-7-4-错误降级与容错问题">9.7.4 错误降级与容错问题</h3>
+<h4>Q7: 单个专家超时导致整个 analysis 子图失败</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>performance 专家调用外部 API 超时，整个 analysis 子图抛错</li>
+<li>aggregatorNode 没有执行，前端收到 500 错误</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>专家 agentNode 中没有 try-catch，错误直接上抛</li>
+<li>9.6.1 的错误降级机制未实现</li>
+</ul>
+<p><strong>解决方案</strong>：
+在 <code>createExpertSubGraph</code> 的 agentNode 中加 try-catch：</p>
+<pre><code class="language-tsx">async function agentNode(state) {
+  try {
+    const response = await modelWithTools.invoke([...]);
+    return { messages: [response] };
+  } catch (err) {
+    console.error(`[${opts.name} Expert] 执行失败：`, err);
+    // 返回降级输出，而不是抛错
+    return {
+      messages: [
+        new AIMessage(
+          `[${opts.name} 专家暂不可用：${String(err).substring(0, 100)}] 本项分析已跳过，建议人工补充。`
+        ),
+      ],
+    };
+  }
+}
+</code></pre>
+<p>aggregatorNode 识别降级标记，在报告中明确标出：</p>
+<pre><code class="language-tsx">async function aggregatorNode(state) {
+  const parts: string[] = [];
+
+  state.activeExperts.forEach((expert) =&gt; {
+    const outputField = `${expert}Analysis`;
+    const content = state[outputField];
+
+    if (content &amp;&amp; content.includes('暂不可用')) {
+      parts.push(`##${expertNames[expert]}（降级）\n⚠️${content}`);
+    } else if (content) {
+      parts.push(`##${expertNames[expert]}\n${content}`);
+    }
+  });
+
+  return { analysisResult: parts.join('\n\n') };
+}
+</code></pre>
+<h4>Q8: aggregatorNode 收到部分专家的输出为空，但没有错误日志</h4>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>某个专家的子图确实执行完成（没有抛错），但 finalizeNode 返回了空字符串</li>
+<li>可能是 LLM 返回的 content 为空，或者工具调用后没有生成最终总结</li>
+</ul>
+<p><strong>排查方法</strong>：
+检查 finalizeNode 的逻辑：</p>
+<pre><code class="language-tsx">async function finalizeNode(state) {
+  const last = state.messages.at(-1);
+  const content = last?.content as string ?? '';
+
+  if (!content || content.trim() === '') {
+    console.warn(`[${opts.name} Expert] 输出为空，检查最后一条消息：`, last);
+  }
+
+  return { [outputField]: content };
+}
+</code></pre>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>在专家 prompt 中强制要求”必须输出完整的分析报告，包含所有必需章节”</li>
+<li>在 finalizeNode 中做空值兜底：
+<code>typescript    return {      [outputField]: content || \</code>[${<a href="http://opts.name">opts.name</a>} 专家未生成有效输出，请检查输入和工具配置]<code>,    };</code></li>
+</ol>
+<h3 id="9-7-5-state-管理与字段冲突">9.7.5 State 管理与字段冲突</h3>
+<h4>Q9: aggregatorNode 的输出覆盖了某些专家的 outputField</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>functional_expert 执行完成，<code>state.functionalAnalysis</code> 有内容</li>
+<li>但 aggregator 执行后，<code>state.functionalAnalysis</code> 变回空字符串</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li>aggregatorNode 错误地返回了专家的 outputField（而不是只写 <code>analysisResult</code>）</li>
+<li>或者 State 的 reducer 配置有问题，覆盖式 reducer 会导致后写入覆盖先写入</li>
+</ul>
+<p><strong>解决方案</strong>：
+aggregatorNode 只写 <code>analysisResult</code>，不写各专家的字段：</p>
+<pre><code class="language-tsx">async function aggregatorNode(state) {
+  // ✓ 只读取专家字段，不写入
+  const parts = state.activeExperts.map((e) =&gt; {
+    const field = `${e}Analysis`;
+    return state[field] ? `##${e}\n${state[field]}` : '';
+  }).filter(Boolean);
+
+  // ✓ 只写汇总字段
+  return { analysisResult: parts.join('\n\n') };
+}
+</code></pre>
+<h3 id="9-7-6-前端集成与-ui-显示问题">9.7.6 前端集成与 UI 显示问题</h3>
+<h4>Q10: 前端”并行执行”面板不显示专家进度（专家事件被挤进了主进度条）</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>主进度条从 6 步突然跳到 12 步、又回退到 4 步</li>
+<li>或者主链上能看到 <code>functionalExpert</code>、<code>supervisorAgent</code> 这种本不该出现在主链的 agent 名</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li><code>streamOrchestrate</code> 没有把专家子图节点放进 <code>expertSubgraphMap</code>，导致它们和主图节点一起进入了 <code>nodeToAgentMap</code></li>
+<li>或者 <code>agent_start</code> / <code>agent_end</code> 事件<strong>漏带 <code>parallel: true</code></strong>，controller 的 SSE 包传给前端时没有这个旗标，前端 <code>setProgress</code> 走了主链分支</li>
+</ul>
+<p><strong>排查方法</strong>：
+后端打开 <code>[chat] Agent 开始</code> 那行日志，正确情况下专家事件后面会有 <code>[parallel]</code> 标签：</p>
+<pre><code>[chat] Agent 开始: analysisAgent (4/6)
+[chat] Agent 开始: supervisorAgent (4/6) [parallel]
+[chat] Agent 开始: functionalExpert (4/6) [parallel]
+</code></pre>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>确认 <code>expertSubgraphMap</code> 包含所有专家节点（<code>supervisor</code>/<code>functional_expert</code>/<code>performance_expert</code>/<code>security_expert</code>/<code>compliance_expert</code>/<code>aggregator</code>），并且 <code>streamOrchestrate</code> 在 <code>event.node in expertSubgraphMap</code> 分支里 yield 时<strong>显式带上 <code>parallel: true</code></strong>（见 9.6.3.1）。</li>
+<li>确认 <code>ConversationController</code> 在 SSE <code>progress</code> payload 里<strong>透传 <code>parallel: event.parallel</code></strong>——别在转 SSE 的时候忘了这个字段。</li>
+<li>前端 <code>ChatView</code> 收到 <code>progress</code> 后按 <code>parallel</code> 旗标分流：<code>setParallelAgent</code> vs <code>setProgress</code>，且 <code>setProgress</code> 应该顺手清空 <code>parallelAgents</code>，避免上一轮专家面板残留。</li>
+</ol>
+<h4>Q11: 前端拿到的 markdown 内容缺失（progress 事件正常但正文是空的）</h4>
+<p><strong>症状</strong>：</p>
+<ul>
+<li>“并行执行”面板里专家正常变绿</li>
+<li>但聊天气泡里只显示标题，没有报告正文</li>
+</ul>
+<p><strong>原因</strong>：</p>
+<ul>
+<li><code>streamAnalysisGraph</code> 内部用 <code>jsonNodes</code>（<code>['triage', 'extractStep', 'clarifyStep']</code>）过滤了那些只产 JSON 的节点的 <code>token</code> 事件——如果这个名单<strong>少了一个还是多了一个</strong>，前端要么收到半截 JSON，要么收不到 markdown。</li>
+<li>或者 <code>summaryStep</code>（综合报告节点）的 <code>token</code> 事件没有被 controller 转成 <code>markdown</code> SSE 包写出去。</li>
+</ul>
+<p><strong>排查方法</strong>：</p>
+<pre><code class="language-tsx">// services/chat/src/llm/agents/orchestrator.service.ts 的 token 分支
+case 'token': {
+  console.log('[token]', event.node, event.content.substring(0, 30));
+  // ...
+}
+</code></pre>
+<p>正常情况下，summaryStep / riskStep / 各 expert 节点都会持续刷出 token；如果只看到 <code>summaryStep</code> 的极少几条或完全没有，就是流被截断了。</p>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>检查 <code>streamAnalysisGraph</code> 的 <code>jsonNodes</code> 列表是否包含了不该过滤的节点（比如把 <code>summaryStep</code> 错误加进去）。</li>
+<li>前端 <code>ChatView</code> 在收到第一个 <code>markdown</code> chunk 时正确切换到 <code>firstTokenSent = true</code> 路径，避免后续 chunk 被丢弃。</li>
+<li>如果 progress 事件能到但 markdown 事件不到，多半是 SSE 连接已经被代理（Nginx / Cloudflare）做了缓冲——需要在 controller 那一层加 <code>X-Accel-Buffering: no</code> 头。</li>
+</ol>
+<h4>9.7.7 调试技巧与工具</h4>
+<p><strong>快速定位问题的方法</strong>：</p>
+<ol>
+<li>
+<p><strong>启用详细日志</strong>：</p>
+<pre><code class="language-tsx">// 在每个关键节点添加日志
+console.log('[NodeName] Input:', JSON.stringify(state).substring(0, 500));
+console.log('[NodeName] Output:', result);
+</code></pre>
+</li>
+<li>
+<p><strong>使用 test-multi-agent.ts 脚本</strong>：</p>
+<ul>
+<li>隔离测试单个用例</li>
+<li>打印中间状态</li>
+<li>对比不同输入的行为</li>
+</ul>
+</li>
+<li>
+<p><strong>检查 Checkpointer 快照</strong>：</p>
+<pre><code class="language-tsx">// 读取最近的 checkpoint
+const checkpoints = await checkpointer.list({ thread_id });
+console.log('最近的快照：', checkpoints[0]);
+</code></pre>
+</li>
+<li>
+<p><strong>监控 streamEvents</strong>：</p>
+<pre><code class="language-tsx">for await (const event of graph.streamEvents(...)) {
+  console.log('[Event]', event.name, event.type, event.data);
+}
+</code></pre>
+</li>
+<li>
+<p><strong>对比 Ch8 单 Agent 行为</strong>：</p>
+<ul>
+<li>同一个需求分别用 Ch8 的 <code>createAnalysisSubGraph</code> 和 Ch9 的 <code>createAnalysisSupervisorSubGraph</code> 执行</li>
+<li>对比输出差异和执行路径</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="9-8-本章总结-从单-agent-图到-multi-agent-系统">9.8 本章总结：从单 Agent 图到 Multi-Agent 系统</h2>
+<p>本章在第八章的单 Agent 图基础上，把 <code>requirement-analysis-graph.ts</code> 从单 Agent 图继续推进到 Multi-Agent 系统。整体改造可以概括为五步：</p>
+<ol>
+<li><strong>拆分职责</strong>：把 8.6 的单个 analysis ReAct 子图，升级为 Supervisor + functional / performance / security / compliance 四类专家子图。</li>
+<li><strong>引入并行</strong>：Supervisor 的条件边返回数组，让多个无依赖专家同时执行，再由 aggregator 汇合结果。</li>
+<li><strong>补充分诊能力</strong>：用 triage 替代原 classifier，让简单对话直接短路，复杂请求再交给 query 或 analysis 链路。</li>
+<li><strong>组合外层流程</strong>：用 Plan-and-Execute 包住完整分析图，让跨工单、跨步骤任务可以先拆解再逐步执行。</li>
+<li><strong>补齐生产化细节</strong>：用节点级错误降级、Checkpointer、PostgresSaver、SSE 并行事件和成本硬上限，让多 Agent 架构能稳定接入实际系统。</li>
+</ol>
+<h3 id="演进路径回顾">演进路径回顾</h3>
+<pre><code>Ch6 起点：
+  Promise 链：extract → clarify → analysis → risk → summary
+
+8.3 基线迁移：
+  线性 StateGraph（相同的五段）
+
+8.4 + 路由层：
+  classifier → { analyze 分支 | query_handler | chat_handler }
+
+8.6 + 执行层循环：
+  analysis 节点 → ReAct 子图（agent + tools）
+
+8.7 + 优化层：
+  summary 节点 → Critic-Refine 子图（actor + critic + refine）
+
+8.7~8.8 + 工程能力：
+  Checkpointer + interruptBefore + streamEvents + 持久化 + HITL + 流式输出
+
+9.2 + Multi-Agent：
+  analysis 子图内部 → Supervisor + 4 专家 ReAct 子图
+
+9.3 + 并行：
+  Supervisor 条件边返回数组 → 4 专家并发执行
+
+9.4 + Handoff（可选范式）：
+  classifier 升级为 triage，去中心化交接
+
+9.5 + 外层流水线：
+  Plan-and-Execute 包住整张图 + 末端 Reflexion 兜底
+
+9.6 + 生产化：
+  节点级错误降级 + PostgresSaver + UI 协议深化 + 成本硬上限
+</code></pre>
+<p>这些升级基本都收敛在子图、条件边和 State 字段上。相比继续手写编排，LangGraph 的价值在这里更明显：<strong>用图结构承载复杂度，用子图原语承载复用，用 State 承载持久化和并发</strong>。</p>
+<aside>
+<p>💡 <strong>一句话总结</strong></p>
+<p>Multi-Agent 不是把系统写复杂，而是把已经复杂的需求拆到合适的位置：Supervisor 负责分发，Handoff 负责交接，Plan-and-Execute 负责拆大任务，Reflexion 负责兜底复盘。它们底层依赖的，仍然是第八章反复强调的“子图作为节点”。</p>
+</aside>
+<h3 id="后续章节预告">后续章节预告</h3>
+<p>多 Agent、并行专家和 Reflexion 跑起来以后，单次请求的 token 消耗会明显高于 Ch6 的单链版本。下一章进入 <strong>Token 经济学</strong>，继续把 9.6.4 提到的成本控制思路系统化：</p>
+<ul>
+<li>上下文主要堆积在哪些节点和循环里</li>
+<li>如何用路由、裁剪、缓存和预算减少无效消耗</li>
+<li>如何把成本控制做成可观测、可配置的工程策略</li>
+</ul>
+<h2 id="写在最后">写在最后🧪</h2>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。 我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。 不只聊概念，也尽量分享能直接上手、能够复用的经验。 希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-10.html">← 第八章：LangGraph 单 Agent 图实战——路由、循环与质量闭环</a>
+      <a class="next" href="ch-12.html">第十章：Token 经济学：在 AI 能力与运行成本之间寻找平衡 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#9-1-从单-agent-到-multi-agent-问题在哪">9.1 从单 Agent 到 Multi-Agent：问题在哪</a></li>
+      <li class="lv2"><a href="#9-2-把-analysis-子图升级为-supervisor-专家集群">9.2 把 analysis 子图升级为 Supervisor + 专家集群</a></li>
+      <li class="lv3"><a href="#用-ai-生成本节代码">🤖 用 AI 生成本节代码</a></li>
+      <li class="lv3"><a href="#9-2-1-专家子图-和-8-6-的-react-子图完全同构">9.2.1 专家子图：和 8.6 的 ReAct 子图完全同构</a></li>
+      <li class="lv3"><a href="#9-2-2-supervisor-决定这次请求需要哪些专家">9.2.2 Supervisor：决定这次请求需要哪些专家</a></li>
+      <li class="lv3"><a href="#9-2-3-supervisor-子图装配">9.2.3 Supervisor 子图装配</a></li>
+      <li class="lv3"><a href="#9-2-4-主图装配-只改一处">9.2.4 主图装配：只改一处</a></li>
+      <li class="lv2"><a href="#9-3-并行分发-让多个专家同时工作">9.3 并行分发：让多个专家同时工作</a></li>
+      <li class="lv3"><a href="#9-3-1-并行执行的时间线">9.3.1 并行执行的时间线</a></li>
+      <li class="lv3"><a href="#9-3-2-并发写入-state-的一个关键细节">9.3.2 并发写入 State 的一个关键细节</a></li>
+      <li class="lv3"><a href="#9-3-3-和第四章-promise-all-的对比">9.3.3 和第四章 Promise.all 的对比</a></li>
+      <li class="lv3"><a href="#9-3-4-验证与测试">9.3.4 验证与测试</a></li>
+      <li class="lv3"><a href="#测试脚本">测试脚本</a></li>
+      <li class="lv3"><a href="#执行测试">执行测试</a></li>
+      <li class="lv3"><a href="#验收标准">验收标准</a></li>
+      <li class="lv3"><a href="#前端集成验证">前端集成验证</a></li>
+      <li class="lv3"><a href="#常见问题排查">常见问题排查</a></li>
+      <li class="lv3"><a href="#自动化回归-推荐每次改动-supervisor-experts-时都跑">自动化回归（推荐每次改动 supervisor/experts 时都跑）</a></li>
+      <li class="lv2"><a href="#9-4-handoff-去中心化交接作为-supervisor-的替代范式">9.4 Handoff：去中心化交接作为 Supervisor 的替代范式</a></li>
+      <li class="lv3"><a href="#用-ai-生成本节代码-1">🤖 用 AI 生成本节代码</a></li>
+      <li class="lv3"><a href="#9-4-1-什么时候需要-handoff-而不是-supervisor">9.4.1 什么时候需要 Handoff 而不是 Supervisor</a></li>
+      <li class="lv3"><a href="#9-4-2-改造-用-handoff-替换-classifier-已落地">9.4.2 改造：用 Handoff 替换 classifier（已落地）</a></li>
+      <li class="lv3"><a href="#9-4-3-supervisor-vs-handoff-结构对比">9.4.3 Supervisor vs Handoff：结构对比</a></li>
+      <li class="lv2"><a href="#9-5-组合流水线-plan-and-execute-supervisor-reflexion">9.5 组合流水线：Plan-and-Execute + Supervisor + Reflexion</a></li>
+      <li class="lv3"><a href="#用-ai-生成本节代码-2">🤖 用 AI 生成本节代码</a></li>
+      <li class="lv3"><a href="#9-5-1-外层结构与-state-定义">9.5.1 外层结构与 State 定义</a></li>
+      <li class="lv3"><a href="#9-5-2-executor-直接调用-9-2-9-3-的主图">9.5.2 executor 直接调用 9.2\~9.3 的主图</a></li>
+      <li class="lv3"><a href="#9-5-3-reflector-reflexion-的图结构落地">9.5.3 reflector：Reflexion 的图结构落地</a></li>
+      <li class="lv3"><a href="#9-5-4-完整的-pipeline-图装配">9.5.4 完整的 Pipeline 图装配</a></li>
+      <li class="lv3"><a href="#顶层实验入口-runpipeline">顶层实验入口：`runPipeline()`</a></li>
+      <li class="lv3"><a href="#9-5-5-三种推理模式在图中的位置总览-来自第七章的对照">9.5.5 三种推理模式在图中的位置总览（来自第七章的对照）</a></li>
+      <li class="lv2"><a href="#9-6-生产化要点">9.6 生产化要点</a></li>
+      <li class="lv3"><a href="#用-ai-生成本节代码-3">🤖 用 AI 生成本节代码</a></li>
+      <li class="lv3"><a href="#9-6-1-错误降级-节点级失败的处理">9.6.1 错误降级：节点级失败的处理</a></li>
+      <li class="lv3"><a href="#9-6-2-checkpointer-hitl-在-clarifystep-前中断">9.6.2 Checkpointer + HITL：在 clarifyStep 前中断</a></li>
+      <li class="lv3"><a href="#工厂签名扩展-向后兼容">工厂签名扩展（向后兼容）</a></li>
+      <li class="lv3"><a href="#hitl-三件套-start-update-resume">HITL 三件套：start / update / resume</a></li>
+      <li class="lv3"><a href="#行为规约">行为规约</a></li>
+      <li class="lv3"><a href="#切换到-postgressaver">切换到 PostgresSaver</a></li>
+      <li class="lv3"><a href="#9-6-3-与-orchestratorservice-的完整对接">9.6.3 与 OrchestratorService 的完整对接</a></li>
+      <li class="lv3"><a href="#9-6-3-1-streamorchestrate-双映射区分主图与子图">9.6.3.1 streamOrchestrate：双映射区分主图与子图</a></li>
+      <li class="lv3"><a href="#9-6-3-2-streamanalysisgraph-推出的事件类型">9.6.3.2 streamAnalysisGraph 推出的事件类型</a></li>
+      <li class="lv3"><a href="#9-6-3-3-controller-把-orchestratorstreamevent-转成-sse">9.6.3.3 Controller：把 OrchestratorStreamEvent 转成 SSE</a></li>
+      <li class="lv3"><a href="#9-6-3-4-前端-parallelagents-独立面板">9.6.3.4 前端：parallelAgents 独立面板</a></li>
+      <li class="lv3"><a href="#9-6-4-成本控制的两条线">9.6.4 成本控制的两条线</a></li>
+      <li class="lv2"><a href="#9-7-常见问题排查-multi-agent-faq">9.7 常见问题排查（Multi-Agent FAQ）</a></li>
+      <li class="lv3"><a href="#9-7-1-supervisor-调度问题">9.7.1 Supervisor 调度问题</a></li>
+      <li class="lv3"><a href="#9-7-2-并行执行问题">9.7.2 并行执行问题</a></li>
+      <li class="lv3"><a href="#9-7-3-专家输出与工具调用问题">9.7.3 专家输出与工具调用问题</a></li>
+      <li class="lv3"><a href="#9-7-4-错误降级与容错问题">9.7.4 错误降级与容错问题</a></li>
+      <li class="lv3"><a href="#9-7-5-state-管理与字段冲突">9.7.5 State 管理与字段冲突</a></li>
+      <li class="lv3"><a href="#9-7-6-前端集成与-ui-显示问题">9.7.6 前端集成与 UI 显示问题</a></li>
+      <li class="lv2"><a href="#9-8-本章总结-从单-agent-图到-multi-agent-系统">9.8 本章总结：从单 Agent 图到 Multi-Agent 系统</a></li>
+      <li class="lv3"><a href="#演进路径回顾">演进路径回顾</a></li>
+      <li class="lv3"><a href="#后续章节预告">后续章节预告</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后🧪</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>第十三章：Skills——把最佳实践沉淀为能力资产 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li class="active"><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>第十三章：Skills——把最佳实践沉淀为能力资产</h1>
+<p><strong>本章demo地址</strong>：<a href="https://github.com/Cookieboty/autix-demo/tree/feat/skills">feat/skills</a></p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3ca3709826ef4cc0baf858e10d74e70f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1376&amp;h=768&amp;s=1372991&amp;e=png&amp;b=060b32" alt="image.png" /></p>
+<p>前几章已经分别铺开了几块基础能力。第十一章讲 RAG，重点是让模型在回答前拿到企业内部资料；第十二章讲 MCP，重点是让 Agent 以统一方式接入外部系统；第八、九章讲 Agent 和 Multi-Agent，重点是让模型具备规划、调用工具和持续推进任务的能力。</p>
+<p>但这些能力合在一起，还没有回答一个容易被忽略的问题：<strong>一个领域专家到底由哪些能力构成？</strong></p>
+<p>回看第九章的 Multi-Agent 系统，功能需求专家并不是因为模型更聪明才像专家，而是因为它背后有一组可沉淀的要素：</p>
+<ol>
+<li>系统提示词：定义角色、分析框架和行为边界。</li>
+<li>工具列表：说明可调用的工具，以及各自的使用时机。</li>
+<li>工作流：规定先做完整性检查，还是先查历史需求。</li>
+<li>输出规范：约定报告结构、字段和风险分级方式。</li>
+<li>质量标准：说明什么样的回答算合格，什么情况需要重试。</li>
+</ol>
+<p>RAG 提供事实，MCP 提供工具，Agents 提供执行循环。但这些能力放在一起，并不自动等于“需求分析专家”。还需要一份稳定的任务方法，告诉 Agent 应该按什么流程、使用哪些工具、输出什么结果。</p>
+<p>Skills 解决的正是这一层问题。</p>
+<blockquote>
+<p>RAG 让模型<strong>读懂业务知识</strong>，MCP 让模型<strong>调用外部工具</strong>，Agents 让模型<strong>自主执行多步任务</strong>，Skills 则把“某类任务怎么做才专业”沉淀为<strong>可复用能力资产</strong>。</p>
+</blockquote>
+<p><strong>本章验收点</strong></p>
+<ul>
+<li>能讲清楚 MCP、RAG、Agents、Skills 分别解决什么问题，以及为什么它们不是互相替代关系</li>
+<li>理解 Skills 的核心价值：把最佳实践、角色约束、工作流、工具说明、输出规范和质量标准收进一份可读资产</li>
+<li>掌握 <code>SKILL.md</code> 的结构：YAML frontmatter + Markdown 指令正文</li>
+<li>理解 Progressive Disclosure：为什么 Skill 要按需加载，而不是全部塞进 system prompt</li>
+<li>能读懂本章 PoC 的运行链路：<code>load_skill</code> 读文件，Agent 按指令调用 Python 工具，最后生成报告</li>
+<li>能区分本章已经实现的内容、教学 PoC 的边界，以及生产化还需要补的能力</li>
+<li>知道 LangChain 中结构化输出应优先使用 <code>withStructuredOutput()</code>、<code>StructuredOutputParser.fromZodSchema()</code> 等官方能力，而不是手写解析器</li>
+<li>每个关键实现阶段都给出可直接粘贴到 Cursor / Claude 的生成 Prompt，并标注对应 testcase</li>
+</ul>
+<hr />
+<h2 id="13-1-先把-mcp-rag-agents-skills-放在同一张图里">13.1 先把 MCP、RAG、Agents、Skills 放在同一张图里</h2>
+<p>很多读者会把 MCP、RAG、Agents、Skills 混在一起，因为它们都在做一件表面相似的事：给模型增加能力。</p>
+<p>拆开来看，一个 AI 系统要稳定完成专业任务，至少要回答四个问题：</p>
+<ol>
+<li><strong>连接</strong>：模型如何标准化地接入外部系统。</li>
+<li><strong>知识</strong>：模型如何获得私有、实时、可追溯的业务资料。</li>
+<li><strong>执行</strong>：模型如何从目标出发，自主拆解并完成多步任务。</li>
+<li><strong>方法</strong>：模型如何复用某类任务的最佳实践。</li>
+</ol>
+<p>MCP、RAG、Agents、Skills 分别对应这四类问题：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>本质</th>
+<th>解决的问题</th>
+<th>典型产物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCP</td>
+<td>协议层</td>
+<td>“LLM 如何标准化地调用外部工具？”</td>
+<td>MCP Server、Tool、Resource、Prompt</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>数据管道</td>
+<td>“如何把私有/实时知识注入上下文？”</td>
+<td>Embedding、Vector DB、Retriever、Reranker</td>
+</tr>
+<tr>
+<td>Agents</td>
+<td>运行模式</td>
+<td>“如何让 LLM 自主完成开放式多步任务？”</td>
+<td>ReAct loop、Planner、Tool use、Reflection</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>Prompt 工程资产</td>
+<td>“如何把某类任务的最佳实践固化并复用？”</td>
+<td><code>SKILL.md</code>、工作流、输出规范、质量规则</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/89de105585834986ad9fb67e84cc9b0a~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1706899&amp;e=png&amp;b=060926" alt="image 1.png" /></p>
+<p>可以用一句话区分：</p>
+<blockquote>
+<p>MCP 管“怎么接”，RAG 管“查什么”，Agents 管“怎么推进”，Skills 管“怎么做才专业”。</p>
+</blockquote>
+<p>四者可以组合，但职责不能混。</p>
+<div class="mermaid">flowchart TB
+  User[&quot;用户任务&quot;] --&gt; Agent[&quot;Agent&quot;]
+
+  Agent --&gt; Reason[&quot;Agents: 规划和执行循环&quot;]
+  Reason --&gt; Skill[&quot;Skills: 任务最佳实践&quot;]
+  Reason --&gt; Rag[&quot;RAG: 检索业务知识&quot;]
+  Reason --&gt; Mcp[&quot;MCP: 连接外部系统&quot;]
+  Skill --&gt; LocalTool[&quot;本地工具脚本&quot;]
+
+  Rag --&gt; Knowledge[&quot;业务文档和历史案例&quot;]
+  Mcp --&gt; Systems[&quot;项目管理和代码仓库等系统&quot;]
+  LocalTool --&gt; Data[&quot;结构化分析结果&quot;]
+
+  Knowledge --&gt; Agent
+  Systems --&gt; Agent
+  Data --&gt; Agent
+  Agent --&gt; Report[&quot;专业输出&quot;]
+</div>
+<p>注意这张图里的方向：Agent 是运行模式，Skill 是任务方法。Skill 不替代 RAG、MCP 或 Agent，而是为 Agent 提供一套稳定的任务执行模板。一个好的 Skill 会明确：</p>
+<ul>
+<li>这个任务需要先检索哪些知识</li>
+<li>哪些信息必须通过工具确认</li>
+<li>工具返回的数据应该如何解释</li>
+<li>输出报告必须包含哪些章节</li>
+<li>哪些质量规则必须满足</li>
+</ul>
+<p>如果没有 Skills，RAG 和 MCP 只是分散的能力，Agent 也只是一个能够推进任务的运行时。它可能会查知识、调工具、循环执行，但不一定知道该按哪个专业流程完成任务。</p>
+<p>工程选型时可以先按下面的顺序判断：</p>
+<blockquote>
+<p>能用 Skills 固化的流程，不必先上 RAG；能用 RAG 回答的知识问题，不必升级成 Agent；能通过 MCP 工具明确执行的动作，不要让 Agent 自由探索。</p>
+</blockquote>
+<p>这不是限制能力组合，而是提醒我们优先选择最小可行机制。机制越自由，成本、延迟和不确定性通常也越高。</p>
+<hr />
+<h2 id="13-2-rag-mcp-agents-的边界">13.2 RAG / MCP / Agents 的边界</h2>
+<p>13.1 已经把四个概念放进同一张图。要讲清楚 Skills 的独特位置，必须先把另外三层各自的职责和边界讲清楚——它们解决的不是 Skills 要解决的问题，但常常被读者误以为是。</p>
+<h3 id="13-2-1-rag-知识检索">13.2.1 RAG：知识检索</h3>
+<p>RAG 是 Retrieval-Augmented Generation。它不修改模型权重，也不把所有业务文档一次性塞进 prompt，而是在用户提问时从外部知识库检索最相关的片段，把这些片段拼进上下文，让模型基于现场资料回答。</p>
+<div class="mermaid">flowchart LR
+  Question[&quot;用户问题&quot;] --&gt; QueryEmbedding[&quot;问题向量化&quot;]
+  QueryEmbedding --&gt; Search[&quot;向量或混合检索&quot;]
+  Search --&gt; Chunks[&quot;相关知识片段&quot;]
+  Chunks --&gt; Prompt[&quot;拼入上下文&quot;]
+  Prompt --&gt; Llm[&quot;LLM 生成答案&quot;]
+</div>
+<p>第十一章已经展开过完整链路：文档切分、embedding、向量库、检索、重排、生成。这里浓缩成一句话：</p>
+<blockquote>
+<p>RAG 的核心不是”让模型记住知识”，而是”让模型在回答前拿到证据”。</p>
+</blockquote>
+<p><strong>边界</strong>：RAG 不知道一个”需求分析报告”应该有哪些章节，只负责把相关资料找出来。它也不负责调用项目管理系统创建任务，不负责决定先做竞品调研还是先做需求拆解。</p>
+<h3 id="13-2-2-mcp-工具协议">13.2.2 MCP：工具协议</h3>
+<p>MCP 是 Model Context Protocol。它的目标不是让模型更聪明，而是让外部能力更容易被模型客户端发现和调用。没有 MCP 时，每个应用都要自己适配工具；有 MCP 后，工具由 MCP Server 暴露，客户端按协议发现和调用：</p>
+<div class="mermaid">flowchart TB
+  ClientA[&quot;Cursor&quot;]
+  ClientB[&quot;Claude Desktop&quot;]
+  ClientC[&quot;LangGraph Agent&quot;]
+  Server[&quot;MCP Server&quot;]
+  ToolA[&quot;Tool: search_issue&quot;]
+  ToolB[&quot;Tool: create_task&quot;]
+  ResourceA[&quot;Resource: docs&quot;]
+
+  ClientA --&gt; Server
+  ClientB --&gt; Server
+  ClientC --&gt; Server
+  Server --&gt; ToolA
+  Server --&gt; ToolB
+  Server --&gt; ResourceA
+</div>
+<p>第十二章的重点就是：不让每个 Agent 各自硬编码一套工具适配层。</p>
+<p><strong>边界</strong>：MCP 能告诉模型”这里有一个 <code>searchRequirement</code> 工具，它接收 <code>query</code>，返回需求列表”，但不会告诉模型”做需求评审时，先查历史需求，再检查冲突，再估算复杂度，再输出带风险等级的报告”。协议解决”能不能调用”，不是”应该如何完成专业任务”。</p>
+<h3 id="13-2-3-agents-运行模式">13.2.3 Agents：运行模式</h3>
+<p>第八、九章已经使用 LangGraph 构建过单 Agent 和 Multi-Agent。Agent 的本质是运行模式：</p>
+<pre><code>Goal → Reason → Plan → Act → Observe → Retry / Reflect
+</code></pre>
+<p>它解决的是”模型如何自主推进开放式多步任务”，是 coding agent、自动化办公 agent、研究 agent 的基础。但 Agent 的强项也是风险来源：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>价值</th>
+<th>代价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自主规划</td>
+<td>能处理开放任务</td>
+<td>路径不确定</td>
+</tr>
+<tr>
+<td>循环执行</td>
+<td>能根据结果调整</td>
+<td>可能死循环</td>
+</tr>
+<tr>
+<td>多工具调用</td>
+<td>能完成复杂流程</td>
+<td>成本和延迟上升</td>
+</tr>
+<tr>
+<td>反思修正</td>
+<td>能自我纠错</td>
+<td>评估标准更难稳定</td>
+</tr>
+</tbody>
+</table>
+<p><strong>边界</strong>：Agent 是运行模式，不是能力资产。一个固定格式的需求完整性检查，如果能用 Skill 和本地工具稳定完成，就不需要让 Agent 自由探索十几步。一个明确的数据库查询，如果能通过 MCP Tool 直接完成，就不应该让 Agent 自己”想办法”。</p>
+<h3 id="13-2-4-为什么它们都不是-skills">13.2.4 为什么它们都不是 Skills</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>应该解决在</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>答案缺少业务事实</td>
+<td>RAG</td>
+</tr>
+<tr>
+<td>调不到外部系统</td>
+<td>MCP</td>
+</tr>
+<tr>
+<td>任务需要多步规划和动态调整</td>
+<td>Agents</td>
+</tr>
+<tr>
+<td>输出缺少专业结构、流程不稳定</td>
+<td>Skills</td>
+</tr>
+<tr>
+<td>工具已接入，但缺少调用流程</td>
+<td>Skills</td>
+</tr>
+<tr>
+<td>固定流程能写成检查清单</td>
+<td>Skills</td>
+</tr>
+</tbody>
+</table>
+<p>RAG 提供事实，MCP 提供工具，Agents 提供运行循环。如果缺少一份<strong>描述“某类任务应该按什么专业流程完成”的资产</strong>，这三层能力就很容易各自为战。Skills 补的就是这一层。</p>
+<hr />
+<h2 id="13-3-agent-skills-规范-通用概念">13.3 Agent Skills 规范：通用概念</h2>
+<p>Skills 不是 LangChain 的发明，也不是 Anthropic 的私有概念。它有一份独立的开放规范——Agent Skills Specification1。LangChain Deep Agents、Claude Code 都跟随这份规范；本章 demo 走的是 LangChain Custom Skills Pattern，借用了规范的目录约定但运行时是自定义的。</p>
+<p>理解这一节，可以避免把不同实现的”渐进式披露”搞混。</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f614b60cbe3b4255b32ce3f271853fd8~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1621598&amp;e=png&amp;b=010820" alt="image 2.png" /></p>
+<h3 id="13-3-1-规范的核心要素">13.3.1 规范的核心要素</h3>
+<p>一个 Skill 是一个目录，至少包含一个 <code>SKILL.md</code> 文件，可选 scripts/references/assets：</p>
+<pre><code>skills/
+  some-skill/
+    SKILL.md          ← 必须：指令和元数据
+    scripts/          ← 可选：可执行脚本
+    references/       ← 可选：补充参考文档
+    assets/           ← 可选：模板或资源
+</code></pre>
+<p><code>SKILL.md</code> 由 YAML frontmatter 和 Markdown 正文组成：</p>
+<pre><code class="language-yaml">---
+name: some-skill                      # 必须
+description: 当用户提到 X 时使用       # 必须，≤ 1024 字符
+allowed-tools: tool_a, tool_b         # 可选
+metadata:
+  author: someone
+  version: &quot;1.0.0&quot;
+module: index.ts                      # 可选，对应可执行模块
+---
+
+# Some Skill
+
+正文是给 Agent 阅读的指令：角色、工作流、输出规范……
+</code></pre>
+<p><code>description</code> 是规范里<strong>唯一负责”何时使用”的字段</strong>——规范不要求 <code>tags</code>，因为 LLM 直接阅读 description 做匹配。</p>
+<p>任何额外的资源（scripts/references/assets）<strong>必须在 SKILL.md 正文里被引用并说明用途</strong>，否则 Agent 无从知道什么时候去读它们。</p>
+<h3 id="13-3-2-规范的渐进式披露思想">13.3.2 规范的渐进式披露思想</h3>
+<p>规范层面的渐进式披露分为四层：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>内容</th>
+<th>何时进入上下文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>各 Skill 的 frontmatter（name + description）</td>
+<td>启动时一次性加载（极小）</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>命中 Skill 的 SKILL.md 正文</td>
+<td>Agent 决定使用该 Skill 时</td>
+</tr>
+<tr>
+<td>L3</td>
+<td>SKILL.md 引用的 references / assets</td>
+<td>任务真正需要时</td>
+</tr>
+<tr>
+<td>L4</td>
+<td>SKILL.md 提到的脚本执行结果</td>
+<td>Agent 决定运行该脚本时（只回 stdout）</td>
+</tr>
+</tbody>
+</table>
+<p>注意 L3 和 L4 是<strong>规范层面</strong>的设计，是否实现取决于运行时。下面三节分别讲三种实现：</p>
+<ul>
+<li><strong>LangChain Custom Skills Pattern</strong>——只做 L1 + L2（本章 demo 走这条路）</li>
+<li><strong>LangChain Deep Agents Skills</strong>——L1 + L2 + L3 + L4，把规范完整接住</li>
+<li><strong>Claude Code Skills</strong>——用 filesystem + bash 实现 L1~L4，Anthropic 自家运行时</li>
+</ul>
+<p>不要把三种”渐进式披露”混着讲——它们运行机制根本不同。</p>
+<hr />
+<h2 id="13-4-langchain-custom-skills-pattern">13.4 LangChain Custom Skills Pattern</h2>
+<p>LangChain 在 SQL Assistant 教程里给出了一份基础 Skills pattern2。它不直接消费 Agent Skills 规范的 frontmatter，而是把 Skill 当成一个 <code>{ name, description, content }</code> 数据结构，用一个 <code>loadSkill</code> 工具加一个 <code>createMiddleware</code> 中间件实现两层渐进式披露。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2d0fb1f5ce4c40cf91190639a46d5670~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1768120&amp;e=png&amp;b=020421" alt="image 3.png" /></p>
+<p><strong>本章 demo 走的就是这条路</strong>。因此，本节是 13.8 实战部分的理论基础。</p>
+<h3 id="13-4-1-整体架构">13.4.1 整体架构</h3>
+<div class="mermaid">flowchart TB
+  Middleware[&quot;createMiddleware&lt;br/&gt;每轮注入 skill 描述到 systemPrompt&quot;]
+  Agent[&quot;Agent&quot;]
+  LoadSkill[&quot;loadSkill tool&quot;]
+  Skills[(&quot;SKILLS 数组&lt;br/&gt;或文件存储&quot;)]
+
+  Middleware --&gt; Agent
+  Agent --&gt;|&quot;按需调用&quot;| LoadSkill
+  LoadSkill --&gt;|&quot;按名查找&quot;| Skills
+  Skills --&gt;|&quot;完整 content&quot;| LoadSkill
+  LoadSkill --&gt;|&quot;ToolMessage&quot;| Agent
+</div>
+<p>两个组件协同完成渐进式披露：</p>
+<ul>
+<li><strong>L1（索引）</strong>：<code>createMiddleware.wrapModelCall</code> 在每次 model call 时往 <code>systemPrompt</code> 追加 skill 列表（只有 name + description，极小）</li>
+<li><strong>L2（内容）</strong>：Agent 主动调用 <code>loadSkill(skillName)</code>，工具返回该 skill 的完整 content 作为 ToolMessage（一次给全）</li>
+</ul>
+<h3 id="13-4-2-loadskill-tool-标准写法">13.4.2 <code>loadSkill</code> Tool（标准写法）</h3>
+<pre><code class="language-tsx">import { tool } from &quot;langchain&quot;;
+import { z } from &quot;zod&quot;;
+
+const loadSkill = tool(
+  async ({ skillName }) =&gt; {
+    const skill = SKILLS.find((s) =&gt; s.name === skillName);
+    if (skill) {
+      return `Loaded skill:${skillName}\n\n${skill.content}`;
+    }
+    const available = SKILLS.map((s) =&gt; s.name).join(&quot;, &quot;);
+    return `Skill '${skillName}' not found. Available skills:${available}`;
+  },
+  {
+    name: &quot;load_skill&quot;,
+    description: `Load the full content of a skill into the agent's context.
+
+Use this when you need detailed information about how to handle a specific
+type of request. This will provide you with comprehensive instructions,
+policies, and guidelines for the skill area.`,
+    schema: z.object({
+      skillName: z.string().describe(&quot;The name of the skill to load&quot;),
+    }),
+  }
+);
+</code></pre>
+<p>关键点：</p>
+<ul>
+<li><code>loadSkill</code> 一次返回<strong>完整 content</strong>。这是 LangChain Custom Pattern 的标准做法，不是简化版，也不是分段加载。</li>
+<li>工具的 description <strong>不</strong>列出可用 skill 名，因为 skill 索引由 middleware 注入。</li>
+<li>找不到 skill 时返回 available skills 列表，方便 Agent 自行纠错。</li>
+</ul>
+<h3 id="13-4-3-createmiddleware-注入-skill-索引">13.4.3 <code>createMiddleware</code>：注入 skill 索引</h3>
+<pre><code class="language-tsx">import { createMiddleware } from &quot;langchain&quot;;
+
+const skillsPrompt = SKILLS.map(
+  (skill) =&gt; `- **${skill.name}**:${skill.description}`
+).join(&quot;\n&quot;);
+
+const skillMiddleware = createMiddleware({
+  name: &quot;skillMiddleware&quot;,
+  tools: [loadSkill],
+  wrapModelCall: async (request, handler) =&gt; {
+    const skillsAddendum =
+      `\n\n## Available Skills\n\n${skillsPrompt}\n\n` +
+      &quot;Use the load_skill tool when you need detailed information &quot; +
+      &quot;about handling a specific type of request.&quot;;
+    return handler({
+      ...request,
+      systemPrompt: request.systemPrompt + skillsAddendum,
+    });
+  },
+});
+</code></pre>
+<p>关键点：</p>
+<ul>
+<li><code>tools: [loadSkill]</code> 写在 middleware 里——middleware 启用时工具自动注册，不用再到 <code>createAgent({ tools: [...] })</code> 里重复列一遍。</li>
+<li><code>wrapModelCall</code> 在每轮 model call 时执行，所以即使前几轮没用 skill，后续 Agent 还是看得到 skill 索引。</li>
+<li>多个 middleware 可以叠加（比如再加 <code>SummarizationToolMiddleware</code> 压缩对话历史）。</li>
+</ul>
+<h3 id="13-4-4-两层渐进式披露-和规范的对应关系">13.4.4 两层渐进式披露：和规范的对应关系</h3>
+<table>
+<thead>
+<tr>
+<th>Agent Skills 规范层</th>
+<th>LangChain Custom Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 frontmatter（name + description）</td>
+<td><code>createMiddleware</code> 注入 systemPrompt 的 skill 索引</td>
+</tr>
+<tr>
+<td>L2 SKILL.md 正文</td>
+<td><code>loadSkill</code> 一次返回完整 content</td>
+</tr>
+<tr>
+<td>L3 references / assets</td>
+<td><strong>不支持</strong>——要应用层显式注册 <code>read_file</code> 类工具</td>
+</tr>
+<tr>
+<td>L4 脚本执行</td>
+<td><strong>不支持</strong>——要应用层把脚本包装成 LangChain tool</td>
+</tr>
+</tbody>
+</table>
+<p>LangChain Custom Pattern 只覆盖规范中的 L1 + L2。它的定位很明确：把 Skill 内容作为一份完整指令交给 Agent，再由 Agent 调用应用层显式注册的工具。L3/L4 属于 Deep Agents 和 Claude Code 的能力，见 13.5 / 13.6。</p>
+<h3 id="13-4-5-进阶-command-skillsloaded">13.4.5 进阶：<code>Command + skillsLoaded</code></h3>
+<p>当出现”某些工具必须在某个 skill 加载之后才能调用”这种约束时，把 <code>loadSkill</code> 升级为返回 <code>Command</code>，并用 state 追踪：</p>
+<pre><code class="language-tsx">import { tool, ToolMessage, type ToolRuntime } from &quot;langchain&quot;;
+import { Command } from &quot;@langchain/langgraph&quot;;
+import { z } from &quot;zod&quot;;
+
+const loadSkill = tool(
+  async ({ skillName }, runtime: ToolRuntime&lt;typeof CustomState.State&gt;) =&gt; {
+    const skill = SKILLS.find((s) =&gt; s.name === skillName);
+    if (skill) {
+      return new Command({
+        update: {
+          messages: [new ToolMessage({
+            content: `Loaded skill:${skillName}\n\n${skill.content}`,
+            tool_call_id: runtime.toolCallId,
+          })],
+          skillsLoaded: [skillName],
+        },
+      });
+    }
+    // ...
+  },
+  { name: &quot;load_skill&quot;, description: &quot;...&quot;, schema: z.object({ skillName: z.string() }) }
+);
+
+// 其他工具读取 state.skillsLoaded 做依赖检查
+const writeSqlQuery = tool(
+  async ({ query, vertical }, runtime) =&gt; {
+    const skillsLoaded = runtime.state.skillsLoaded ?? [];
+    if (!skillsLoaded.includes(vertical)) {
+      return `Error: load_skill('${vertical}') first to understand the schema.`;
+    }
+    // ...
+  },
+  { /* ... */ }
+);
+</code></pre>
+<p>这是 LangChain 独有的能力——可以在工具层 enforce skill 依赖，Claude Code Skills 没有等价机制。本章 demo 没有用 <code>Command</code>，因为没有这种依赖约束需求；如果以后出现”必须先加载 X skill 才能调 Y tool”的场景，再升级。</p>
+<hr />
+<h2 id="13-5-langchain-deep-agents-skills">13.5 LangChain Deep Agents Skills</h2>
+<p>LangChain 在 Deep Agents SDK 里实现了 <strong>Agent Skills 规范的完整版本</strong>（见参考资料 3）。Deep Agents Skills 和 Custom Pattern 的出发点不同：前者把 <code>SKILL.md</code> 当成文件系统中的一等资产，由运行时直接管理目录、扫描 frontmatter，并按需读取其余文件。</p>
+<h3 id="13-5-1-与-custom-pattern-的根本区别">13.5.1 与 Custom Pattern 的根本区别</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Custom Pattern</th>
+<th>Deep Agents Skills</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Skill 来源</td>
+<td>应用代码里的 <code>SKILLS</code> 数组</td>
+<td>文件系统目录（传 <code>skills=[dir]</code>）</td>
+</tr>
+<tr>
+<td>索引暴露</td>
+<td><code>createMiddleware</code> 每轮注入</td>
+<td>启动时 SDK 自动扫描所有 frontmatter 注入一次</td>
+</tr>
+<tr>
+<td>内容加载</td>
+<td><code>loadSkill</code> 工具返回完整 content</td>
+<td>SDK 自动读 SKILL.md body</td>
+</tr>
+<tr>
+<td>子资源（references / scripts）</td>
+<td><strong>不支持</strong>，要应用层处理</td>
+<td><strong>支持</strong>，SKILL.md 引用即可，运行时按需读</td>
+</tr>
+<tr>
+<td>脚本执行</td>
+<td>应用层包装成 LangChain tool</td>
+<td>通过 <code>module: index.ts</code> 供 interpreter 调用</td>
+</tr>
+</tbody>
+</table>
+<p>Deep Agents 的设计哲学是”Skill 是目录、是规范实体”；Custom Pattern 的设计哲学是”Skill 是数据，是你应用里的常量”。</p>
+<h3 id="13-5-2-启动-命中-详读-的渐进式披露">13.5.2 启动 → 命中 → 详读 的渐进式披露</h3>
+<p>Deep Agents 文档原话：</p>
+<blockquote>
+<p>When the agent receives a prompt, the agent checks if it can use any skills while fulfilling the prompt. If it finds a matching prompt, it then reviews the rest of the skill files.</p>
+</blockquote>
+<div class="mermaid">sequenceDiagram
+  participant U as User
+  participant A as DeepAgent
+  participant FS as SkillsDir
+
+  Note over A,FS: Startup
+  A-&gt;&gt;FS: scan all SKILL.md
+  FS--&gt;&gt;A: each frontmatter (name + description)
+
+  Note over U,A: Runtime
+  U-&gt;&gt;A: user prompt
+  A-&gt;&gt;A: match description
+  A-&gt;&gt;FS: read rest of matched skill files
+  FS--&gt;&gt;A: SKILL.md body + references + scripts
+  A--&gt;&gt;U: output
+</div>
+<h3 id="13-5-3-配置示例">13.5.3 配置示例</h3>
+<pre><code class="language-tsx">import { createDeepAgent } from &quot;deepagents&quot;;
+
+const agent = createDeepAgent({
+  model: &quot;anthropic:claude-sonnet-4-5&quot;,
+  skills: [&quot;./skills/research/&quot;, &quot;./skills/web-search/&quot;],
+});
+</code></pre>
+<p><code>skills</code> 是目录列表。每个目录必须有 <code>SKILL.md</code>，可选 scripts/references/assets。frontmatter 字段遵循 Agent Skills 规范（见参考资料 4）：</p>
+<pre><code class="language-yaml">---
+name: skill-name
+description: ...
+license: MIT                # 可选
+compatibility: ...          # 可选
+metadata:
+author: ...
+version: &quot;1.0&quot;
+allowed-tools: tool_a, tool_b
+module: index.ts            # 可选，可执行模块
+---
+</code></pre>
+<h3 id="13-5-4-何时选-deep-agents-skills">13.5.4 何时选 Deep Agents Skills</h3>
+<p>适合：</p>
+<ul>
+<li>多个团队各自维护 skill 目录，需要按规范交付</li>
+<li>Skill 要带较多 references（设计文档、模板、schema 等）</li>
+<li>不想自己写 skill 加载逻辑</li>
+</ul>
+<p>不适合（应该选 Custom Pattern）：</p>
+<ul>
+<li>Skill 数量少、内容紧凑</li>
+<li>需要在应用层强制 skill 依赖（用 <code>Command + skillsLoaded</code>）</li>
+<li>想精确控制 skill 索引怎么进 systemPrompt（分组、按角色筛选等）</li>
+</ul>
+<hr />
+<h2 id="13-6-claude-code-skills">13.6 Claude Code Skills</h2>
+<p>Anthropic Claude Code 把 Agent Skills 规范实现为运行时机制（见参考资料 5、6）。Claude Code 不需要任何 LangChain 代码——它本身就是一个能识别 <code>SKILL.md</code> 的 CLI。</p>
+<h3 id="13-6-1-filesystem-bash-实现">13.6.1 Filesystem + Bash 实现</h3>
+<p>Claude Code 用两个原语完成所有 skill 加载：</p>
+<ol>
+<li><strong>filesystem 扫描</strong>：启动时扫描 <code>~/.claude/skills/</code>、当前项目下 <code>.claude/skills/</code>，读取每个 SKILL.md 的 frontmatter</li>
+<li><strong>bash 工具</strong>：触发 skill 后，Claude 用 <code>bash: cat &lt;file&gt;</code> 读 SKILL.md body、用 <code>bash: cat &lt;reference&gt;</code> 读 references、用 <code>bash: python &lt;script&gt;</code> 跑脚本</li>
+</ol>
+<div class="mermaid">sequenceDiagram
+  participant U as User
+  participant CC as ClaudeCodeRuntime
+  participant LLM as Claude
+  participant FS as Filesystem
+
+  Note over CC,FS: Startup
+  CC-&gt;&gt;FS: scan ~/.claude/skills, .claude/skills
+  FS--&gt;&gt;CC: each frontmatter
+  CC-&gt;&gt;LLM: inject names + descriptions into system prompt
+
+  Note over U,LLM: Runtime
+  U-&gt;&gt;LLM: user prompt
+  LLM-&gt;&gt;LLM: match description
+  LLM-&gt;&gt;CC: &quot;bash: cat foo/SKILL.md&quot;
+  CC-&gt;&gt;FS: read file
+  FS--&gt;&gt;LLM: body enters context
+  Note over LLM: body references FORMS.md
+  LLM-&gt;&gt;CC: &quot;bash: cat FORMS.md&quot;
+  FS--&gt;&gt;LLM: references enter context
+  Note over LLM: body references extract.py
+  LLM-&gt;&gt;CC: &quot;bash: python extract.py&quot;
+  FS--&gt;&gt;LLM: stdout only (script source not loaded)
+</div>
+<h3 id="13-6-2-四层渐进式披露的实现">13.6.2 四层渐进式披露的实现</h3>
+<table>
+<thead>
+<tr>
+<th>规范层</th>
+<th>Claude Code 实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 frontmatter</td>
+<td>启动一次性扫描注入 system prompt</td>
+</tr>
+<tr>
+<td>L2 SKILL.md 正文</td>
+<td><code>bash: cat SKILL.md</code></td>
+</tr>
+<tr>
+<td>L3 references</td>
+<td><code>bash: cat REFERENCE.md</code></td>
+</tr>
+<tr>
+<td>L4 脚本</td>
+<td><code>bash: python script.py</code>，<strong>只回 stdout，源码不进上下文</strong></td>
+</tr>
+</tbody>
+</table>
+<p>L4 的”只回 stdout”是 Claude Code 控制上下文成本的关键设计——一个 2000 行的解析脚本本身永远不会污染 Claude 的 token 预算。</p>
+<h3 id="13-6-3-与-langchain-skills-的根本差异">13.6.3 与 LangChain Skills 的根本差异</h3>
+<ul>
+<li>Claude Code Skills 是<strong>运行时机制</strong>：你不写代码，丢 SKILL.md 进约定目录即可</li>
+<li>LangChain Skills 是<strong>应用层模式</strong>：你写 agent 代码，skill 通过 tool 或 middleware 进入流程</li>
+<li>跨项目复用：Claude Code 复制目录到 <code>~/.claude/skills/</code> 即可；LangChain 要发包或集成应用代码</li>
+<li>状态追踪：Claude Code 没有显式 <code>skillsLoaded</code>，session 内自然保留；LangChain 进阶模式有 <code>Command + skillsLoaded</code></li>
+<li>依赖强制：Claude Code 靠 SKILL.md 文本指令；LangChain 靠 <code>state.skillsLoaded</code> 在工具里 enforce</li>
+</ul>
+<p><strong>两者不是同一种渐进式披露机制，不要混用。</strong></p>
+<hr />
+<h2 id="13-7-三种模式并列对比">13.7 三种模式并列对比</h2>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ad3fd7c7fdc34a2fbccef6075463bf88~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1761665&amp;e=png&amp;b=02081a" alt="image 4.png" /></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>LangChain Custom Pattern</th>
+<th>LangChain Deep Agents</th>
+<th>Claude Code Skills</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>运行时归属</td>
+<td>你的应用代码</td>
+<td>Deep Agents SDK</td>
+<td>Claude Code CLI</td>
+</tr>
+<tr>
+<td>Skill 存储</td>
+<td><code>SKILLS</code> 数组或自定义存储</td>
+<td>文件系统目录（传 <code>skills=[dir]</code>）</td>
+<td><code>~/.claude/skills/</code>、<code>.claude/skills/</code></td>
+</tr>
+<tr>
+<td>L1 索引暴露</td>
+<td><code>createMiddleware.wrapModelCall</code> 每轮注入</td>
+<td>启动一次性扫描注入</td>
+<td>启动一次性扫描注入</td>
+</tr>
+<tr>
+<td>L2 内容加载</td>
+<td>Agent 主动调 <code>loadSkill</code> 工具</td>
+<td>运行时自动读 rest of files</td>
+<td>Claude 主动 <code>bash: cat</code></td>
+</tr>
+<tr>
+<td>L3 子资源</td>
+<td>不支持（应用层处理）</td>
+<td>支持（SKILL.md 引用，自动读）</td>
+<td>支持（<code>bash: cat</code>）</td>
+</tr>
+<tr>
+<td>L4 脚本执行</td>
+<td>不支持（应用层包装为 tool）</td>
+<td>通过 <code>module</code> 字段供 interpreter 调用</td>
+<td><code>bash: python</code>，只回 stdout</td>
+</tr>
+<tr>
+<td>状态追踪</td>
+<td><code>Command + skillsLoaded</code>（进阶）</td>
+<td>SDK 内部管理</td>
+<td>session 内自然保留</td>
+</tr>
+<tr>
+<td>工具依赖强制</td>
+<td><code>runtime.state.skillsLoaded</code> enforce</td>
+<td>受规范的 <code>allowed-tools</code> 约束</td>
+<td>靠 SKILL.md 文本</td>
+</tr>
+<tr>
+<td>跨项目复用</td>
+<td>发包或复制代码</td>
+<td>复制目录</td>
+<td>复制到 <code>~/.claude/skills/</code></td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>Skill 数量少、要在应用层精确控制</td>
+<td>多团队、规范化交付、带 references</td>
+<td>在 Claude Code 中工作的场景</td>
+</tr>
+</tbody>
+</table>
+<p>换句话说：</p>
+<blockquote>
+<p><strong>LangChain Custom Pattern</strong> 的渐进式披露发生在 <strong>tool call 循环</strong> 里；<strong>LangChain Deep Agents</strong> 依赖 <strong>SDK 自动读文件</strong>；<strong>Claude Code</strong> 依赖 <strong>bash 多次读文件</strong>。三者看起来都叫 Skills，但运行机制并不相同。</p>
+</blockquote>
+<hr />
+<h2 id="13-8-本章-demo-实战">13.8 本章 demo 实战</h2>
+<h3 id="13-8-1-为什么选-langchain-custom-skills-pattern">13.8.1 为什么选 LangChain Custom Skills Pattern</h3>
+<p>本章 demo 不是要做生产级 Skills 平台，而是要让读者看到一条最小可跑的链路：用户输入 → 加载 Skill → 调用工具 → 输出报告。</p>
+<p>按上一节对比表，三个候选：</p>
+<table>
+<thead>
+<tr>
+<th>候选</th>
+<th>取舍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deep Agents Skills</td>
+<td>把 skill 加载逻辑藏在 SDK 里，读者看不到机制本身</td>
+</tr>
+<tr>
+<td>Claude Code Skills</td>
+<td>需要在 Claude Code CLI 里运行，演示链路不在本项目代码中</td>
+</tr>
+<tr>
+<td><strong>Custom Pattern</strong></td>
+<td>用 <code>tool</code> 和 <code>createMiddleware</code> 两段代码演示完整的 L1 + L2 链路，机制最直观</td>
+</tr>
+</tbody>
+</table>
+<p>所以本章选 Custom Pattern。SKILL.md 文件按 Agent Skills 规范的 frontmatter 格式书写（让读者熟悉规范字段），但运行时是纯 LangChain Custom——这种”借用规范格式 + 自定义运行时”的搭配是真实项目里最常见的形态。</p>
+<h3 id="13-8-2-skill-md-文件形态">13.8.2 SKILL.md 文件形态</h3>
+<p>按规范修剪后，每个 SKILL.md 的 frontmatter 只保留规范字段：</p>
+<pre><code class="language-yaml">---
+name: requirement-analysis
+description: &gt;-
+  对用户需求进行结构化分析：完整性检查、模块拆解、风险识别、输出 PRD 级分析报告。
+  当用户提到&quot;分析需求&quot;、&quot;需求评审&quot;、&quot;PRD&quot;、&quot;需求完整性&quot;时使用。
+allowed-tools: load_skill, analyze_completeness, estimate_complexity
+metadata:
+author: autix-demo
+version: &quot;1.0.0&quot;
+---
+
+# 需求分析 Skill
+
+你是一位资深产品需求分析专家...
+
+## 你拥有的工具
+
+- `analyze_completeness`：分析需求完整性。对应脚本 `scripts/analyze_completeness.py`
+- `estimate_complexity`：估算技术复杂度。对应脚本 `scripts/estimate_complexity.py`
+
+## 分析框架
+...
+## 工作流
+...
+</code></pre>
+<p>frontmatter 只保留规范要求的字段：<code>name</code> / <code>description</code> / <code>allowed-tools</code> / <code>metadata</code>。<code>description</code> 同时承担”何时使用”的关键词匹配职责（不需要 <code>tags</code>），脚本路径放正文 <code>## 你拥有的工具</code> 章节里说明（不需要 frontmatter <code>tools</code> 数组），质量校验思路放到 13.10 生产化章节讨论（不放 frontmatter）。</p>
+<p>正文部分是规范允许的自由 markdown 区，专家角色、分析框架、工作流、输出规范、子扩展都在这里。</p>
+<h3 id="13-8-3-loadskill-tool-demo-简化版-vs-标准写法">13.8.3 <code>loadSkill</code> Tool（demo 简化版 vs 标准写法）</h3>
+<p>demo 为了保持“最小可跑”，做了一个简化：没有使用 <code>createMiddleware</code>，而是把 skill 索引写在 <code>loadSkill.description</code> 里：</p>
+<pre><code class="language-tsx">const loadSkill = new DynamicStructuredTool({
+  name: 'load_skill',
+  description: `加载专业技能的完整提示词和上下文。
+
+可用技能：
+- requirement-analysis: 需求分析专家（自带工具：analyze_completeness, estimate_complexity）
+- competitor-research: 竞品调研专家（自带工具：search_competitors, search_best_practices）
+
+返回技能的完整 Markdown 内容。`,
+  schema: z.object({
+    skillName: z.string().describe('技能名称'),
+  }),
+  func: async ({ skillName }) =&gt; {
+    return readFileSync(join(SKILLS_DIR, skillName, 'SKILL.md'), 'utf-8');
+  },
+});
+</code></pre>
+<p>从运行效果看，它和 13.4.3 的 <code>createMiddleware</code> 标准写法接近：Agent 读取 tool description 时可以看到 skill 索引，调用 <code>loadSkill</code> 后可以拿到完整 content。但长期来看，更推荐升级到 13.4.3 的写法：把 skill 列表从 description 抽到 middleware 中，新增 skill 时只需要维护 <code>SKILLS</code> 数组，不必修改工具描述。</p>
+<blockquote>
+<p>注意：当前 <code>loadSkill</code> 返回的是包含 frontmatter 的整个 <code>SKILL.md</code> 原文。这符合 LangChain Custom Pattern 中“返回完整 content”的约定。Agent 阅读 Markdown 时通常会忽略 YAML 头；如果未来用 <code>createMiddleware</code> 注入索引，也可以只返回 Markdown body，让 ToolMessage 更紧凑。</p>
+</blockquote>
+<h3 id="13-8-4-python-工具的-langchain-包装">13.8.4 Python 工具的 LangChain 包装</h3>
+<p>Python 工具脚本通过 stdin JSON → stdout JSON 协议工作：</p>
+<pre><code class="language-bash">$ echo '{&quot;requirementText&quot;: &quot;作为管理员，我需要能够批量导入用户数据&quot;}' \
+  | python3 analyze_completeness.py
+{
+  &quot;completenessScore&quot;: 33,
+  &quot;coveredDimensions&quot;: [&quot;用户角色&quot;, &quot;功能描述&quot;],
+  &quot;missingDimensions&quot;: [&quot;验收标准&quot;, &quot;优先级&quot;, &quot;非功能需求&quot;, &quot;边界条件&quot;],
+  &quot;suggestion&quot;: &quot;建议补充：验收标准、优先级、非功能需求、边界条件&quot;
+}
+</code></pre>
+<p>通过 <code>DynamicStructuredTool</code> 包装为 LangChain Tool：</p>
+<pre><code class="language-tsx">const analyzeCompleteness = new DynamicStructuredTool({
+  name: 'analyze_completeness',
+  description: '分析需求描述的完整性，从六个维度检查是否缺少关键信息。',
+  schema: z.object({
+    requirementText: z.string().describe('需求描述文本'),
+  }),
+  func: async ({ requirementText }) =&gt;
+    callPythonTool('requirement-analysis', 'analyze_completeness.py', { requirementText }),
+});
+</code></pre>
+<p>这里的 Zod schema 是工具输入契约。Agent 读取工具描述和 schema 后，才能构造正确参数。Python 工具通过 JSON 字符串返回结构化结果，测试中用 <code>JSON.parse</code> 验证即可。这里解析的是本地工具的协议输出，<strong>不是</strong>解析 LLM 的自然语言回答。后者如果需要结构化结果，应优先使用 <code>model.withStructuredOutput(zodSchema)</code> 或 <code>StructuredOutputParser.fromZodSchema(schema)</code>，不要用正则拆字段。</p>
+<h3 id="13-8-5-实战一-需求分析-skill">13.8.5 实战一：需求分析 Skill</h3>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ba96787d774f43fd9757dee0ff4f4c50~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1781468&amp;e=png&amp;b=010628" alt="image 5.png" /></p>
+<p>目录结构：</p>
+<pre><code>requirement-analysis/
+├── SKILL.md
+└── scripts/
+    ├── analyze_completeness.py
+    └── estimate_complexity.py
+</code></pre>
+<p>完整执行链：</p>
+<div class="mermaid">sequenceDiagram
+  participant U as User
+  participant A as Agent
+  participant L as LoadSkill
+  participant C as AnalyzeCompleteness
+  participant E as EstimateComplexity
+
+  U-&gt;&gt;A: &quot;请分析批量导入用户数据需求&quot;
+  A-&gt;&gt;L: load_skill(&quot;requirement-analysis&quot;)
+  L--&gt;&gt;A: return SKILL.md content
+  A-&gt;&gt;C: requirementText
+  C--&gt;&gt;A: completeness score + missing dims
+  A-&gt;&gt;E: requirementText
+  E--&gt;&gt;A: size + factors
+  A--&gt;&gt;U: requirement analysis report
+</div>
+<p>它解决的问题是：当用户说“帮我分析这个需求”时，Agent 不再泛泛点评，而是按固定框架输出报告：六维完整性、复杂度估算、模块拆解、风险识别和验收标准。</p>
+<p><code>analyze_completeness.py</code> 是教学用启发式脚本，通过关键词覆盖判断哪些维度缺失；<code>estimate_complexity.py</code> 通过关键词匹配累加权重输出 T-shirt size。两者都是<strong>Skill 自带的工具</strong>，跟随 SKILL.md 一起分发——这表达了一个关键设计：<strong>Skill 关心”这个能力需要这个工具”，不关心工具内部用什么语言实现</strong>。生产环境里，Python 脚本可以换成 API 调用、MCP 工具调用、数据库查询。</p>
+<h3 id="13-8-6-实战二-竞品调研-skill">13.8.6 实战二：竞品调研 Skill</h3>
+<p>同样的 pattern，验证模式可复用：</p>
+<pre><code>competitor-research/
+├── SKILL.md
+└── scripts/
+    ├── search_competitors.py
+    └── search_best_practices.py
+</code></pre>
+<p><code>SKILL.md</code> 的 frontmatter：</p>
+<pre><code class="language-yaml">---
+name: competitor-research
+description: &gt;-
+  对目标产品进行竞品调研：搜索竞品信息、对比功能矩阵、输出竞品分析报告。
+  当用户提到&quot;竞品&quot;、&quot;调研&quot;、&quot;竞品分析&quot;、&quot;市场对比&quot;时使用。
+allowed-tools: load_skill, search_competitors, search_best_practices
+metadata:
+author: autix-demo
+version: &quot;1.0.0&quot;
+---
+</code></pre>
+<p>两个 Skill 的共同结构：</p>
+<table>
+<thead>
+<tr>
+<th>元素</th>
+<th>需求分析 Skill</th>
+<th>竞品调研 Skill</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色</td>
+<td>需求分析专家</td>
+<td>竞品分析师</td>
+</tr>
+<tr>
+<td>自带工具</td>
+<td>完整性分析、复杂度估算</td>
+<td>竞品搜索、最佳实践搜索</td>
+</tr>
+<tr>
+<td>工作流</td>
+<td>检查、估算、拆解、风险、验收</td>
+<td>搜索、实践、矩阵、差异、策略</td>
+</tr>
+<tr>
+<td>输出</td>
+<td>需求分析报告</td>
+<td>竞品分析报告</td>
+</tr>
+</tbody>
+</table>
+<p>这里复用的不是某一段具体代码，而是一种组织能力的方法：角色怎么定义，工具怎么说明，流程怎么走，输出怎么验收，都可以沉淀到同一种 Skill 结构里。产品经理可以 review 工作流，领域专家可以补充判断标准，开发者维护工具脚本，测试工程师把质量规则落到自动化测试里。</p>
+<h3 id="13-8-7-完整-agent-配置">13.8.7 完整 Agent 配置</h3>
+<pre><code class="language-tsx">const agent = createReactAgent({
+  llm: model,
+  tools: [
+    loadSkill,
+    analyzeCompleteness,
+    estimateComplexity,
+    searchCompetitors,
+    searchBestPractices,
+  ],
+  prompt: &quot;你是一个产品助手。你可以通过 load_skill 加载专业技能来增强你的能力。&quot;,
+});
+</code></pre>
+<p>当前 demo 用 <code>createReactAgent</code>，并把 5 个工具显式列在 <code>tools</code> 中。<strong>这是 Custom Pattern 的简化版</strong>（没有使用 middleware）。升级到 13.4.3 的标准写法后：</p>
+<pre><code class="language-tsx">const agent = createAgent({
+  model,
+  tools: [analyzeCompleteness, estimateComplexity, searchCompetitors, searchBestPractices],
+  // loadSkill 由 skillMiddleware 自带，不用显式列在 tools 里
+  middleware: [skillMiddleware],
+  systemPrompt: &quot;你是一个产品助手。&quot;,
+});
+</code></pre>
+<p>skill 索引由 middleware 注入 systemPrompt，新增 skill 只需改 SKILLS 数组。本章 demo 暂时保留简化版，文档里给出对照写法供升级参考。</p>
+<h3 id="13-8-8-生成代码-prompt-demo-脚本">13.8.8 生成代码 Prompt：Demo 脚本</h3>
+<p>前面已经拆完 Skill 文件、工具包装和 Agent 配置。接下来先生成 demo 脚本，再运行测试和 demo。</p>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：Demo 脚本</p>
+<pre><code>创建第十三章 Skills Demo 脚本：
+
+位置：services/chat/scripts/run-skill-demo.ts
+
+目标：
+- 演示用户输入 → load_skill 读取 SKILL.md → Agent 调用 Python 工具 → 输出分析报告
+- 这是教学级 PoC，不是生产 Skills 平台
+
+要求：
+1. 加载 .env
+2. 读取 OPENAI_API_KEY、OPENAI_BASE_URL、SKILL_DEMO_MODEL
+3. 模型默认 gpt-5.4，可通过 SKILL_DEMO_MODEL 覆盖
+4. 定义 SKILLS_DIR，指向 services/chat/src/skills/definitions
+5. 实现 callPythonTool(skillName, scriptName, payload)
+   - 定位到对应 Skill 的 scripts/*.py
+   - stdin 传 JSON
+   - stdout 返回 JSON 字符串
+   - 打印脚本名、输入摘要和输出长度
+6. 实现 load_skill
+   - 使用 DynamicStructuredTool
+   - schema: { skillName: string }
+   - 打印 skillName、文件路径、内容长度
+   - 返回完整 SKILL.md 原文
+7. 显式注册四个 Python 工具
+   - analyze_completeness
+   - estimate_complexity
+   - search_competitors
+   - search_best_practices
+8. 使用 createReactAgent + ChatOpenAI 创建 Agent
+9. 依次运行两个 query
+   - 需求分析：分析“批量导入用户数据”的需求
+   - 竞品调研：调研“AI 写作助手”的竞品方案
+10. 每个 query 打印
+   - 用户输入
+   - 工具调用链
+   - Agent 最终输出
+   - 输出长度
+
+约束：
+- 不解析 frontmatter 自动注册工具
+- 不引入生产权限、监控、A/B 测试、版本路由
+- 工具必须显式注册，方便读者看清楚 Custom Pattern 的最小机制
+- LangChain 工具返回值保持 string，Python 输出不要直接返回对象
+- 如果没有 OPENAI_API_KEY，抛出清晰错误，并提示用户先运行 Layer 1 测试
+</code></pre>
+</li>
+</ul>
+<h3 id="13-8-9-生成代码-prompt-测试文件">13.8.9 生成代码 Prompt：测试文件</h3>
+<p>测试文件和 demo 脚本一样，也属于本章实战链路的一部分。先明确要测什么，再生成测试代码。</p>
+<table>
+<thead>
+<tr>
+<th>分层</th>
+<th>测试用例</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layer 1</td>
+<td><code>load_skill</code> 元信息和文件读取</td>
+<td>能读取 <code>requirement-analysis/SKILL.md</code>，并包含关键工具名</td>
+</tr>
+<tr>
+<td>Layer 1</td>
+<td>Python 工具 JSON in/out</td>
+<td>需求分析和竞品调研脚本都能返回可解析 JSON</td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>需求分析 Agent 链路</td>
+<td>Agent 调用 <code>load_skill</code> 和 <code>analyze_completeness</code></td>
+</tr>
+<tr>
+<td>Layer 2</td>
+<td>竞品调研 Agent 链路</td>
+<td>Agent 调用 <code>load_skill</code> 和 <code>search_competitors</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>
+<p>🧩 生成代码 Prompt：测试文件</p>
+<pre><code>为第十三章创建 Skills 测试文件：
+
+文件：services/chat/test/chapter13-skills.spec.ts
+
+Layer 1：零 LLM 依赖测试
+- 使用 bun:test
+- 构造 load_skill Tool（DynamicStructuredTool）
+- 验证 name 为 load_skill
+- 验证 description 包含 requirement-analysis、competitor-research、analyze_completeness
+- 调用 invoke({ skillName: &quot;requirement-analysis&quot; }) 能读取 SKILL.md 原文
+- 通过 child_process.execSync 调用 Python 脚本
+- 验证 analyze_completeness.py 返回 completenessScore、coveredDimensions、missingDimensions
+- 验证 estimate_complexity.py 返回 S/M/L/XL
+- 验证 search_competitors.py 返回多个竞品
+- 验证 search_best_practices.py 返回最佳实践列表
+
+Layer 2：LLM 集成测试
+- 只有 OPENAI_API_KEY 且 RUN_LLM_SKILLS_TESTS=1 时运行，否则 skip
+- 读取 OPENAI_BASE_URL
+- 默认模型 gpt-5.4，可用 LLM_SKILLS_TEST_MODEL 覆盖
+- 使用 createReactAgent + ChatOpenAI，不使用 fake/mock model
+- 需求分析用例：验证 Agent 调用 load_skill 和 analyze_completeness
+- 竞品调研用例：验证 Agent 调用 load_skill 和 search_competitors
+- 最终输出只做长度、关键词和基础结构断言
+
+约束：
+- 不解析 frontmatter 自动注册工具
+- Python 工具通过显式 DynamicStructuredTool 包装
+- Layer 1 不依赖 LLM、网络和外部 API
+- Layer 2 默认跳过，避免无模型权限导致本地验证失败
+- 测试名称按章节组织，至少包含 13.4 和 13.7 两组用例
+</code></pre>
+</li>
+</ul>
+<h3 id="13-8-10-运行和验收">13.8.10 运行和验收</h3>
+<p>代码和测试文件生成后，按下面的顺序验证。</p>
+<p><strong>Layer 1：确定性测试</strong></p>
+<pre><code class="language-bash">cd services/chat
+bun test test/chapter13-skills.spec.ts -t &quot;13.4&quot;
+</code></pre>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d0d95f08765541f0b60ce2d9a2a2a769~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1258&amp;h=938&amp;s=461029&amp;e=png&amp;b=fefefe" alt="image 6.png" /></p>
+<p><strong>Layer 2：Agent 集成测试</strong></p>
+<pre><code class="language-bash">cd services/chat
+RUN_LLM_SKILLS_TESTS=1 bun test test/chapter13-skills.spec.ts -t &quot;13.7&quot;
+</code></pre>
+<p>如果要指定模型：</p>
+<pre><code class="language-bash">RUN_LLM_SKILLS_TESTS=1 LLM_SKILLS_TEST_MODEL=gpt-5.4 bun test test/chapter13-skills.spec.ts -t &quot;13.7&quot;
+</code></pre>
+<p>Layer 2 会调用真实模型，需要 <code>OPENAI_API_KEY</code> 和模型权限；没有设置 <code>RUN_LLM_SKILLS_TESTS=1</code> 时会自动跳过。</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8639bdd980140b2bc8b7f148a6a3d3e~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1258&amp;h=938&amp;s=287542&amp;e=png&amp;b=fefefe" alt="image 7.png" /></p>
+<p><strong>运行 Demo</strong></p>
+<pre><code class="language-bash">cd services/chat
+bun run scripts/run-skill-demo.ts
+</code></pre>
+<p>脚本会依次跑两个场景：</p>
+<ol>
+<li>需求分析：加载 <code>requirement-analysis</code>，调用需求分析相关工具。</li>
+<li>竞品调研：加载 <code>competitor-research</code>，调用竞品调研相关工具。</li>
+</ol>
+<p>运行日志应能看到：</p>
+<ul>
+<li>用户输入</li>
+<li><code>load_skill</code> 加载的 skillName、文件路径和内容长度</li>
+<li>Agent 工具调用链</li>
+<li>最终报告</li>
+</ul>
+<p>📋 <strong>验收点</strong></p>
+<table>
+<thead>
+<tr>
+<th>验证点</th>
+<th>预期</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layer 1 测试</td>
+<td>零 LLM 依赖，稳定通过</td>
+</tr>
+<tr>
+<td>Layer 2 测试</td>
+<td>显式开启后验证关键 Agent 调用链</td>
+</tr>
+<tr>
+<td>Demo 日志</td>
+<td>打印两条 query、skillName、工具调用链和最终报告</td>
+</tr>
+<tr>
+<td>边界说明</td>
+<td>明确这是教学 PoC，不是生产 Skills 平台</td>
+</tr>
+</tbody>
+</table>
+<p>当前本地验证结果：</p>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/91544f3fa3db4618b475ccafec52a9b0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1468&amp;h=1162&amp;s=402611&amp;e=png&amp;b=ffffff" alt="image 8.png" /></p>
+<h3 id="13-8-11-进阶-command-skillsloaded-未启用">13.8.11 进阶：Command + skillsLoaded（未启用）</h3>
+<p>当前 demo 暂时没有引入 <code>Command</code>。主要原因有两个：</p>
+<ul>
+<li>两个 Skill 之间没有强依赖，用户可以单独做需求分析，也可以单独做竞品调研。</li>
+<li>Python 工具本身不依赖 <code>SKILL.md</code> 的上下文，直接调用也能返回稳定结果。</li>
+</ul>
+<p>如果后续扩展到“必须先 <code>load_skill('requirement-analysis')</code>，才能调用 <code>generate_prd</code>”这类场景，再引入 13.4.5 的 <code>Command + skillsLoaded</code> 会更合适。</p>
+<hr />
+<h2 id="13-9-mcp-rag-agents-skills-如何组合">13.9 MCP、RAG、Agents、Skills 如何组合</h2>
+<p>把四者放到一个真实任务里更容易理解。</p>
+<p>假设用户说：</p>
+<blockquote>
+<p>帮我评审“批量导入用户”这个需求，看看是否和历史需求冲突，并给出实现风险。</p>
+</blockquote>
+<p>合理的组合方式是：</p>
+<ol>
+<li>Agent 接收目标，决定这是一个需要多步执行的评审任务。</li>
+<li>Skills 提供需求分析的任务最佳实践，加载 <code>requirement-analysis</code>。</li>
+<li>Skill 工作流要求先做完整性检查和复杂度估算。</li>
+<li>RAG 检索历史需求、产品规范、数据导入设计文档。</li>
+<li>MCP 调用项目管理系统，查询相关 issue 或已有 PRD。</li>
+<li>Agent 汇总工具和知识结果，按 Skill 输出规范生成报告。</li>
+</ol>
+<div class="mermaid">sequenceDiagram
+  participant U as 用户
+  participant A as Agent
+  participant S as Skill
+  participant R as RAG
+  participant M as MCP
+  participant T as 本地工具
+
+  U-&gt;&gt;A: 评审批量导入用户需求
+  A-&gt;&gt;A: 规划多步评审流程
+  A-&gt;&gt;S: 加载 requirement-analysis
+  S--&gt;&gt;A: 返回角色、流程、输出规范
+  A-&gt;&gt;T: 完整性和复杂度分析
+  T--&gt;&gt;A: 结构化结果
+  A-&gt;&gt;R: 检索历史需求和规范
+  R--&gt;&gt;A: 相关文档片段
+  A-&gt;&gt;M: 查询项目管理系统
+  M--&gt;&gt;A: 相关 issue 和状态
+  A--&gt;&gt;U: 按 Skill 规范输出评审报告
+</div>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/86b42ca7e51549e29103493769c1b9d3~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=2113281&amp;e=png&amp;b=010219" alt="image 9.png" /></p>
+<p>四者不是竞争关系，而是分工关系：</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>应该先看哪层</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>答案缺少业务事实</td>
+<td>RAG</td>
+</tr>
+<tr>
+<td>调不到外部系统</td>
+<td>MCP</td>
+</tr>
+<tr>
+<td>任务需要多步规划和动态调整、观察后修正</td>
+<td>Agents</td>
+</tr>
+<tr>
+<td>输出缺少专业结构、流程不稳定</td>
+<td>Skills</td>
+</tr>
+<tr>
+<td>工具已接入，但缺少调用流程</td>
+<td>Skills</td>
+</tr>
+<tr>
+<td>知识库有了但不知道检索什么</td>
+<td>Skills + RAG</td>
+</tr>
+<tr>
+<td>多个客户端都要复用同一工具</td>
+<td>MCP</td>
+</tr>
+<tr>
+<td>固定流程能写成检查清单</td>
+<td>Skills，不要先上 Agent</td>
+</tr>
+</tbody>
+</table>
+<p>一条经验判断：</p>
+<blockquote>
+<p>如果问题是“模型不知道”，优先看 RAG；如果问题是“模型不知道怎么接外部系统”，优先看 MCP；如果问题是“模型不知道怎么自主推进多步任务”，再看 Agents；如果问题是“模型不知道某类任务的最佳实践”，优先看 Skills。</p>
+</blockquote>
+<p>再换成工程选型语言：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>优先方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>企业知识库问答</td>
+<td>RAG</td>
+</tr>
+<tr>
+<td>标准化接入 GitHub、Slack、数据库、IDE</td>
+<td>MCP</td>
+</tr>
+<tr>
+<td>自动化办公、代码修改、长链路研究</td>
+<td>Agents</td>
+</tr>
+<tr>
+<td>需求分析、竞品调研、技术评审这类固定专业流程</td>
+<td>Skills</td>
+</tr>
+<tr>
+<td>Coding Agent</td>
+<td>Agents + MCP + Skills + RAG，按需组合</td>
+</tr>
+</tbody>
+</table>
+<p>Agent 给系统更大的自主性，也会带来更多路径不确定性和成本波动；Skill 则更像一套固定打法，牺牲一部分自由度，换来更稳定的流程和输出。实际落地时，不必一开始就把 MCP、RAG、Agents、Skills 全部堆上去。更稳妥的做法，是先判断任务到底缺知识、缺工具、缺执行循环，还是缺一套可复用的方法，再逐层补能力。</p>
+<h3 id="13-9-1-skill-的工具可以来自任何来源">13.9.1 Skill 的工具可以来自任何来源</h3>
+<p>上面的序列图很容易让人理解成”Skill 自带本地工具，Agent 在 Skill 之外另外调 RAG 和 MCP”。实际上更准确的关系是：<strong>Skill 的 <code>allowed-tools</code> 列出的是工具名字，不限定工具的实现方式</strong>。在 LangChain Custom Pattern 里，只要应用层把工具注册到 Agent 工具栈，Skill 就能引用它——无论它背后是本地脚本、MCP Server 工具、RAG retriever 还是第三方 API。</p>
+<table>
+<thead>
+<tr>
+<th>工具来源</th>
+<th>LangChain 里的呈现</th>
+<th>Skill 引用方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地脚本（Python/TS）</td>
+<td><code>DynamicStructuredTool</code> 包 <code>execSync</code></td>
+<td><code>allowed-tools: analyze_completeness</code></td>
+</tr>
+<tr>
+<td>MCP Server 工具</td>
+<td><code>MultiServerMCPClient.getTools()</code> 把 MCP tool 转成 LangChain Tool</td>
+<td><code>allowed-tools: jira_search_issue</code></td>
+</tr>
+<tr>
+<td>RAG retriever</td>
+<td><code>createRetrieverTool(retriever, ...)</code> 把检索器包成 Tool</td>
+<td><code>allowed-tools: search_company_docs</code></td>
+</tr>
+<tr>
+<td>第三方 API</td>
+<td><code>DynamicTool</code> 包 <code>fetch</code></td>
+<td><code>allowed-tools: send_slack_message</code></td>
+</tr>
+</tbody>
+</table>
+<p>把这四种来源混到 <code>requirement-analysis</code> Skill 上，frontmatter 看起来是这样：</p>
+<pre><code class="language-yaml">allowed-tools:&gt;-
+  load_skill,
+  analyze_completeness,
+  estimate_complexity,
+  search_historical_requirements,
+  jira_search_issue
+</code></pre>
+<p>正文工作流则把它们统一编排：</p>
+<pre><code class="language-markdown">### 步骤 1：用 analyze_completeness 检查需求完整性（本地工具）
+### 步骤 2：用 search_historical_requirements 检索相似历史需求（RAG）
+### 步骤 3：用 jira_search_issue 查相关 issue（MCP）
+### 步骤 4：综合输出报告
+</code></pre>
+<p>这才是本节序列图想表达的组合方式：RAG 和 MCP 不是 Agent 在 Skill 之外临时调用的“外挂”，而是被 Skill 工作流<strong>明确编排进流程</strong>的工具。Skill 决定何时调用、按什么顺序调用，以及如何解释工具返回的结果。</p>
+<p>这套组合需要遵守四条约束：</p>
+<ol>
+<li>
+<p><strong>工具注册仍在应用层</strong>。Custom Pattern 里 <code>allowed-tools</code> 是声明性引用，工具实例必须由应用代码显式 wrap 并注册到 Agent 工具栈。Skill 不会自动让 MCP / RAG 工具出现。</p>
+</li>
+<li>
+<p><strong>工具名是公共契约</strong>。MCP Server 暴露的 tool name、retriever 包装时定的 name，一旦被 Skill 引用就成了公共契约——改名等同于改 Skill。</p>
+</li>
+<li>
+<p><strong>SKILL.md 不写运行时配置</strong>。规范把 <code>allowed-tools</code> 定义成字符串列表（而不是对象数组），就是为了挡掉下面这种反模式：</p>
+<pre><code class="language-yaml">allowed-tools:
+  - name: jira_search
+    server: https://jira.acme.com/mcp   # 错：运行时配置不属于资产
+    auth: bearer                        # 错：凭证策略不属于资产
+</code></pre>
+<p>Server URL、认证方式、retriever 用什么向量库——这些是运行时的事，属于应用配置。Skill 只引用工具<strong>名字</strong>。</p>
+</li>
+<li>
+<p><strong>RAG 进入 Skill 的两种姿势要分清</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>姿势</th>
+<th>怎么进入</th>
+<th>Agent 看到什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>作为 Tool（推荐）</td>
+<td>retriever 包成 LangChain Tool，列入 <code>allowed-tools</code></td>
+<td>Agent 主动决定什么步骤检索</td>
+</tr>
+<tr>
+<td>作为预检索</td>
+<td>应用代码在 <code>load_skill</code> 前/后跑一次 retrieval，把片段塞进 systemPrompt 或 ToolMessage</td>
+<td>Agent 任务一开始就拿到固定背景</td>
+</tr>
+</tbody>
+</table>
+<p>前者更自由（Agent 自己决定何时搜、搜什么），后者更确定（每次任务都带固定背景）。Skill 设计时要选清楚走哪条——不要混。</p>
+</li>
+</ol>
+<p>本章 demo 出于教学最小化只用了本地脚本工具。生产里完全可以把 RAG / MCP 直接接入 Skill 的 <code>allowed-tools</code>，让一个 Skill 的工作流贯通本地分析、知识检索和外部系统操作。</p>
+<hr />
+<h2 id="13-10-生产化还差什么">13.10 生产化还差什么</h2>
+<p>本章代码是教学 PoC，故意保留最小机制，方便看清 Skills 的核心链路。要进入生产环境，还需要补齐几类能力。</p>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce50c08329fb43cfa0a5e58215d7052b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1672&amp;h=941&amp;s=1752142&amp;e=png&amp;b=01061c" alt="image 10.png" /></p>
+<h3 id="13-10-1-安全边界">13.10.1 安全边界</h3>
+<p>当前 <code>load_skill</code> 按 <code>skillName</code> 拼路径读文件。生产环境需要：</p>
+<ul>
+<li>skillName 白名单</li>
+<li>路径穿越防护</li>
+<li>只读目录约束</li>
+<li>不把敏感文件路径和内容泄露给模型</li>
+<li>工具调用权限控制</li>
+</ul>
+<p>这些属于运行时安全，不应该藏在 <code>SKILL.md</code> 里。</p>
+<h3 id="13-10-2-工具发现和注册">13.10.2 工具发现和注册</h3>
+<p>当前工具要手动注册到 <code>allTools</code>。生产化可以考虑：</p>
+<ul>
+<li>解析 frontmatter <code>tools</code></li>
+<li>根据 <code>script</code> 字段注册本地脚本工具</li>
+<li>根据 <code>source: mcp</code> 绑定 MCP 工具</li>
+<li>在启动时校验工具是否存在</li>
+</ul>
+<p>但这会引入新的运行时机制。没有明确需求前，不应该为了“看起来平台化”提前实现。</p>
+<h3 id="13-10-3-质量校验">13.10.3 质量校验</h3>
+<p><code>quality_checks</code> 当前只是声明。生产化可以把质量检查做成独立阶段：</p>
+<ol>
+<li>Agent 输出报告。</li>
+<li>结构化提取关键字段。</li>
+<li>按 <code>quality_checks</code> 或 schema 校验。</li>
+<li>不通过则重试、降级或人工审核。</li>
+</ol>
+<p>如果输出需要结构化，优先用 LangChain structured output：</p>
+<pre><code class="language-tsx">const structuredModel = model.withStructuredOutput(RequirementReport);
+const report = await structuredModel.invoke(prompt);
+</code></pre>
+<p>不要把自然语言 Markdown 当作稳定数据源，再用正则强拆字段。</p>
+<h3 id="13-10-4-可观测性">13.10.4 可观测性</h3>
+<p>生产环境至少需要记录：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skillName</code></td>
+<td>哪个 Skill 被加载</td>
+</tr>
+<tr>
+<td><code>skillVersion</code></td>
+<td>哪个版本产生输出</td>
+</tr>
+<tr>
+<td><code>loadDurationMs</code></td>
+<td>Skill 加载耗时</td>
+</tr>
+<tr>
+<td><code>toolCalls</code></td>
+<td>调用了哪些工具</td>
+</tr>
+<tr>
+<td><code>qualityPassed</code></td>
+<td>质量检查是否通过</td>
+</tr>
+<tr>
+<td><code>modelName</code></td>
+<td>哪个模型执行</td>
+</tr>
+<tr>
+<td><code>tokenUsage</code></td>
+<td>成本和上下文压力</td>
+</tr>
+</tbody>
+</table>
+<p>注意不要记录敏感原文。需求、客户资料、内部文档片段都可能包含敏感信息。日志应记录 ID、形状和统计信息，而不是原始内容。</p>
+<hr />
+<h2 id="13-11-常见问题">13.11 常见问题</h2>
+<h3 id="q1-skills-是不是-rag-的替代品">Q1：Skills 是不是 RAG 的替代品？</h3>
+<p>不是。</p>
+<p>RAG 解决知识检索，Skills 解决工作方式沉淀。一个需求分析 Skill 可以要求 Agent 去 RAG 里查历史 PRD，但 Skill 本身不是向量库，也不负责召回文档。</p>
+<h3 id="q2-skills-是不是-mcp-的替代品">Q2：Skills 是不是 MCP 的替代品？</h3>
+<p>不是。</p>
+<p>MCP 解决工具协议和复用。Skill 可以引用 MCP 工具，告诉 Agent 在某个步骤调用它。但 Skill 不替代 MCP Server，也不负责外部系统权限、传输和协议。</p>
+<h3 id="q3-skills-是不是-agents-的替代品">Q3：Skills 是不是 Agents 的替代品？</h3>
+<p>不是。</p>
+<p>Agents 是运行模式，负责规划、执行、观察和循环修正。Skills 是任务方法，负责告诉 Agent 某类任务应该按什么最佳实践做。没有 Agent，Skill 只是静态指令资产；没有 Skill，Agent 可能能行动，但输出路径更随机。</p>
+<p>固定流程优先写成 Skill。只有任务需要开放式探索、多步执行、观察后调整时，才需要引入更强的 Agent 编排。</p>
+<h3 id="q4-为什么不直接把所有-skill-写进-system-prompt">Q4：为什么不直接把所有 Skill 写进 system prompt？</h3>
+<p>因为上下文是成本，也是注意力预算。</p>
+<p>一次任务通常只需要一个或少数几个 Skill。把所有 Skill 全塞进 system prompt，会浪费 token，也会稀释模型注意力。按需加载才符合第十章讲过的 Token 经济学。</p>
+<h3 id="q5-为什么本章不用-skillregistry">Q5：为什么本章不用 <code>SkillRegistry</code>？</h3>
+<p>因为当前目标是教学 PoC：让读者看清楚 Skill 的最小机制。</p>
+<p>一上来写注册中心，会把重点从“能力如何资产化”带偏到“框架如何设计”。等出现多个运行时、自动注册、版本路由、权限控制这些真实需求时，再设计注册机制更合理。</p>
+<h3 id="q6-quality_checks-已经自动执行了吗">Q6：<code>quality_checks</code> 已经自动执行了吗？</h3>
+<p>没有。</p>
+<p>当前它是 <code>SKILL.md</code> 中的声明式质量规则，测试里只做了局部硬编码断言。文章把它作为生产化方向讲，不把它说成已实现能力。</p>
+<h3 id="q7-scripts-tools-ts-是不是运行路径">Q7：<code>scripts/tools.ts</code> 是不是运行路径？</h3>
+<p>当前不是。</p>
+<p>本章 demo 和测试调用的是 Python 脚本。<code>scripts/tools.ts</code> 没有被导入到 demo/test 中。它可以作为未来 TypeScript 工具实现的参考，但不是本章实际调用链路。</p>
+<h3 id="q8-结构化输出为什么不用自己写解析">Q8：结构化输出为什么不用自己写解析？</h3>
+<p>因为 LLM 自然语言输出不稳定。自己用正则或字符串切割解析模型回答，短 demo 里能跑，真实场景会被格式变化、模型升级、多语言表达击穿。</p>
+<p>LangChain 已经提供结构化输出能力：</p>
+<ul>
+<li><code>model.withStructuredOutput(zodSchema)</code></li>
+<li><code>StructuredOutputParser.fromZodSchema(schema)</code></li>
+<li><code>JsonOutputParser</code></li>
+</ul>
+<p>推荐让模型一开始就按 schema 输出，而不是先生成 Markdown 再强行拆。</p>
+<hr />
+<h2 id="13-12-术语速查表">13.12 术语速查表</h2>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG</td>
+<td>检索增强生成，先查外部知识，再让模型基于资料回答</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>模型上下文协议，用统一方式暴露工具、资源和提示词模板</td>
+</tr>
+<tr>
+<td>Agent</td>
+<td>能自主规划、调用工具、观察结果并继续执行的运行模式</td>
+</tr>
+<tr>
+<td>ReAct</td>
+<td>Reason + Act 的 Agent 循环：推理、行动、观察、再推理</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>可按需加载的领域能力资产，通常以 <code>SKILL.md</code> 为核心</td>
+</tr>
+<tr>
+<td><code>SKILL.md</code></td>
+<td>Skill 主文件，包含元数据、角色、工具说明、工作流和输出规范</td>
+</tr>
+<tr>
+<td>frontmatter</td>
+<td>Markdown 文件开头的 YAML 元数据</td>
+</tr>
+<tr>
+<td>Progressive Disclosure</td>
+<td>渐进式披露，只在需要时加载相关 Skill</td>
+</tr>
+<tr>
+<td><code>load_skill</code></td>
+<td>本章 demo 中读取 <code>SKILL.md</code> 并返回内容的 Tool</td>
+</tr>
+<tr>
+<td>Tool</td>
+<td>Agent 可调用的外部能力，带名称、描述和参数 schema</td>
+</tr>
+<tr>
+<td><code>DynamicStructuredTool</code></td>
+<td>LangChain 中定义结构化工具的一种方式</td>
+</tr>
+<tr>
+<td>Zod schema</td>
+<td>TypeScript 生态中常用的运行时 schema 描述，本章用于工具输入和结构化输出</td>
+</tr>
+<tr>
+<td><code>withStructuredOutput()</code></td>
+<td>LangChain 模型结构化输出能力，让模型按 schema 返回对象</td>
+</tr>
+<tr>
+<td><code>StructuredOutputParser</code></td>
+<td>LangChain 官方输出解析器，可从 Zod schema 生成格式说明和解析逻辑</td>
+</tr>
+<tr>
+<td><code>quality_checks</code></td>
+<td>Skill 中声明的质量规则，当前 PoC 未自动执行</td>
+</tr>
+<tr>
+<td>Layer 1 测试</td>
+<td>不依赖 LLM 的确定性测试</td>
+</tr>
+<tr>
+<td>Layer 2 测试</td>
+<td>依赖 LLM 的 Agent 端到端测试</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-13-本章小结">13.13 本章小结</h2>
+<p>这一章建立的是一张能力地图：</p>
+<ul>
+<li><strong>MCP</strong>：标准化连接外部系统，解决“怎么接”的问题。</li>
+<li><strong>RAG</strong>：把业务知识带入上下文，解决“模型不知道”的问题。</li>
+<li><strong>Agents</strong>：让模型自主规划和执行多步任务，解决“如何推进开放任务”的问题。</li>
+<li><strong>Skills</strong>：按领域专家的方法组织知识、工具和输出，解决“最佳实践如何沉淀”的问题。</li>
+</ul>
+<p>本章没有构建生产级 Skills 平台，而是用最小 PoC 演示一条核心链路：</p>
+<ol>
+<li><code>SKILL.md</code> 描述领域角色、工具、工作流和输出规范。</li>
+<li><code>load_skill</code> 按需读取 <code>SKILL.md</code>。</li>
+<li>Agent 读到 Skill 后，调用显式注册的 Python 工具。</li>
+<li>Python 工具通过 JSON in/out 返回结构化结果。</li>
+<li>Agent 按 Skill 工作流生成报告。</li>
+</ol>
+<p>这条链路已经足够说明 Skills 的价值：<strong>把散落在 prompt、工具代码、流程代码和团队经验里的领域能力，收敛成一份可读、可 review、可复制、可迭代的资产。</strong></p>
+<p>同时要保留边界意识：当前 <code>quality_checks</code> 没有自动执行，frontmatter 不驱动自动注册，Skill 也还没有接入主聊天服务。生产化还需要安全、权限、质量校验、可观测性和版本治理。</p>
+<p>最后用一句话收束四层关系：</p>
+<blockquote>
+<p>MCP 是连接层，RAG 是知识层，Agents 是运行层，Skills 是方法层。真正的领域 Agent，不只是会读、会调工具、会循环执行，还要知道如何按专业流程把事情做对。</p>
+</blockquote>
+<h3 id="后续章节预告">后续章节预告</h3>
+<p>下一章进入 <strong>DeepAgent 渐进式教程</strong>。</p>
+<p>前面几章已经分别拆开了知识、工具、运行模式和任务方法：RAG 解决知识注入，MCP 解决工具连接，Agents 解决多步执行，Skills 解决专业流程沉淀。接下来要把这些能力放进一套更完整的长链任务框架里，看一个 Agent 如何在更复杂的任务中拆解目标、管理上下文、调用工具，并逐步推进到可交付结果。</p>
+<p>第十四章会先从最小 DeepAgent 开始，不直接堆概念，而是按阶段逐步搭出一条可运行链路：先理解 DeepAgent 解决什么问题，再看它如何组织任务、加载上下文、调用工具和沉淀中间结果。</p>
+<h2 id="写在最后">写在最后 🧪</h2>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。不只聊概念，也尽量分享能直接上手、能够复用的经验。希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-14.html">← 第十二章：MCP——工具调用的操作系统</a>
+      <a class="next" href="ch-16.html">第十四章：DeepAgent——一个开箱即用的 Agent Harness →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#13-1-先把-mcp-rag-agents-skills-放在同一张图里">13.1 先把 MCP、RAG、Agents、Skills 放在同一张图里</a></li>
+      <li class="lv2"><a href="#13-2-rag-mcp-agents-的边界">13.2 RAG / MCP / Agents 的边界</a></li>
+      <li class="lv3"><a href="#13-2-1-rag-知识检索">13.2.1 RAG：知识检索</a></li>
+      <li class="lv3"><a href="#13-2-2-mcp-工具协议">13.2.2 MCP：工具协议</a></li>
+      <li class="lv3"><a href="#13-2-3-agents-运行模式">13.2.3 Agents：运行模式</a></li>
+      <li class="lv3"><a href="#13-2-4-为什么它们都不是-skills">13.2.4 为什么它们都不是 Skills</a></li>
+      <li class="lv2"><a href="#13-3-agent-skills-规范-通用概念">13.3 Agent Skills 规范：通用概念</a></li>
+      <li class="lv3"><a href="#13-3-1-规范的核心要素">13.3.1 规范的核心要素</a></li>
+      <li class="lv3"><a href="#13-3-2-规范的渐进式披露思想">13.3.2 规范的渐进式披露思想</a></li>
+      <li class="lv2"><a href="#13-4-langchain-custom-skills-pattern">13.4 LangChain Custom Skills Pattern</a></li>
+      <li class="lv3"><a href="#13-4-1-整体架构">13.4.1 整体架构</a></li>
+      <li class="lv3"><a href="#13-4-2-loadskill-tool-标准写法">13.4.2 `loadSkill` Tool（标准写法）</a></li>
+      <li class="lv3"><a href="#13-4-3-createmiddleware-注入-skill-索引">13.4.3 `createMiddleware`：注入 skill 索引</a></li>
+      <li class="lv3"><a href="#13-4-4-两层渐进式披露-和规范的对应关系">13.4.4 两层渐进式披露：和规范的对应关系</a></li>
+      <li class="lv3"><a href="#13-4-5-进阶-command-skillsloaded">13.4.5 进阶：`Command + skillsLoaded`</a></li>
+      <li class="lv2"><a href="#13-5-langchain-deep-agents-skills">13.5 LangChain Deep Agents Skills</a></li>
+      <li class="lv3"><a href="#13-5-1-与-custom-pattern-的根本区别">13.5.1 与 Custom Pattern 的根本区别</a></li>
+      <li class="lv3"><a href="#13-5-2-启动-命中-详读-的渐进式披露">13.5.2 启动 → 命中 → 详读 的渐进式披露</a></li>
+      <li class="lv3"><a href="#13-5-3-配置示例">13.5.3 配置示例</a></li>
+      <li class="lv3"><a href="#13-5-4-何时选-deep-agents-skills">13.5.4 何时选 Deep Agents Skills</a></li>
+      <li class="lv2"><a href="#13-6-claude-code-skills">13.6 Claude Code Skills</a></li>
+      <li class="lv3"><a href="#13-6-1-filesystem-bash-实现">13.6.1 Filesystem + Bash 实现</a></li>
+      <li class="lv3"><a href="#13-6-2-四层渐进式披露的实现">13.6.2 四层渐进式披露的实现</a></li>
+      <li class="lv3"><a href="#13-6-3-与-langchain-skills-的根本差异">13.6.3 与 LangChain Skills 的根本差异</a></li>
+      <li class="lv2"><a href="#13-7-三种模式并列对比">13.7 三种模式并列对比</a></li>
+      <li class="lv2"><a href="#13-8-本章-demo-实战">13.8 本章 demo 实战</a></li>
+      <li class="lv3"><a href="#13-8-1-为什么选-langchain-custom-skills-pattern">13.8.1 为什么选 LangChain Custom Skills Pattern</a></li>
+      <li class="lv3"><a href="#13-8-2-skill-md-文件形态">13.8.2 SKILL.md 文件形态</a></li>
+      <li class="lv3"><a href="#13-8-3-loadskill-tool-demo-简化版-vs-标准写法">13.8.3 `loadSkill` Tool（demo 简化版 vs 标准写法）</a></li>
+      <li class="lv3"><a href="#13-8-4-python-工具的-langchain-包装">13.8.4 Python 工具的 LangChain 包装</a></li>
+      <li class="lv3"><a href="#13-8-5-实战一-需求分析-skill">13.8.5 实战一：需求分析 Skill</a></li>
+      <li class="lv3"><a href="#13-8-6-实战二-竞品调研-skill">13.8.6 实战二：竞品调研 Skill</a></li>
+      <li class="lv3"><a href="#13-8-7-完整-agent-配置">13.8.7 完整 Agent 配置</a></li>
+      <li class="lv3"><a href="#13-8-8-生成代码-prompt-demo-脚本">13.8.8 生成代码 Prompt：Demo 脚本</a></li>
+      <li class="lv3"><a href="#13-8-9-生成代码-prompt-测试文件">13.8.9 生成代码 Prompt：测试文件</a></li>
+      <li class="lv3"><a href="#13-8-10-运行和验收">13.8.10 运行和验收</a></li>
+      <li class="lv3"><a href="#13-8-11-进阶-command-skillsloaded-未启用">13.8.11 进阶：Command + skillsLoaded（未启用）</a></li>
+      <li class="lv2"><a href="#13-9-mcp-rag-agents-skills-如何组合">13.9 MCP、RAG、Agents、Skills 如何组合</a></li>
+      <li class="lv3"><a href="#13-9-1-skill-的工具可以来自任何来源">13.9.1 Skill 的工具可以来自任何来源</a></li>
+      <li class="lv2"><a href="#13-10-生产化还差什么">13.10 生产化还差什么</a></li>
+      <li class="lv3"><a href="#13-10-1-安全边界">13.10.1 安全边界</a></li>
+      <li class="lv3"><a href="#13-10-2-工具发现和注册">13.10.2 工具发现和注册</a></li>
+      <li class="lv3"><a href="#13-10-3-质量校验">13.10.3 质量校验</a></li>
+      <li class="lv3"><a href="#13-10-4-可观测性">13.10.4 可观测性</a></li>
+      <li class="lv2"><a href="#13-11-常见问题">13.11 常见问题</a></li>
+      <li class="lv3"><a href="#q1-skills-是不是-rag-的替代品">Q1：Skills 是不是 RAG 的替代品？</a></li>
+      <li class="lv3"><a href="#q2-skills-是不是-mcp-的替代品">Q2：Skills 是不是 MCP 的替代品？</a></li>
+      <li class="lv3"><a href="#q3-skills-是不是-agents-的替代品">Q3：Skills 是不是 Agents 的替代品？</a></li>
+      <li class="lv3"><a href="#q4-为什么不直接把所有-skill-写进-system-prompt">Q4：为什么不直接把所有 Skill 写进 system prompt？</a></li>
+      <li class="lv3"><a href="#q5-为什么本章不用-skillregistry">Q5：为什么本章不用 `SkillRegistry`？</a></li>
+      <li class="lv3"><a href="#q6-quality_checks-已经自动执行了吗">Q6：`quality_checks` 已经自动执行了吗？</a></li>
+      <li class="lv3"><a href="#q7-scripts-tools-ts-是不是运行路径">Q7：`scripts/tools.ts` 是不是运行路径？</a></li>
+      <li class="lv3"><a href="#q8-结构化输出为什么不用自己写解析">Q8：结构化输出为什么不用自己写解析？</a></li>
+      <li class="lv2"><a href="#13-12-术语速查表">13.12 术语速查表</a></li>
+      <li class="lv2"><a href="#13-13-本章小结">13.13 本章小结</a></li>
+      <li class="lv3"><a href="#后续章节预告">后续章节预告</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后 🧪</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

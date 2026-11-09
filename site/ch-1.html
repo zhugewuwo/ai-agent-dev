@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>序章：站在范式之变的十字路口 - AI Agents 开发实践</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-title" href="index.html">AI Agents 开发实践</a>
+    <div class="topbar-right">
+      <a class="login-btn" href="https://github.com/Cookieboty/Autix" target="_blank" rel="noopener">项目源码</a>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="chapter-list">
+      <ol>
+        <li><a href="ch-0.html"><span class="num">1</span><span class="info"><span class="t">介绍</span><span class="d">阅读时长: 6分44秒</span></span></a></li>
+        <li class="active"><a href="ch-1.html"><span class="num">2</span><span class="info"><span class="t">序章：站在范式之变的十字路口</span><span class="d">阅读时长: 16分39秒</span></span></a></li>
+        <li><a href="ch-2.html"><span class="num">3</span><span class="info"><span class="t">把模型变成能力</span><span class="d">阅读时长: 56分26秒</span></span></a></li>
+        <li><a href="ch-3.html"><span class="num">4</span><span class="info"><span class="t">搭建智能体的工程底座</span><span class="d">阅读时长: 32分10秒</span></span></a></li>
+        <li><a href="ch-4.html"><span class="num">5</span><span class="info"><span class="t">用 AI 接管工程化开发：从工程底座到能力链路</span><span class="d">阅读时长: 19分6秒</span></span></a></li>
+        <li><a href="ch-5.html"><span class="num">6</span><span class="info"><span class="t">LangChain 起手——搭建第一条服务端能力链路</span><span class="d">阅读时长: 35分55秒</span></span></a></li>
+        <li><a href="ch-6.html"><span class="num">7</span><span class="info"><span class="t">LangChain 进阶——记忆、工具与多 Agent</span><span class="d">阅读时长: 30分7秒</span></span></a></li>
+        <li><a href="ch-7.html"><span class="num">8</span><span class="info"><span class="t">从 Mock 到生产——数据库设计与向量化落库</span><span class="d">阅读时长: 37分34秒</span></span></a></li>
+        <li><a href="ch-8.html"><span class="num">9</span><span class="info"><span class="t">让 AI 做更懂你的交互</span><span class="d">阅读时长: 38分5秒</span></span></a></li>
+        <li><a href="ch-9.html"><span class="num">10</span><span class="info"><span class="t">Agent 推理的三层决策机制：路由、执行与优化</span><span class="d">阅读时长: 29分47秒</span></span></a></li>
+        <li><a href="ch-10.html"><span class="num">11</span><span class="info"><span class="t">LangGraph 单 Agent 图实战——路由、循环与质量闭环</span><span class="d">阅读时长: 51分21秒</span></span></a></li>
+        <li><a href="ch-11.html"><span class="num">12</span><span class="info"><span class="t">LangGraph Multi-Agent 实战</span><span class="d">阅读时长: 63分14秒</span></span></a></li>
+        <li><a href="ch-12.html"><span class="num">13</span><span class="info"><span class="t">Token 经济学：在 AI 能力与运行成本之间寻找平衡</span><span class="d">阅读时长: 50分17秒</span></span></a></li>
+        <li><a href="ch-13.html"><span class="num">14</span><span class="info"><span class="t">RAG——让AI更懂你的业务</span><span class="d">阅读时长: 107分19秒</span></span></a></li>
+        <li><a href="ch-14.html"><span class="num">15</span><span class="info"><span class="t">MCP——工具调用的操作系统</span><span class="d">阅读时长: 58分48秒</span></span></a></li>
+        <li><a href="ch-15.html"><span class="num">16</span><span class="info"><span class="t">Skills——把最佳实践沉淀为能力资产</span><span class="d">阅读时长: 38分29秒</span></span></a></li>
+        <li><a href="ch-16.html"><span class="num">17</span><span class="info"><span class="t">DeepAgent——一个开箱即用的 Agent Harness</span><span class="d">阅读时长: 35分11秒</span></span></a></li>
+        <li><a href="ch-17.html"><span class="num">18</span><span class="info"><span class="t">DeepAgent——长链任务与自主规划</span><span class="d">阅读时长: 46分23秒</span></span></a></li>
+        <li><a href="ch-18.html"><span class="num">19</span><span class="info"><span class="t">可观测性——你不能优化你看不见的东西</span><span class="d">阅读时长: 78分8秒</span></span></a></li>
+        <li><a href="ch-19.html"><span class="num">20</span><span class="info"><span class="t">评估流水线——给 Agent 装质检线</span><span class="d">阅读时长: 51分3秒</span></span></a></li>
+        <li><a href="ch-20.html"><span class="num">21</span><span class="info"><span class="t">安全、沙箱与权限隔离</span><span class="d">阅读时长: 57分8秒</span></span></a></li>
+        <li><a href="ch-21.html"><span class="num">22</span><span class="info"><span class="t">工程化交付——AI 应用的 CI／CD</span><span class="d">阅读时长: 41分18秒</span></span></a></li>
+        <li><a href="ch-22.html"><span class="num">23</span><span class="info"><span class="t">满血版 MVP：端到端生产链路</span><span class="d">阅读时长: 46分57秒</span></span></a></li>
+        <li><a href="ch-23.html"><span class="num">24</span><span class="info"><span class="t">终章：复盘与前瞻</span><span class="d">阅读时长: 22分17秒</span></span></a></li>
+        <li><a href="ch-24.html"><span class="num">25</span><span class="info"><span class="t">面试篇：Agent 基础与编排</span><span class="d">阅读时长: 11分14秒</span></span></a></li>
+        <li><a href="ch-25.html"><span class="num">26</span><span class="info"><span class="t">面试篇：RAG 与上下文工程，让 Agent 读懂业务知识</span><span class="d">阅读时长: 9分54秒</span></span></a></li>
+        <li><a href="ch-26.html"><span class="num">27</span><span class="info"><span class="t">面试篇：Agent 工具治理生存挑战</span><span class="d">阅读时长: 28分45秒</span></span></a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article class="markdown-body">
+      <h1>序章：站在范式之变的十字路口</h1>
+<h2 id="新的启程">新的启程</h2>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cd04862e667e4aa6b4eebafc8feff6b0~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2752&amp;h=1536&amp;s=8393647&amp;e=png&amp;b=5864cc" alt="cleaned-image_(3).png" /></p>
+<p>2013 年，我踏入软件开发行业。至今已满 12 年，今年是第 13 个年头。最初从 Java 开发入门，随后尝试 Python，最终在互联网浪潮的末期来到杭州，成为一名前端工程师。</p>
+<p>我清晰记得 2015 年前后的那个时代：Node.js 刚刚兴起，React、Vue、Angular 等前端框架如雨后春笋般涌现。我们这批&quot;后来者&quot;反而在前端开发范式的更新中拥有天然优势。那时，我甚至面试过一位有 10 年经验的开发者。对他而言，长期习惯 DOM 操作和 jQuery 的旧范式，突然要面对模式化、组件化的新方式，无疑是降维打击。而对只有两年经验的我来说，没有技术债务与思维固化，反而能在新模式下如鱼得水。</p>
+<blockquote>
+<p>💡 那是我第一次真正感受到<strong>技术变革带来的红利——努力和敏捷学习，真的可以带来机会</strong>。</p>
+</blockquote>
+<p>没有学历、没有大厂背景，我走的每一步都如履薄冰，比别人更艰难。但也正是抓住了互联网浪潮与技术创新的机会，才让努力真正转化为成果。相反，那些未能及时升级技术的前辈们，不得不面对职业瓶颈：降薪、转岗，甚至转行，成为时代变革的代价。</p>
+<p>有趣的是，这个场景在 2025 年又开始重演。随着大语言模型（LLM）一波接一波迭代，开发范式正以前所未有的速度变化。新工具、新方法、新模式层出不穷，效率与能力的天花板不断被刷新。抓住浪潮的人将再次站上技术红利的高地；停滞不前的人，很可能再次被时代抛下。</p>
+<hr />
+<h2 id="范式之变">范式之变</h2>
+<p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1f0d7d687b3f4d078bcd9a19f4915e0c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2752&amp;h=1536&amp;s=7576262&amp;e=png&amp;b=77cceb" alt="cleaned-image_(4).png" /></p>
+<p>这一轮技术变革与上一轮截然不同，带来的割裂更加彻底。不仅开发范式在改变，更重要的是<strong>人与机器的沟通方式正在发生根本性变化</strong>。图形化界面逐渐失去绝对优势，传统前端交互不再是核心。随着大语言模型快速迭代以及海量 AI 训练素材的涌入，开发者对视觉和交互的还原要求可以大幅降低——只要达到大多数用户能接受的水平就足够。</p>
+<p>对前端开发者来说，这种变化极度不友好。同时，由于前端开发天然的可视化属性，“所见即所得”的优势在这轮变革中受到了直接冲击。多年来我们精雕细琢的 UI 和复杂交互，如今可以用自然语言描述并直接生成，效率远超传统方式。许多曾经必须亲自处理的细节与兼容问题，现在借助 AI 就能快速解决。</p>
+<p>而后端开发者的处境同样严峻。过去，我们关注数据库设计、接口逻辑、业务流程，以及高并发与安全性。代码清晰、架构稳健，是衡量能力的标尺。然而，随着 LLM 与 AI 工具的成熟，后端开发方式也在悄然改变。智能体不仅能生成 API 代码，还能自动编写测试用例、处理异常逻辑，甚至辅助设计数据库模式与服务架构。曾经需要数小时甚至数天完成的任务，如今几分钟内即可生成可运行的方案。对经验丰富的开发者来说，这既是解放，也是挑战：你不再只是写代码，而是要学会<strong>与 AI 协作</strong>——设计系统与任务，让机器执行繁琐部分，同时保持整体架构的可控性与可维护性。</p>
+<p>更关键的是，这次变革正在重新定义“工程师”的边界。传统软件开发技能仍然重要，但更高阶的能力在于：如何有效指导 AI 完成复杂任务，验证 AI 输出的正确性，并构建安全可靠的自动化开发链路。简单的 CRUD 或接口实现已不再是竞争力的核心，真正考验开发者的是对系统的整体理解、业务洞察力，以及与 AI 协作的能力。</p>
+<p>借助 LLM 与 AI 编程工具，许多人可以快速完成项目搭建、页面开发与调整。虽然代码的简洁性与可维护性似乎不再重要，最终输出也可控、可接受，但这种趋势很容易产生错觉——仿佛完成可视化开发就等同于完成整个软件开发，从而营造出“工程师变得廉价”和“人人都可以是工程师”的假象。</p>
+<blockquote>
+<p>⚠️ 但无论前端还是后端，AI 都对工程师与软件开发本身造成了巨大冲击。过去，我们习惯关注开发过程、逻辑推理与架构设计，这些&quot;过程本身&quot;的价值曾是衡量能力的核心。如今，随着 AI 工具的介入，过程逐渐&quot;黑盒化&quot;，最终输出结果成为唯一的评判标准。</p>
+</blockquote>
+<hr />
+<h2 id="进一步的思考">进一步的思考</h2>
+<p>过去，衡量一个工程师的能力往往依赖于语法熟练度、框架掌握程度，以及架构设计与业务理解。然而在 AI 时代，这个能力模型正在被彻底重构。</p>
+<h3 id="能力层次的重构">能力层次的重构</h3>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7ee7ab3312c34f4586e2dd66e3fa4b0c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2752&amp;h=1536&amp;s=7170264&amp;e=png&amp;b=100f3f" alt="cleaned-image_(5).png" /></p>
+<p>传统开发者的能力金字塔是：语法 → 框架 → 架构 → 业务理解。而在 AI 时代，这个金字塔可能变成：</p>
+<ul>
+<li><strong>底层</strong>：对 AI 能力边界的理解
+<ul>
+<li>开发者必须清楚 AI 的强项与弱项，知道哪些任务可以交给模型处理，哪些仍需人工干预。理解 AI 的局限性，是高效协作的前提。</li>
+</ul>
+</li>
+<li><strong>中层</strong>：任务分解与提示工程
+<ul>
+<li>编程不再只是写代码，而是设计任务、分解流程、构建提示词（Prompt）来指导 AI 达到预期目标。这里的核心能力，是将复杂问题拆解成模型可理解、可操作的子任务。</li>
+</ul>
+</li>
+<li><strong>高层</strong>：系统设计与质量把控
+<ul>
+<li>AI 生成的代码和方案需要被验证、整合与优化。开发者不仅要保证架构的合理性，还要维护整体系统的可控性与可靠性。</li>
+</ul>
+</li>
+<li><strong>顶层</strong>：业务洞察与创新
+<ul>
+<li>最终价值在于技术落地与业务创造力。开发者需要把 AI 生成的能力转化为真正解决问题的方案，从而推动业务创新与产品升级。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>🎯 这意味着，未来优秀的开发者不再是&quot;代码写得最好的人&quot;，而是&quot;最会设计人机协作流程的人&quot;。其价值不再局限于手动实现功能，而在于设计流程、协调人机协作，并保证系统在复杂场景下稳健运行。</p>
+</blockquote>
+<h3 id="局限性">局限性</h3>
+<p>尽管 AI 显著提升了开发效率，但局限性依然存在：</p>
+<ul>
+<li><strong>AI 的局限性依然存在</strong>：当前 LLM 在复杂业务逻辑、性能优化与安全性设计等方面仍有短板。生成的代码可能“看起来能工作”，但在边界条件、异常场景与高负载情况下，人类工程师的经验仍然必不可少；</li>
+<li><strong>代码质量仍然重要</strong>：虽然 AI 可以快速生成代码，但可维护性、可扩展性与团队协作规范依然是长期项目成功的核心。过度依赖黑盒生成的代码，可能在项目扩展后埋下技术债务；</li>
+<li><strong>不是所有人都能成为工程师</strong>：“人人都能开发”只是表象。真正的工程师需要理解系统本质、预见潜在问题并做出权衡决策。AI 虽然降低了入门门槛，但也提高了优秀工程师的标准。</li>
+</ul>
+<h3 id="新的分水岭">新的分水岭</h3>
+<p>这一轮变革的分水岭不再是&quot;会不会用新框架&quot;，而是：</p>
+<ol>
+<li>能否指导 AI 完成复杂任务？</li>
+<li>能否识别 AI 输出中的潜在问题？</li>
+<li>能否设计出人类与 AI 各司其职的工作流？</li>
+<li>能否从&quot;执行者&quot;转变为&quot;架构师&quot;和&quot;质量守门人&quot;？</li>
+</ol>
+<p>那些只会依赖 AI 完成简单任务的人，很快会发现自己的竞争力下降；而那些学会驾驭 AI、让 AI 成为放大器的人，将获得指数级的能力提升。</p>
+<p>回归本质来看，如果只是会用 LLM 完成当前业务需求，即使完成得再好，也只是一个新的“业务熟练工”——就像我们之前深究的八股文一样。如果不能理解其中的本质，依然会被快速淘汰，而且这一轮淘汰的速度远比想象中更快。这不是焦虑，而是事实。</p>
+<p>当整个行业的开发都转向 AI 开发后，随着 LLM 对素材训练更加充分、对业务理解更加深入、上下文能力进一步增强，它的进化速度将越来越快，带来的是普通开发者的快速贬值。所以，如果你只是熟练使用 Cursor、Claude 等各种编程工具，那么与之前只会熟练使用 jQuery 而被淘汰的前辈没有任何区别。</p>
+<p>那么，**真正有价值的能力是什么？**在 AI 时代，开发者的核心竞争力不再是“会用工具”，而是“理解系统本质”与“驾驭 AI 的能力”。这种能力体现在：能否设计出合理的系统架构，能否将复杂问题拆解成可执行的任务链，能否识别 AI 输出中的缺陷并进行修正，以及能否在人机协作中找到最优的分工点。</p>
+<p>更深层次来说，当 AI 成为开发过程中的重要参与者，<strong>开发范式本身正在发生根本性转变</strong>。过去，我们习惯“人写代码，机器执行”；现在，我们正在进入“人设计流程，AI 协同执行，人验证结果”的新模式。在这个模式下，工程师的角色从“执行者”转变为“编排者”和“质量把关者”。</p>
+<blockquote>
+<p>🔑 这种转变并非一蹴而就。它需要开发者重新理解软件开发的本质，理解 AI 的能力边界，并理解如何构建人机协作的工作流。而要真正掌握这些能力，就必须深入理解<strong>智能体（Agent）是如何演化出来的</strong>——这不仅是一个技术话题，更是理解 AI 时代开发范式变革的关键。</p>
+</blockquote>
+<hr />
+<h2 id="从大模型到智能体-开发一款-agent-的渐进式路径">从大模型到智能体：开发一款 Agent 的渐进式路径</h2>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/da0ae241e5554d2488ebea9969304f1b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2752&amp;h=1536&amp;s=6926481&amp;e=png&amp;b=03142d" alt="cleaned-image_(7).png" /></p>
+<p>很多人看今天的智能体，可能会以为它是突然出现的：模型变强了，工具变多了，于是 Agent 自然就来了。</p>
+<p>但如果回头梳理整个过程，会发现智能体并不是某一天被“发明”出来的，而是在开发者不断解决真实问题的过程中，一步步演化出来的。</p>
+<p>最开始，大模型只是一个很强的生成器：能回答问题、能写代码、能总结文档、也能解释报错。但真实的软件开发从来不是一次回答就能完成的，而是一个连续过程：理解需求、拆解任务、查阅资料、调用系统、生成结果、运行验证、修复问题、持续迭代。</p>
+<p>也正是在这个过程中，智能体开发逐渐形成了一条清晰的路径。</p>
+<hr />
+<h3 id="1-先让模型可用-prompt-结构化输出与可控性">1. 先让模型可用：Prompt、结构化输出与可控性</h3>
+<p>开发智能体的第一步，不是让模型立刻自主行动，而是先让它变得<strong>稳定、可控、可复用</strong>。</p>
+<p>在早期实践中，开发者遇到的第一个问题往往不是模型不够聪明，而是输出不够稳定。</p>
+<p>同样一个问题，可能每次回答都不一样；有时格式不对，有时逻辑不完整，有时甚至一本正经地胡说八道。</p>
+<p>因此，最先被重视起来的其实不是 Agent，而是：</p>
+<ul>
+<li>Prompt Engineering</li>
+<li>角色设定</li>
+<li>输出格式约束</li>
+<li>结构化响应</li>
+<li>上下文注入</li>
+</ul>
+<p>这个阶段的目标很明确：</p>
+<p>先把模型从一个“随机发挥的黑盒”，变成一个“能稳定完成单点任务的模块”。</p>
+<hr />
+<h3 id="2-再让模型接入流程-langchain-与工作流编排">2. 再让模型接入流程：LangChain 与工作流编排</h3>
+<p>当模型能稳定完成单个任务之后，新问题很快出现：</p>
+<p>真实任务不是一步完成的，而是由多个步骤组成。</p>
+<p>比如一个代码需求，可能要经历：</p>
+<ul>
+<li>理解需求</li>
+<li>分析现有上下文</li>
+<li>拆分模块</li>
+<li>生成代码</li>
+<li>补齐测试</li>
+<li>校验结果</li>
+<li>修复错误</li>
+</ul>
+<p>这时候，单次调用已经不够用。开发者开始需要一种方式，把模型组织进一条可执行的链路里。</p>
+<p>这也是 LangChain 这类框架最早流行起来的原因。</p>
+<p>它的重要性不在于“接模型更方便”，而在于提供了一种新的组织方式：</p>
+<ul>
+<li>把一次调用扩展为多步流程</li>
+<li>让上一步输出成为下一步输入</li>
+<li>在流程中插入判断、解析、路由、校验</li>
+<li>让模型从“单点能力”变成“流程节点”</li>
+</ul>
+<p>从这里开始，开发者不再只是“调用模型”，而是在“编排模型能力”。</p>
+<hr />
+<h3 id="3-让模型真正能做事-tool-calling-function-calling">3. 让模型真正能做事：Tool Calling / Function Calling</h3>
+<p>即使流程搭好了，模型仍然有一个天然限制：</p>
+<p>它会生成内容，但不会真正行动。</p>
+<p>它可以告诉你“应该去查数据库”“应该去打开文件”“应该去调用接口”，但它自己并不能完成这些动作。</p>
+<p>因此，下一步就自然演化出了 <strong>Tool Calling / Function Calling</strong>。</p>
+<p>这一步的本质，是给模型接上“手和脚”。</p>
+<p>常见的工具能力包括：</p>
+<ul>
+<li>文件读写</li>
+<li>数据库查询</li>
+<li>Shell 命令执行</li>
+<li>浏览器访问</li>
+<li>API 调用</li>
+<li>代码编辑</li>
+<li>搜索与检索</li>
+</ul>
+<p>从这个阶段开始，模型不再只是“回答问题”，而开始具备“执行任务”的能力。</p>
+<hr />
+<h3 id="4-让模型边想边做-react">4. 让模型边想边做：ReAct</h3>
+<p>当模型有了工具之后，下一个问题就变成了：</p>
+<ul>
+<li>什么时候该调用工具？</li>
+<li>调哪个工具？</li>
+<li>调完之后下一步做什么？</li>
+<li>如果结果不对，是否会调整策略？</li>
+</ul>
+<p>如果没有一套机制，模型很容易出现两种问题：</p>
+<p>要么只会空想不行动；要么乱调工具，毫无章法。</p>
+<p>这时候，<strong>ReAct</strong> 的价值就体现出来了。</p>
+<p>ReAct 的核心可以概括为一句话：</p>
+<p><strong>让模型在“思考”和“行动”之间不断循环切换。</strong></p>
+<p>也就是说，它的工作方式不再是“一次性给答案”，而变成：</p>
+<ul>
+<li>先思考当前该做什么</li>
+<li>再调用工具获取信息</li>
+<li>根据结果继续思考</li>
+<li>再执行下一步动作</li>
+<li>直到完成目标</li>
+</ul>
+<p>从这个时候开始，智能体才真正拥有了“围绕目标持续工作”的雏形。</p>
+<hr />
+<h3 id="5-让模型知道它不知道什么-rag">5. 让模型知道它不知道什么：RAG</h3>
+<p>当智能体开始能调用工具、执行任务之后，一个更现实的问题会越来越明显：</p>
+<p>模型并不知道你的项目，也不知道你的团队知识。</p>
+<p>它没有：</p>
+<ul>
+<li>你的代码库上下文</li>
+<li>你的内部规范</li>
+<li>你的私有 API 文档</li>
+<li>你的业务知识沉淀</li>
+<li>你的项目结构和约定</li>
+</ul>
+<p>这时候，仅靠模型参数里的“通用知识”已经不够了。</p>
+<p>于是，<strong>RAG</strong> 才真正变得重要。</p>
+<p>RAG 的本质不是让模型“更聪明”，而是让模型在回答之前：</p>
+<ul>
+<li>先去查资料</li>
+<li>再带着资料回答</li>
+<li>基于外部知识完成当前任务</li>
+</ul>
+<p>所以它解决的不是“模型会不会说”，而是“模型有没有依据地说”。</p>
+<p>对于 AI Coding 来说，RAG 几乎绕不开，因为代码开发本身就是一种高度依赖上下文的行为。</p>
+<hr />
+<h3 id="6-让外部能力标准化接入-mcp">6. 让外部能力标准化接入：MCP</h3>
+<p>当工具越来越多、知识源越来越多之后，另一个工程问题就会出现：</p>
+<p>每接一个系统都要重新适配，每个工具的调用方式都不一样，成本很高。</p>
+<p>这时候，<strong>MCP（Model Context Protocol）</strong> 的价值就体现出来了。</p>
+<p>你可以把 MCP 理解为：</p>
+<p><strong>智能体连接外部世界的一套标准协议。</strong></p>
+<p>它解决的不是“模型如何思考”，而是“模型如何统一接入外部能力”。</p>
+<p>在这个层面上，MCP 可以把外部能力抽象成几个核心部分：</p>
+<ul>
+<li><strong>Tools</strong>：可调用的操作能力</li>
+<li><strong>Resources</strong>：可读取的上下文资源</li>
+<li><strong>Prompts</strong>：可复用的提示模板</li>
+</ul>
+<p>也就是说，MCP 不是一个具体工具，而是一种标准化接入方式。</p>
+<p>它让模型、工具、知识源之间的连接更统一、更可复用，也更容易扩展。</p>
+<p>简单说：</p>
+<ul>
+<li>Tool Calling 解决“模型能不能调用工具”</li>
+<li>MCP 解决“不同工具和资源能不能按统一方式接进来”</li>
+</ul>
+<hr />
+<h3 id="7-把经验沉淀下来-skills">7. 把经验沉淀下来：Skills</h3>
+<p>如果说 MCP 解决的是“外部能力的接入”，那么 <strong>Skills</strong> 解决的就是“内部经验的复用”。</p>
+<p>这是企业智能体开发中非常关键、但常常被忽略的一层。</p>
+<p>很多时候，一个团队真正有价值的并不是单个 Prompt，而是长期积累下来的：</p>
+<ul>
+<li>工作流</li>
+<li>排障步骤</li>
+<li>代码规范</li>
+<li>诊断脚本</li>
+<li>模板方法</li>
+<li>领域知识</li>
+<li>最佳实践</li>
+</ul>
+<p>这些东西如果永远只存在于人的脑子里，或者散落在文档里，就很难被智能体稳定使用。</p>
+<p>于是，Skills 的作用就体现出来了：</p>
+<p><strong>把可重复的方法和流程封装成可调用、可维护、可版本化的能力包。</strong></p>
+<p>你可以把它理解为智能体世界里的“业务插件”或“能力模块”。</p>
+<p>这样一来，智能体就不再只是临时发挥，而是开始能够调用组织内部真正沉淀下来的经验。</p>
+<hr />
+<h3 id="8-从单体到协作-handoffs-subagents">8. 从单体到协作：Handoffs &amp; Subagents</h3>
+<p>当智能体承担的任务越来越复杂时，单个 Agent 很快就会碰到瓶颈。</p>
+<p>因为一个 Agent 如果同时负责：</p>
+<ul>
+<li>理解需求</li>
+<li>查资料</li>
+<li>写代码</li>
+<li>跑测试</li>
+<li>审查结果</li>
+<li>汇总结论</li>
+</ul>
+<p>很容易出现上下文膨胀、职责混乱、推理链过长等问题。</p>
+<p>于是，下一步自然会走向：</p>
+<ul>
+<li>多智能体</li>
+<li>角色分工</li>
+<li>任务交接</li>
+<li>Handoffs</li>
+</ul>
+<p>Handoffs 的核心思想很简单：</p>
+<p><strong>把当前任务交给更适合处理它的 Agent。</strong></p>
+<p>比如：</p>
+<ul>
+<li>需求 Agent 负责拆解目标</li>
+<li>检索 Agent 负责查资料</li>
+<li>Coding Agent 负责生成代码</li>
+<li>Review Agent 负责校验质量</li>
+<li>Testing Agent 负责执行验证</li>
+</ul>
+<p>这样，多智能体就不再只是“更炫的概念”，而是复杂任务下的一种自然分工方式。</p>
+<hr />
+<h3 id="9-从能跑到能上线-tracing-evals-与工程化">9. 从能跑到能上线：Tracing、Evals 与工程化</h3>
+<p>走到这里，很多人会觉得智能体已经搭好了：</p>
+<p>模型有了，流程有了，工具有了，ReAct 有了，RAG 有了，MCP 和 Skills 也接进来了。</p>
+<p>但真正进入项目后，你会发现这还只是“原型能力”，离“工程能力”还差得很远。</p>
+<p>因为一个真正能上线的智能体系统，还必须回答这些问题：</p>
+<ul>
+<li>它每一步是怎么做决策的？</li>
+<li>哪一步出错了？</li>
+<li>为什么会失败？</li>
+<li>哪个 Prompt 或工具导致了偏差？</li>
+<li>它最近到底有没有变好？</li>
+<li>成本是否失控？</li>
+<li>是否存在风险操作？</li>
+</ul>
+<p>这时候，<strong>Tracing</strong> 和 <strong>Evals</strong> 就非常关键。</p>
+<h3 id="tracing">Tracing</h3>
+<p>用来记录智能体运行过程中的完整轨迹，包括：</p>
+<ul>
+<li>调用了哪些工具</li>
+<li>做了哪些中间推理</li>
+<li>任务是如何流转的</li>
+<li>哪一步失败或偏离了</li>
+</ul>
+<h3 id="evals">Evals</h3>
+<p>用来系统性评估智能体效果，包括：</p>
+<ul>
+<li>输出质量</li>
+<li>任务成功率</li>
+<li>工具使用正确率</li>
+<li>稳定性</li>
+<li>安全性</li>
+<li>成本与时延</li>
+</ul>
+<p>也就是说，到了这个阶段，智能体开发才真正从“会做 Demo”进入“会做系统”。</p>
+<hr />
+<p>把整个过程串起来之后，你会发现：</p>
+<blockquote>
+<p>✨ <strong>开发一款智能体，并不是学几个新概念，而是在把大模型一步步推进成一套可控、可执行、可接入、可复用、可协作、可观测、可评估的软件系统。</strong></p>
+</blockquote>
+<p>这里面的每个概念，其实都对应着一个具体问题：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Prompt</td>
+<td>模型可控性</td>
+</tr>
+<tr>
+<td>LangChain</td>
+<td>流程编排</td>
+</tr>
+<tr>
+<td>Tool Calling</td>
+<td>执行能力</td>
+</tr>
+<tr>
+<td>ReAct</td>
+<td>思考与行动闭环</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>知识缺失</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>接入标准化</td>
+</tr>
+<tr>
+<td>Skills</td>
+<td>经验复用</td>
+</tr>
+<tr>
+<td>Handoffs</td>
+<td>复杂任务分工</td>
+</tr>
+<tr>
+<td>Tracing / Evals</td>
+<td>工程化落地</td>
+</tr>
+</tbody>
+</table>
+<p>这样一来，这些术语就不再是零散的名词，而是一条清晰的智能体开发路径。</p>
+<hr />
+<h2 id="本书的学习计划">本书的学习计划</h2>
+<p>这本书并不打算把智能体开发拆解成一堆零散的概念，而是希望沿着一条更贴近真实开发过程的路径，带领读者一步步理解：一款智能体究竟是如何被设计出来、开发出来，并最终落地到真实项目中的。</p>
+<p>全书的学习过程将分为三个模块，分别对应从基础认知到系统开发，再到工具实践与经验沉淀的完整路径。</p>
+<h3 id="1-掌握智能体开发的基础能力">1. 掌握智能体开发的基础能力</h3>
+<p>这一部分将从最基础的模型调用入手，逐步进入 Prompt 设计、结构化输出、上下文管理与工作流编排。读者将依次接触 LangChain、Tool Calling、ReAct、RAG 等核心概念，并理解它们分别解决了什么问题。</p>
+<p>这一阶段的重点，不只是“会使用几个工具”，而是理解一款智能体为什么需要这些能力，以及这些能力如何从单点功能逐步组合成一个能够执行任务的系统。</p>
+<h3 id="2-完成一个完整的-agent-开发过程">2. 完成一个完整的 Agent 开发过程</h3>
+<p>在具备基础能力之后，本书将进一步进入工程化开发阶段。这里不再只讨论模型如何调用，而是开始系统讲解：一个智能体如何接入外部系统，如何通过 MCP 统一能力接入，如何利用 Skills 沉淀经验，如何管理记忆与状态，如何追踪执行过程，如何评估效果，以及如何处理安全、权限、成本和可观测性等关键问题。</p>
+<p>这一阶段的目标，是带领读者真正完成一个完整的 Agent 开发过程，从“会做 Demo”走向“会做系统”。</p>
+<h3 id="3-工具使用与开发经验分享">3. 工具使用与开发经验分享</h3>
+<p>除了完整的 Agent 开发流程之外，本书还会穿插介绍各类 AI 工具的使用方式，并结合实际开发过程，分享个人在 AI Coding 与智能体开发中的实践经验、问题思考与方法总结。</p>
+<p>这一部分不仅关注工具本身怎么用，更关注在真实开发场景中如何选择工具、组合工具，以及如何在不断试错和迭代中形成适合自己的开发方法。</p>
+<hr />
+<h2 id="写在最后">写在最后</h2>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/25c344f89ea74c048f1680054df8340b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2752&amp;h=1536&amp;s=9513849&amp;e=png&amp;b=3b517c" alt="cleaned-image_(6).png" /></p>
+<p><strong>我常想，那些浪潮中我们能留下些什么：不只是代码，还有对变化的敏锐、对未知的好奇，以及勇敢踏上下一波浪潮的决心。</strong></p>
+<p>🌊 <strong>如今，我又一次站在十字路口，看着一波又一波的浪潮奔涌而来。未来的软件开发将走向何处，我还无法给出最终答案；但我知道，唯有真正理解并拥抱这场变化，才能不被浪潮裹挟，而是在新的时代里找到属于自己的位置。</strong></p>
+<blockquote>
+<p>这里是<strong>言萧凡的 AI 编程实验室</strong>。 我会在这里持续记录和分享 <strong>AI 工具、编程实践</strong>，以及那些值得沉淀下来的高效工作方法。 不只聊概念，也尽量分享能直接上手、能够复用的经验。 希望这间小小的实验室，能陪你一起探索、实践和成长。<strong>2026 年，一起进步。</strong></p>
+</blockquote>
+<p><strong>有兴趣的话可以添加我的微信号【Cookieboty】一起交流，不仅是编程也可以是畅谈人生。</strong></p>
+
+    </article>
+    <div class="pager">
+      <a class="prev" href="ch-0.html">← 介绍</a>
+      <a class="next" href="ch-2.html">第一章：把模型变成能力 →</a>
+    </div>
+  </main>
+
+  <aside class="toc">
+    <div class="toc-head"><span>目录</span><span class="toc-toggle">≫</span></div>
+    <ul><li class="lv2"><a href="#新的启程">新的启程</a></li>
+      <li class="lv2"><a href="#范式之变">范式之变</a></li>
+      <li class="lv2"><a href="#进一步的思考">进一步的思考</a></li>
+      <li class="lv3"><a href="#能力层次的重构">能力层次的重构</a></li>
+      <li class="lv3"><a href="#局限性">局限性</a></li>
+      <li class="lv3"><a href="#新的分水岭">新的分水岭</a></li>
+      <li class="lv2"><a href="#从大模型到智能体-开发一款-agent-的渐进式路径">从大模型到智能体：开发一款 Agent 的渐进式路径</a></li>
+      <li class="lv3"><a href="#1-先让模型可用-prompt-结构化输出与可控性">1. 先让模型可用：Prompt、结构化输出与可控性</a></li>
+      <li class="lv3"><a href="#2-再让模型接入流程-langchain-与工作流编排">2. 再让模型接入流程：LangChain 与工作流编排</a></li>
+      <li class="lv3"><a href="#3-让模型真正能做事-tool-calling-function-calling">3. 让模型真正能做事：Tool Calling / Function Calling</a></li>
+      <li class="lv3"><a href="#4-让模型边想边做-react">4. 让模型边想边做：ReAct</a></li>
+      <li class="lv3"><a href="#5-让模型知道它不知道什么-rag">5. 让模型知道它不知道什么：RAG</a></li>
+      <li class="lv3"><a href="#6-让外部能力标准化接入-mcp">6. 让外部能力标准化接入：MCP</a></li>
+      <li class="lv3"><a href="#7-把经验沉淀下来-skills">7. 把经验沉淀下来：Skills</a></li>
+      <li class="lv3"><a href="#8-从单体到协作-handoffs-subagents">8. 从单体到协作：Handoffs &amp; Subagents</a></li>
+      <li class="lv3"><a href="#9-从能跑到能上线-tracing-evals-与工程化">9. 从能跑到能上线：Tracing、Evals 与工程化</a></li>
+      <li class="lv3"><a href="#tracing">Tracing</a></li>
+      <li class="lv3"><a href="#evals">Evals</a></li>
+      <li class="lv2"><a href="#本书的学习计划">本书的学习计划</a></li>
+      <li class="lv3"><a href="#1-掌握智能体开发的基础能力">1. 掌握智能体开发的基础能力</a></li>
+      <li class="lv3"><a href="#2-完成一个完整的-agent-开发过程">2. 完成一个完整的 Agent 开发过程</a></li>
+      <li class="lv3"><a href="#3-工具使用与开发经验分享">3. 工具使用与开发经验分享</a></li>
+      <li class="lv2"><a href="#写在最后">写在最后</a></li></ul>
+  </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'neutral', securityLevel: 'strict', fontFamily: 'inherit' });
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>
